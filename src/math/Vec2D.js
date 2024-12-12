@@ -118,7 +118,7 @@ export default class Vec2D {
 
     if (len === 0) return Vec2D.zero();
 
-    return new Vec2D(v1.x/len, v2.y/len);
+    return new Vec2D(v1.x/len, v1.y/len);
   }
 
   /**
