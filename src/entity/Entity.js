@@ -1,4 +1,5 @@
 import { TILE_SIZE } from "../game/constants";
+import Rectangle from "../utils/Rectangle";
 
 export default class Entity {
   #dst; // Destination rectangle
@@ -15,7 +16,7 @@ export default class Entity {
     if (this.draw === undefined)
       throw new Error("draw() must be implemented");
 
-    this.#dst = { x: 0, y: 0, w: TILE_SIZE, h: TILE_SIZE };
+    this.#dst = new Rectangle(x, y, TILE_SIZE, TILE_SIZE);
   }
 
   // Accessors
