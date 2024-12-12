@@ -1,4 +1,5 @@
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from "./constants";
+import Renderer from "../gfx/Renderer";
+import { CANVAS_HEIGHT, CANVAS_WIDTH, DEBUG } from "./constants";
 
 export default class Game {
   #cnv;  // HTML canvas reference
@@ -17,6 +18,8 @@ export default class Game {
   }
 
   init() {
+    Renderer.init(this.#cnv.getContext("2d", { alpha: false }));
+
     this.#last = performance.now();
     this.update(this.#last);
   }
@@ -27,8 +30,12 @@ export default class Game {
 
     requestAnimationFrame(this.update.bind(this));
 
-    this.render();
+    this.render(dt);
   }
 
-  render() {}
+  render(dt) {
+    Renderer.clear(this.#cnv.width, this.#cnv.height);
+
+    if (DEBUG) Renderer.text(1/dt, 32, 32, "red");
+  }
 };
