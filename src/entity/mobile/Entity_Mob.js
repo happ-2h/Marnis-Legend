@@ -1,6 +1,8 @@
 import Renderer from "../../gfx/Renderer";
 import Entity from "../Entity";
 
+import { DEBUG } from "../../game/constants";
+
 export default class Entity_Mob extends Entity {
   constructor(x=0, y=0) {
     super(x, y);
