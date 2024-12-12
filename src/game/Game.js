@@ -33,6 +33,8 @@ export default class Game {
 
     requestAnimationFrame(this.update.bind(this));
 
+    this.player.update(dt);
+
     this.render(dt);
   }
 
