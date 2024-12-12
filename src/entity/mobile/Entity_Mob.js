@@ -1,3 +1,4 @@
+import Renderer from "../../gfx/Renderer";
 import Entity from "../Entity";
 
 export default class Entity_Mob extends Entity {
@@ -9,5 +10,7 @@ export default class Entity_Mob extends Entity {
 
   update(dt) {}
 
-  draw() {}
+  draw() {
+    if (DEBUG) Renderer.vrect(this.dst.pos, this.dst.dim);
+  }
 };

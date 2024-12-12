@@ -1,3 +1,5 @@
+import { SCALE } from "../game/constants";
+
 let instance = null;
 
 class _Renderer {
@@ -29,6 +31,17 @@ class _Renderer {
   text(text="NO TEXT", x=0, y=0, color="black") {
     this.#ctx.fillStyle = color;
     this.#ctx.fillText(text, x, y);
+  }
+
+  // Vec2D functions
+  vrect(pos=null, dim=null, color="red") {
+    this.#ctx.strokeStyle = color;
+    this.#ctx.strokeRect(
+      Math.floor(pos.x * SCALE),
+      Math.floor(pos.y * SCALE),
+      dim.x * SCALE,
+      dim.y * SCALE
+    );
   }
 };
 
