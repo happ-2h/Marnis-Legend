@@ -1,4 +1,5 @@
 import Camera from "../camera/Camera";
+import Enemy_Mage from "../entity/mobile/enemy/mage/Enemy_Mage";
 import Knight from "../entity/mobile/player/knight/Knight";
 import Renderer from "../gfx/Renderer";
 import MapHandler from "../map/MapHandler";
@@ -26,6 +27,7 @@ export default class Game {
     AssetHandler.poll("test_map", "test_map.json");
 
     this.player = new Knight(30, 30);
+    this.enemy = new Enemy_Mage;
     this.cam = new Camera(0, 0);
 
     AssetHandler.load()
@@ -39,6 +41,8 @@ export default class Game {
     this.cam.y = (MapHandler.getMap("test_map").height-14)<<4;
     this.player.dst.x = 3<<4;
     this.player.dst.y = (MapHandler.getMap("test_map").height-2)<<4;
+    this.enemy.dst.x = 32;
+    this.enemy.dst.y = (MapHandler.getMap("test_map").height-6)<<4;
 
     this.#last = performance.now();
     this.update(this.#last);
@@ -50,6 +54,7 @@ export default class Game {
 
     requestAnimationFrame(this.update.bind(this));
 
+    this.enemy.update(dt);
     this.player.update(dt);
     this.cam.vfocus(this.player.dst);
     this.cam.update(dt);
@@ -64,6 +69,7 @@ export default class Game {
     MapHandler.drawMap("test_map", new Rectangle(this.cam.x, this.cam.y, 16, 14));
 
     this.player.draw();
+    this.enemy.draw();
 
     if (DEBUG) Renderer.text(1/dt, 32, 32, "red");
   }

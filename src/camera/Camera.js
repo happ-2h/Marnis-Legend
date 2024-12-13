@@ -2,8 +2,8 @@ import Vec2D from "../math/Vec2D";
 import Rectangle from "../utils/Rectangle";
 
 export default class Camera {
-  #rect;     // Camera's x, y, width, height
-  #focalPt;  // Camera's (x, y) focal point
+  #rect;    // Camera's x, y, width, height
+  #focalPt; // Camera's (x, y) focal point
 
   constructor(x=0, y=0, map=null) {
     this.#rect    = new Rectangle(x, y, 16, 14);
