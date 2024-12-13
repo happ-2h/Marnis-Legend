@@ -1,4 +1,5 @@
 import { SCALE } from "../game/constants";
+import TextureHandler from "./TextureHandler";
 
 let instance = null;
 
@@ -41,6 +42,17 @@ class _Renderer {
       Math.floor(pos.y * SCALE),
       dim.x * SCALE,
       dim.y * SCALE
+    );
+  }
+
+  vimage(textureID, src, dst) {
+    this.#ctx.drawImage(
+      TextureHandler.getTexture(textureID),
+      src.pos.x, src.pos.y, src.dim.x, src.dim.y,
+      Math.floor(dst.pos.x * SCALE),
+      Math.floor(dst.pos.y * SCALE),
+      dst.dim.x * SCALE,
+      dst.dim.y * SCALE
     );
   }
 };

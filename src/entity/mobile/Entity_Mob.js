@@ -17,6 +17,8 @@ export default class Entity_Mob extends Entity {
   update(dt) {}
 
   draw() {
+    Renderer.vimage("spritesheet", this.src, this.dst);
+
     if (DEBUG) Renderer.vrect(this.dst.pos, this.dst.dim);
   }
 

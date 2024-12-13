@@ -4,6 +4,7 @@ import Rectangle from "../utils/Rectangle";
 
 export default class Entity {
   #dst; // Destination rectangle
+  #src; // Blit image source rectangle
 
   // Physics
   #dir;   // Directional vector
@@ -23,6 +24,7 @@ export default class Entity {
       throw new Error("draw() must be implemented");
 
     this.#dst = new Rectangle(x, y, TILE_SIZE, TILE_SIZE);
+    this.#src = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
     this.#dir   = Vec2D.zero();
     this.#accel = Vec2D.zero();
@@ -31,6 +33,7 @@ export default class Entity {
 
   // Accessors
   get dst()   { return this.#dst; }
+  get src()   { return this.#src; }
 
   get dir()   { return this.#dir; }
   get accel() { return this.#accel; }
@@ -38,4 +41,5 @@ export default class Entity {
 
   // Mutators
   set dst(dst) { this.#dst = dst; }
+  set src(src) { this.#src = src; }
 };

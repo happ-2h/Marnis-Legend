@@ -13,6 +13,8 @@ export default class Knight extends Player {
   constructor(x=0, y=0) {
     super(x, y);
 
+    this.src.x = 16;
+
     this.#attack = 0;
     this.#attackRate = 0.2;
 

@@ -1,5 +1,6 @@
 import Knight from "../entity/mobile/player/knight/Knight";
 import Renderer from "../gfx/Renderer";
+import AssetHandler from "../utils/AssetHandler";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, DEBUG } from "./constants";
 
 export default class Game {
@@ -13,11 +14,16 @@ export default class Game {
     this.#cnv.height = CANVAS_HEIGHT;
     this.#cnv.autofocus = true;
 
-    this.player = new Knight(30, 30);
-
     this.#last = 0;
 
-    this.init();
+    // Poll assets
+    AssetHandler.poll("spritesheet", "spritesheet.png");
+
+    this.player = new Knight(30, 30);
+
+    AssetHandler.load()
+      .then(val => this.init())
+      .catch(err => console.error(err));
   }
 
   init() {
