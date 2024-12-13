@@ -2,10 +2,10 @@ import Camera from "../camera/Camera";
 import Enemy_Mage from "../entity/mobile/enemy/mage/Enemy_Mage";
 import Knight from "../entity/mobile/player/knight/Knight";
 import Renderer from "../gfx/Renderer";
-import MapHandler from "../map/MapHandler";
 import AssetHandler from "../utils/AssetHandler";
-import Rectangle from "../utils/Rectangle";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, DEBUG } from "./constants";
+import GameState from "./state/GameState";
+import StateHandler from "./state/StateHandler";
 
 export default class Game {
   #cnv;  // HTML canvas reference
@@ -38,11 +38,7 @@ export default class Game {
   init() {
     Renderer.init(this.#cnv.getContext("2d", { alpha: false }));
 
-    this.cam.y = (MapHandler.getMap("test_map").height-14)<<4;
-    this.player.dst.x = 3<<4;
-    this.player.dst.y = (MapHandler.getMap("test_map").height-2)<<4;
-    this.enemy.dst.x = 32;
-    this.enemy.dst.y = (MapHandler.getMap("test_map").height-6)<<4;
+    StateHandler.push(new GameState);
 
     this.#last = performance.now();
     this.update(this.#last);
@@ -54,22 +50,15 @@ export default class Game {
 
     requestAnimationFrame(this.update.bind(this));
 
-    this.enemy.update(dt);
-    this.player.update(dt);
-    this.cam.vfocus(this.player.dst);
-    this.cam.update(dt);
+    StateHandler.update(dt);
 
     this.render(dt);
   }
 
   render(dt) {
-    Renderer.setOffset(this.cam.x, this.cam.y);
     Renderer.clear(this.#cnv.width, this.#cnv.height);
 
-    MapHandler.drawMap("test_map", new Rectangle(this.cam.x, this.cam.y, 16, 14));
-
-    this.player.draw();
-    this.enemy.draw();
+    StateHandler.render();
 
     if (DEBUG) Renderer.text(1/dt, 32, 32, "red");
   }
