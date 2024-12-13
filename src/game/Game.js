@@ -1,4 +1,4 @@
-import Player from "../entity/mobile/player/Player";
+import Knight from "../entity/mobile/player/knight/Knight";
 import Renderer from "../gfx/Renderer";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, DEBUG } from "./constants";
 
@@ -13,7 +13,7 @@ export default class Game {
     this.#cnv.height = CANVAS_HEIGHT;
     this.#cnv.autofocus = true;
 
-    this.player = new Player(30, 30);
+    this.player = new Knight(30, 30);
 
     this.#last = 0;
 

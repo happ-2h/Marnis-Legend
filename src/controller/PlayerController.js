@@ -15,5 +15,5 @@ export default class PlayerController extends Controller {
   isRequestingA() { return KeyHandler.isDown(81); }
 
   // W
-  isRequestingA() { return KeyHandler.isDown(87); }
+  isRequestingB() { return KeyHandler.isDown(87); }
 };
