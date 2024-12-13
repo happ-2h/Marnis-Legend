@@ -1,9 +1,11 @@
+import MapHandler from "../map/MapHandler";
 import TextureHandler from "../gfx/TextureHandler";
 
 let instance = null;
 
 class _AssetHandler {
   #imgs;   // Image pool
+  #maps;   // Map pool
 
   #loaded; // Number of assets to load
   #toLoad; // Number of assets loaded
@@ -12,6 +14,7 @@ class _AssetHandler {
     if (instance) throw new Error("AssetHandler singleton reconstructed");
 
     this.#imgs = new Map();
+    this.#maps = new Map();
 
     this.#loaded = 0;
     this.#toLoad = 0;
@@ -35,6 +38,8 @@ class _AssetHandler {
 
     if (ext === "png")
       this.#imgs.set(assetID, filename);
+    else if (ext === "json")
+      this.#maps.set(assetID, filename);
     else --this.#toLoad;
   }
 
@@ -42,6 +47,12 @@ class _AssetHandler {
     return new Promise((res, rej) => {
       this.#imgs.forEach((val, key) => {
         TextureHandler.load(key, val)
+          .then(val  => this.#loadHandler(res))
+          .catch(err => rej(err));
+      });
+
+      this.#maps.forEach((val, key) => {
+        MapHandler.load(key, val)
           .then(val  => this.#loadHandler(res))
           .catch(err => rej(err));
       });

@@ -1,5 +1,6 @@
 import Knight from "../entity/mobile/player/knight/Knight";
 import Renderer from "../gfx/Renderer";
+import MapHandler from "../map/MapHandler";
 import AssetHandler from "../utils/AssetHandler";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, DEBUG } from "./constants";
 
@@ -17,7 +18,10 @@ export default class Game {
     this.#last = 0;
 
     // Poll assets
+    // - Images
     AssetHandler.poll("spritesheet", "spritesheet.png");
+    // - Maps
+    AssetHandler.poll("test_map", "test_map.json");
 
     this.player = new Knight(30, 30);
 
@@ -46,6 +50,8 @@ export default class Game {
 
   render(dt) {
     Renderer.clear(this.#cnv.width, this.#cnv.height);
+
+    MapHandler.drawMap("test_map", null)
 
     this.player.draw();
 

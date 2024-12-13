@@ -34,6 +34,17 @@ class _Renderer {
     this.#ctx.fillText(text, x, y);
   }
 
+  image(textureID, sx=0, sy=0, sw=TILE_SIZE, sh=TILE_SIZE, dx=0, dy=0, dw=TILE_SIZE, dh=TILE_SIZE) {
+    this.#ctx.drawImage(
+      TextureHandler.getTexture(textureID),
+      sx, sy, sw, sh,
+      Math.floor(dx * SCALE),
+      Math.floor(dy * SCALE),
+      dw * SCALE,
+      dh * SCALE
+    );
+  }
+
   // Vec2D functions
   vrect(pos=null, dim=null, color="red") {
     this.#ctx.strokeStyle = color;
