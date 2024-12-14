@@ -3,13 +3,15 @@ import Vec2D from "../math/Vec2D";
 import Rectangle from "../utils/Rectangle";
 
 export default class Entity {
-  #dst; // Destination rectangle
-  #src; // Blit image source rectangle
+  #dst;    // Destination rectangle
+  #src;    // Blit image source rectangle
 
   // Physics
-  #dir;   // Directional vector
-  #accel; // Acceleration vector
-  #vel;   // Velocity vector
+  #dir;    // Directional vector
+  #accel;  // Acceleration vector
+  #vel;    // Velocity vector
+
+  #isDead; // Flag entity as unusable
 
   constructor(x=0, y=0) {
     if (this.constructor === Entity)
@@ -31,6 +33,8 @@ export default class Entity {
     this.#vel   = Vec2D.zero();
   }
 
+  kill() { this.#isDead = true; }
+
   // Accessors
   get dst()   { return this.#dst; }
   get src()   { return this.#src; }
@@ -38,6 +42,8 @@ export default class Entity {
   get dir()   { return this.#dir; }
   get accel() { return this.#accel; }
   get vel()   { return this.#vel; }
+
+  get isDead() { return this.#isDead; }
 
   // Mutators
   set dst(dst) { this.#dst = dst; }

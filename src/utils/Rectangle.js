@@ -69,6 +69,23 @@ export default class Rectangle {
     };
   }
 
+  /**
+   * @brief Checks if this rectangle intersects another
+   *
+   * @param {Rectangle} rect - Rectangle to check against
+   *
+   * @returns true if intersecting; false otherwise
+   */
+  intersects(rect) {
+    // Calculate sides
+    const l = this.#pos.x <= rect.x + rect.w;
+    const r = this.#pos.x + this.#dim.x >= rect.x;
+    const t = this.#pos.y <= rect.y + rect.h;
+    const b = this.#pos.y + this.#dim.y >= rect.y;
+
+    return l&r&t&b;
+  }
+
   // Accessors
   get pos() { return this.#pos; }
   get x()   { return this.#pos.x; }

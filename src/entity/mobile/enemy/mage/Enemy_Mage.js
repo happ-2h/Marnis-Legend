@@ -1,4 +1,4 @@
-import Enemy from "../Enemy_Mage";
+import Enemy from "../Enemy";
 
 export default class Enemy_Mage extends Enemy {
   constructor(x=0, y=0) {

@@ -35,21 +35,28 @@ export default class GameState extends State {
   }
 
   update(dt) {
-    this.gameObjects.forEach(go => {
-      // TODO and is player 1
+    for (let i = 0; i < this.gameObjects.length; ++i) {
+      const go = this.gameObjects[i];
+
       if (go instanceof Player) {
-        go.update(dt);
+        go.update(this.gameObjects, dt);
         this.camera.vfocus(go.dst);
         this.camera.update(dt);
       }
       else go.update(dt);
-    });
+
+      // Clean up dead objects
+      if (go.isDead) this.gameObjects.splice(i, 1);
+    }
   }
 
   render() {
     Renderer.setOffset(this.camera.x, this.camera.y);
 
-    MapHandler.drawMap(this.map, new Rectangle(this.camera.x, this.camera.y, 16, 14));
+    MapHandler.drawMap(
+      this.map,
+      new Rectangle(this.camera.x, this.camera.y, 16, 14)
+    );
 
     this.gameObjects
       .sort((a, b) => a.dst.pos.y - b.dst.pos.y)

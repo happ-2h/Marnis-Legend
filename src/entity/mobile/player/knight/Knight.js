@@ -1,6 +1,7 @@
 import { TILE_SIZE } from "../../../../game/constants";
 import Renderer from "../../../../gfx/Renderer";
 import Rectangle from "../../../../utils/Rectangle";
+import Enemy from "../../enemy/Enemy";
 import Player from "../Player";
 
 export default class Knight extends Player {
@@ -21,13 +22,22 @@ export default class Knight extends Player {
     this.#swordHitbox = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
   }
 
-  update(dt) {
+  update(gos, dt) {
     super.update(dt);
 
     if (this.status & Player.PRIMARY_FLAG) {
       this.#attack += dt;
 
       this.#swordHitbox.pos.set(this.dst.pos.x, this.dst.pos.y - this.#swordHitbox.h);
+
+      // Check if sword is hitting an enemy
+      gos.forEach(go => {
+        if (go instanceof Enemy) {
+          if (this.#swordHitbox.intersects(go.dst)) {
+            go.kill();
+          }
+        }
+      });
 
       // End primary attack
       if (this.#attack >= this.#attackRate) {
