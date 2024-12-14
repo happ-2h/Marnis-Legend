@@ -23,6 +23,9 @@ export default class Player extends Entity_Mob {
 
     this.#status = 0;
 
+    this.hitbox.pos.set(4, 7);
+    this.hitbox.dim.set(8, 8);
+
     this.vel.set(100, 100);
   }
 

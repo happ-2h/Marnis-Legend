@@ -1,3 +1,4 @@
+import Player from "../player/Player";
 import Bullet from "./Bullet";
 
 export default class Bullet_MagicSpear extends Bullet {
@@ -12,9 +13,17 @@ export default class Bullet_MagicSpear extends Bullet {
     this.vel.set(0, 75);
   }
 
-  update(dt) {
+  update(gos, dt) {
     const nexty = this.dst.y + this.vel.y * dt;
 
     this.dst.y = nexty;
+
+    gos.forEach(go => {
+      if (go instanceof Player) {
+        if (this.dst.intersects(go.hitboxAdj())) {
+          this.kill();
+        }
+      }
+    });
   }
 };

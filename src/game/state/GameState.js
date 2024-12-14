@@ -1,10 +1,12 @@
 import Camera from "../../camera/Camera";
+import Enemy from "../../entity/mobile/enemy/Enemy";
 import Enemy_Mage from "../../entity/mobile/enemy/mage/Enemy_Mage";
 import Knight from "../../entity/mobile/player/knight/Knight";
 import Player from "../../entity/mobile/player/Player";
 import Renderer from "../../gfx/Renderer";
 import MapHandler from "../../map/MapHandler";
 import Rectangle from "../../utils/Rectangle";
+import { TILE_SIZE } from "../constants";
 import State from "./State";
 
 export default class GameState extends State {
@@ -43,7 +45,26 @@ export default class GameState extends State {
         this.camera.vfocus(go.dst);
         this.camera.update(dt);
       }
-      else go.update(dt);
+      else {
+        // Update if on screen
+        if (go.dst.intersects(
+          new Rectangle(
+            this.camera.x, this.camera.y,
+            this.camera.width*TILE_SIZE,
+            this.camera.height*TILE_SIZE
+          )
+        )) {
+          go.update(this.gameObjects, dt);
+        }
+        // Clean up if beyond screen y
+        else {
+          if (go instanceof Enemy) {
+            if (go.dst.y > this.camera.y + (this.camera.height + 2)*TILE_SIZE) {
+              go.clean();
+            }
+          }
+        }
+      }
 
       // Clean up dead objects
       if (go.isDead) this.gameObjects.splice(i, 1);

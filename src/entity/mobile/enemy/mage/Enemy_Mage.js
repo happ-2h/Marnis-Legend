@@ -10,15 +10,18 @@ export default class Enemy_Mage extends Enemy {
   constructor(x=0, y=0) {
     super(x, y, null);
 
-    this.#fireDelay = 0.8;
+    this.#fireDelay = 0.8; // TODO randomize
     this.#fireTimer = 0;
 
     this.#bullets = [];
 
+    this.hitbox.pos.set(4, 7);
+    this.hitbox.dim.set(8, 8);
+
     this.src.y = 32;
   }
 
-  update(dt) {
+  update(gos, dt) {
     this.#fireTimer += dt;
 
     if (this.#fireTimer >= this.#fireDelay) {
@@ -31,7 +34,12 @@ export default class Enemy_Mage extends Enemy {
     }
 
     for (let i = 0; i < this.#bullets.length; ++i) {
-      this.#bullets[i].update(dt);
+      this.#bullets[i].update(gos, dt);
+
+      if (this.#bullets[i].isDead) {
+        // TODO particles
+        this.#bullets.splice(i, 1);
+      }
     }
   }
 
@@ -39,5 +47,11 @@ export default class Enemy_Mage extends Enemy {
     super.draw();
 
     this.#bullets.forEach(b => b.draw());
+  }
+
+  clean() {
+    this.#bullets.splice(0, this.#bullets.length);
+
+    this.kill();
   }
 };

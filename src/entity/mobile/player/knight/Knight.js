@@ -33,7 +33,7 @@ export default class Knight extends Player {
       // Check if sword is hitting an enemy
       gos.forEach(go => {
         if (go instanceof Enemy) {
-          if (this.#swordHitbox.intersects(go.dst)) {
+          if (this.#swordHitbox.intersects(go.hitboxAdj())) {
             go.kill();
           }
         }

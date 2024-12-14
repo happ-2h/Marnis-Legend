@@ -2,6 +2,7 @@ import Renderer from "../../gfx/Renderer";
 import Entity from "../Entity";
 
 import { DEBUG } from "../../game/constants";
+import Vec2D from "../../math/Vec2D";
 
 export default class Entity_Mob extends Entity {
   #controller; // Movement handler
@@ -19,7 +20,14 @@ export default class Entity_Mob extends Entity {
   draw() {
     Renderer.vimage("spritesheet", this.src, this.dst);
 
-    if (DEBUG) Renderer.vrect(this.dst.pos, this.dst.dim);
+    if (DEBUG) {
+      Renderer.vrect(this.dst.pos, this.dst.dim);
+      Renderer.vrect(
+        Vec2D.add(this.hitbox.pos, this.dst.pos),
+        this.hitbox.dim,
+        "white"
+      );
+    }
   }
 
   // Accessors

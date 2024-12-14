@@ -11,7 +11,9 @@ export default class Entity {
   #accel;  // Acceleration vector
   #vel;    // Velocity vector
 
+  // Collision
   #isDead; // Flag entity as unusable
+  #hitbox;
 
   constructor(x=0, y=0) {
     if (this.constructor === Entity)
@@ -28,12 +30,29 @@ export default class Entity {
     this.#dst = new Rectangle(x, y, TILE_SIZE, TILE_SIZE);
     this.#src = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
+    this.#hitbox = new Rectangle(x, y, TILE_SIZE, TILE_SIZE);
+
     this.#dir   = Vec2D.zero();
     this.#accel = Vec2D.zero();
     this.#vel   = Vec2D.zero();
   }
 
   kill() { this.#isDead = true; }
+
+  /**
+   * @brief Adjusts the hitbox to the entity world position\
+   *        Does not modfy the hitbox
+   *
+   * @returns Adjusted rectangle
+   */
+  hitboxAdj() {
+    return new Rectangle(
+      this.#dst.x + this.#hitbox.x,
+      this.#dst.y + this.#hitbox.y,
+      this.#hitbox.w,
+      this.#hitbox.h
+    );
+  }
 
   // Accessors
   get dst()   { return this.#dst; }
@@ -44,6 +63,7 @@ export default class Entity {
   get vel()   { return this.#vel; }
 
   get isDead() { return this.#isDead; }
+  get hitbox() { return this.#hitbox; }
 
   // Mutators
   set dst(dst) { this.#dst = dst; }
