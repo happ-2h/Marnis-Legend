@@ -1,4 +1,4 @@
-import { TILE_SIZE } from "../game/constants";
+import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../game/constants";
 import Renderer from "../gfx/Renderer";
 import Vec2D from "../math/Vec2D";
 import Rectangle from "../utils/Rectangle";
@@ -16,7 +16,7 @@ export default class Map {
     this.#layers = [ ...data.layers ];
   }
 
-  draw(crop=new Rectangle(0, 0, 16, 14)) {
+  draw(crop=new Rectangle(0, 0, SCREEN_WIDTH_TILES, SCREEN_HEIGHT_TILES)) {
     // Calculate crop
     let cx = (crop.x>>4);
     let cy = (crop.y>>4);

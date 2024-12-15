@@ -1,3 +1,4 @@
+import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES } from "../game/constants";
 import Vec2D from "../math/Vec2D";
 import Rectangle from "../utils/Rectangle";
 
@@ -6,7 +7,7 @@ export default class Camera {
   #focalPt; // Camera's (x, y) focal point
 
   constructor(x=0, y=0, map=null) {
-    this.#rect    = new Rectangle(x, y, 16, 14);
+    this.#rect    = new Rectangle(x, y, SCREEN_WIDTH_TILES, SCREEN_HEIGHT_TILES);
     this.#focalPt = new Vec2D(x, y);
   }
 

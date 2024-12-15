@@ -6,7 +6,7 @@ import Player from "../../entity/mobile/player/Player";
 import Renderer from "../../gfx/Renderer";
 import MapHandler from "../../map/MapHandler";
 import Rectangle from "../../utils/Rectangle";
-import { TILE_SIZE } from "../constants";
+import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../constants";
 import State from "./State";
 
 export default class GameState extends State {
@@ -32,7 +32,7 @@ export default class GameState extends State {
     ));
     this.camera = new Camera(
       0,
-      (mapRef.height-14)<<4
+      (mapRef.height-SCREEN_HEIGHT_TILES)<<4
     );
   }
 
@@ -76,7 +76,12 @@ export default class GameState extends State {
 
     MapHandler.drawMap(
       this.map,
-      new Rectangle(this.camera.x, this.camera.y, 16, 14)
+      new Rectangle(
+        this.camera.x,
+        this.camera.y,
+        SCREEN_WIDTH_TILES,
+        SCREEN_HEIGHT_TILES
+      )
     );
 
     this.gameObjects
