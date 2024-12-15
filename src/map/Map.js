@@ -32,6 +32,7 @@ export default class Map {
             switch(tileID) {
               case 32:
                 this.#tiles[y][x] = new Tile(x, y, tileID, false, this.#id);
+                break;
             }
           }
         }

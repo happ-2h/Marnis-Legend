@@ -32,7 +32,8 @@ export default class Enemy_Mage extends Enemy {
 
       this.#bullets.push(new Bullet_MagicSpear(
         this.dst.x + 4,
-        this.dst.y + 8
+        this.dst.y + 8,
+        this.map
       ));
     }
 

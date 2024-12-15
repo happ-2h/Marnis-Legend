@@ -26,10 +26,6 @@ export default class Game {
     // - Maps
     AssetHandler.poll("test_map", "test_map.json");
 
-    this.player = new Knight(30, 30);
-    this.enemy = new Enemy_Mage;
-    this.cam = new Camera(0, 0);
-
     AssetHandler.load()
       .then(val => this.init())
       .catch(err => console.error(err));
