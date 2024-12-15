@@ -15,6 +15,9 @@ export default class Entity {
   #isDead; // Flag entity as unusable
   #hitbox;
 
+  // Animations
+  #animation;
+
   constructor(x=0, y=0) {
     if (this.constructor === Entity)
       throw new Error("Can't instantiate abstract class Entity");
@@ -30,11 +33,14 @@ export default class Entity {
     this.#dst = new Rectangle(x, y, TILE_SIZE, TILE_SIZE);
     this.#src = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
-    this.#hitbox = new Rectangle(x, y, TILE_SIZE, TILE_SIZE);
-
     this.#dir   = Vec2D.zero();
     this.#accel = Vec2D.zero();
     this.#vel   = Vec2D.zero();
+
+    this.#isDead = false;
+    this.#hitbox = new Rectangle(x, y, TILE_SIZE, TILE_SIZE);
+
+    this.#animation = null;
   }
 
   kill() { this.#isDead = true; }
@@ -65,7 +71,11 @@ export default class Entity {
   get isDead() { return this.#isDead; }
   get hitbox() { return this.#hitbox; }
 
+  get animation() { return this.#animation; }
+
   // Mutators
   set dst(dst) { this.#dst = dst; }
   set src(src) { this.#src = src; }
+
+  set animation(animation) { this.#animation = animation; }
 };

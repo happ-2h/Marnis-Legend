@@ -3,6 +3,7 @@ import Renderer from "../../../../gfx/Renderer";
 import Rectangle from "../../../../utils/Rectangle";
 import Enemy from "../../enemy/Enemy";
 import Player from "../Player";
+import Animation from "../../../../gfx/Animation";
 
 export default class Knight extends Player {
   // Sword swinging
@@ -20,6 +21,8 @@ export default class Knight extends Player {
     this.#attackRate = 0.2;
 
     this.#swordHitbox = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
+
+    this.animation = new Animation([1,2,1,3], 10);
   }
 
   update(gos, dt) {
@@ -48,6 +51,12 @@ export default class Knight extends Player {
     else {
       this.primaryRateTimer += dt;
     }
+
+    this.animation.update(dt);
+    this.src.pos.set(
+      (this.animation.currentFrame&0xF)<<4,
+      (this.animation.currentFrame>>4)<<4
+    );
   }
 
   primaryAction(dt) {
