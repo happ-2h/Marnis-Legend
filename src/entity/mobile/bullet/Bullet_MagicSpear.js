@@ -43,8 +43,6 @@ export default class Bullet_MagicSpear extends Bullet {
     if (this.#frameTimer >= this.#frameDelay) {
       this.#frameTimer = 0;
 
-      console.log(66)
-
       this.#currFrame = this.#currFrame === 0 ? 8 : 0;
       this.src.x = this.#currFrame;
     }
