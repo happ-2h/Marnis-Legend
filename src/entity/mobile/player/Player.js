@@ -13,8 +13,8 @@ export default class Player extends Entity_Mob {
   static PRIMARY_FLAG   = 0b01;
   static SECONDARY_FLAG = 0b10;
 
-  constructor(x=0, y=0) {
-    super(x, y, new PlayerController);
+  constructor(x=0, y=0, map=null) {
+    super(x, y, new PlayerController, map);
 
     this.#primaryRate = 0.3;
     this.#primaryRateTimer = 0;

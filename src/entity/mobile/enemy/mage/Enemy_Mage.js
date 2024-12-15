@@ -8,8 +8,8 @@ export default class Enemy_Mage extends Enemy {
 
   #bullets;
 
-  constructor(x=0, y=0) {
-    super(x, y, null);
+  constructor(x=0, y=0, map=null) {
+    super(x, y, null, map);
 
     this.#fireDelay = 0.8; // TODO randomize
     this.#fireTimer = 0;

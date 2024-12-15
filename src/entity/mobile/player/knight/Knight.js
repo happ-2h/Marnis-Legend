@@ -12,8 +12,8 @@ export default class Knight extends Player {
 
   #swordHitbox;
 
-  constructor(x=0, y=0) {
-    super(x, y);
+  constructor(x=0, y=0, map=null) {
+    super(x, y, map);
 
     this.src.x = 16;
 

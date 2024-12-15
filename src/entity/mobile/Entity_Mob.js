@@ -7,8 +7,8 @@ import Vec2D from "../../math/Vec2D";
 export default class Entity_Mob extends Entity {
   #controller; // Movement handler
 
-  constructor(x=0, y=0, controller=null) {
-    super(x, y);
+  constructor(x=0, y=0, controller=null, map=null) {
+    super(x, y, map);
 
     this.#controller = controller;
   }

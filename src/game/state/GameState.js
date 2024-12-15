@@ -22,13 +22,26 @@ export default class GameState extends State {
 
     const mapRef = MapHandler.getMap(this.map);
 
+    mapRef.tiles.forEach(row => {
+      row.forEach(tile => {
+        if (tile) {
+          switch(tile.type) {
+            case 32:
+              this.gameObjects.push(new Enemy_Mage(
+                tile.dst.pos.x * TILE_SIZE,
+                tile.dst.pos.y * TILE_SIZE,
+                this.map
+              ));
+              break;
+            default: break;
+          }
+        }
+      });
+    });
+
     this.gameObjects.push(new Knight(
       3<<4,
       (mapRef.height-2)<<4
-    ));
-    this.gameObjects.push(new Enemy_Mage(
-      32,
-      (mapRef.height-6)<<4
     ));
     this.camera = new Camera(
       0,
@@ -74,14 +87,15 @@ export default class GameState extends State {
   render() {
     Renderer.setOffset(this.camera.x, this.camera.y);
 
-    MapHandler.drawMap(
+    MapHandler.drawMapLayer(
       this.map,
       new Rectangle(
         this.camera.x,
         this.camera.y,
         SCREEN_WIDTH_TILES,
         SCREEN_HEIGHT_TILES
-      )
+      ),
+      0
     );
 
     this.gameObjects
