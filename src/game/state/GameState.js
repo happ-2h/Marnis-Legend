@@ -2,6 +2,7 @@ import Camera from "../../camera/Camera";
 import Enemy from "../../entity/mobile/enemy/Enemy";
 import Enemy_Mage from "../../entity/mobile/enemy/mage/Enemy_Mage";
 import Archer from "../../entity/mobile/player/archer/Archer";
+import Mage from "../../entity/mobile/player/mage/Mage";
 import Player from "../../entity/mobile/player/Player";
 import Renderer from "../../gfx/Renderer";
 import MapHandler from "../../map/MapHandler";
@@ -39,7 +40,7 @@ export default class GameState extends State {
       });
     });
 
-    this.gameObjects.push(new Archer(
+    this.gameObjects.push(new Mage(
       3<<4,
       (mapRef.height-2)<<4
     ));
