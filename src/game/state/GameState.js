@@ -1,6 +1,7 @@
 import Camera from "../../camera/Camera";
 import Enemy from "../../entity/mobile/enemy/Enemy";
 import Enemy_Mage from "../../entity/mobile/enemy/mage/Enemy_Mage";
+import Enemy_Slime from "../../entity/mobile/enemy/slime/Enemy_Slime";
 import Archer from "../../entity/mobile/player/archer/Archer";
 import Mage from "../../entity/mobile/player/mage/Mage";
 import Player from "../../entity/mobile/player/Player";
@@ -35,6 +36,13 @@ export default class GameState extends State {
                 this.map
               ));
               break;
+              case 34:
+                this.gameObjects.push(new Enemy_Slime(
+                  tile.dst.pos.x * TILE_SIZE,
+                  tile.dst.pos.y * TILE_SIZE,
+                  this.map
+                ));
+                break;
             default: break;
           }
         }

@@ -30,7 +30,8 @@ export default class Map {
 
           if (tileID > 0) {
             switch(tileID) {
-              case 32:
+              case 32: // Mage
+              case 34: // Slime
                 this.#tiles[y][x] = new Tile(x, y, tileID, false, this.#id);
                 break;
             }
