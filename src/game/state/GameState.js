@@ -1,4 +1,5 @@
 import Camera from "../../camera/Camera";
+import Enemy_Crow from "../../entity/mobile/enemy/crow/Enemy_Crow";
 import Enemy from "../../entity/mobile/enemy/Enemy";
 import Enemy_Mage from "../../entity/mobile/enemy/mage/Enemy_Mage";
 import Enemy_Mushroom from "../../entity/mobile/enemy/mushroom/Enemy_Mushroom";
@@ -37,20 +38,27 @@ export default class GameState extends State {
                 this.map
               ));
               break;
-              case 34:
-                this.gameObjects.push(new Enemy_Slime(
-                  tile.dst.pos.x * TILE_SIZE,
-                  tile.dst.pos.y * TILE_SIZE,
-                  this.map
-                ));
-                break;
-              case 36:
-                this.gameObjects.push(new Enemy_Mushroom(
-                  tile.dst.pos.x * TILE_SIZE,
-                  tile.dst.pos.y * TILE_SIZE,
-                  this.map
-                ));
-                break;
+            case 34:
+              this.gameObjects.push(new Enemy_Slime(
+                tile.dst.pos.x * TILE_SIZE,
+                tile.dst.pos.y * TILE_SIZE,
+                this.map
+              ));
+              break;
+            case 36:
+              this.gameObjects.push(new Enemy_Mushroom(
+                tile.dst.pos.x * TILE_SIZE,
+                tile.dst.pos.y * TILE_SIZE,
+                this.map
+              ));
+              break;
+            case 38:
+              this.gameObjects.push(new Enemy_Crow(
+                tile.dst.pos.x * TILE_SIZE,
+                tile.dst.pos.y * TILE_SIZE,
+                this.map
+              ));
+              break;
             default: break;
           }
         }

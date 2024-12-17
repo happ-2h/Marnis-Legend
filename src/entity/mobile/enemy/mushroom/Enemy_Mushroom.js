@@ -13,7 +13,7 @@ export default class Enemy_Mushroom extends Enemy {
   #bullets;
 
   constructor(x=0, y=0, map=null) {
-    super(x, y, map);
+    super(x, y, null, map);
 
     this.#fireDelay = 1.2;
     this.#fireTimer = 0;

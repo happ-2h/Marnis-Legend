@@ -5,7 +5,7 @@ import Enemy from "../Enemy";
 
 export default class Enemy_Slime extends Enemy {
   constructor(x=0, y=0, map=null) {
-    super(x, y, map);
+    super(x, y, null, map);
 
     this.src.x = 32;
     this.src.y = 32;

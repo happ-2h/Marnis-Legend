@@ -34,6 +34,7 @@ export default class Map {
               case 32: // Mage
               case 34: // Slime
               case 36: // Mushroom
+              case 38: // Crow
                 this.#tiles[y][x] = new Tile(x, y, tileID, false, this.#id);
                 break;
             }
