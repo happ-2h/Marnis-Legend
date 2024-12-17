@@ -30,8 +30,10 @@ export default class Map {
 
           if (tileID > 0) {
             switch(tileID) {
+              // Enemies
               case 32: // Mage
               case 34: // Slime
+              case 36: // Mushroom
                 this.#tiles[y][x] = new Tile(x, y, tileID, false, this.#id);
                 break;
             }

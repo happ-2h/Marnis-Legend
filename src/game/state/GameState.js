@@ -1,6 +1,7 @@
 import Camera from "../../camera/Camera";
 import Enemy from "../../entity/mobile/enemy/Enemy";
 import Enemy_Mage from "../../entity/mobile/enemy/mage/Enemy_Mage";
+import Enemy_Mushroom from "../../entity/mobile/enemy/mushroom/Enemy_Mushroom";
 import Enemy_Slime from "../../entity/mobile/enemy/slime/Enemy_Slime";
 import Archer from "../../entity/mobile/player/archer/Archer";
 import Mage from "../../entity/mobile/player/mage/Mage";
@@ -38,6 +39,13 @@ export default class GameState extends State {
               break;
               case 34:
                 this.gameObjects.push(new Enemy_Slime(
+                  tile.dst.pos.x * TILE_SIZE,
+                  tile.dst.pos.y * TILE_SIZE,
+                  this.map
+                ));
+                break;
+              case 36:
+                this.gameObjects.push(new Enemy_Mushroom(
                   tile.dst.pos.x * TILE_SIZE,
                   tile.dst.pos.y * TILE_SIZE,
                   this.map
@@ -82,7 +90,7 @@ export default class GameState extends State {
         // Clean up if beyond screen y
         else {
           if (go instanceof Enemy) {
-            if (go.dst.y > this.camera.y + (this.camera.height + 2)*TILE_SIZE) {
+            if (go.dst.y > this.camera.y + (this.camera.height)*TILE_SIZE) {
               go.clean();
             }
           }
