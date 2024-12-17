@@ -4,6 +4,7 @@ import Enemy_Mage from "../../entity/mobile/enemy/mage/Enemy_Mage";
 import Archer from "../../entity/mobile/player/archer/Archer";
 import Mage from "../../entity/mobile/player/mage/Mage";
 import Player from "../../entity/mobile/player/Player";
+import Thief from "../../entity/mobile/player/thief/Thief";
 import Renderer from "../../gfx/Renderer";
 import MapHandler from "../../map/MapHandler";
 import Rectangle from "../../utils/Rectangle";
@@ -40,7 +41,7 @@ export default class GameState extends State {
       });
     });
 
-    this.gameObjects.push(new Mage(
+    this.gameObjects.push(new Thief(
       3<<4,
       (mapRef.height-2)<<4
     ));
