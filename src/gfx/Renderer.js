@@ -1,4 +1,4 @@
-import { SCALE } from "../game/constants";
+import { SCALE, SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../game/constants";
 import Vec2D from "../math/Vec2D";
 import TextureHandler from "./TextureHandler";
 
@@ -72,6 +72,72 @@ class _Renderer {
       dst.dim.x * SCALE,
       dst.dim.y * SCALE
     );
+  }
+
+  // Utils
+  grid(color="white") {
+    for (let x = 0; x < SCREEN_WIDTH_TILES; ++x) {
+      for (let y = 0; y < SCREEN_HEIGHT_TILES; ++y) {
+        this.#ctx.strokeStyle = color;
+        this.#ctx.strokeRect(
+          x * TILE_SIZE * SCALE,
+          y * TILE_SIZE * SCALE,
+          TILE_SIZE * SCALE,
+          TILE_SIZE * SCALE
+        );
+      }
+    }
+  }
+
+  /**
+   * @brief Draw text from the given texture
+   *
+   * @param {String} text      - Text to write
+   * @param {Number} startx    - Start screen x-position
+   * @param {Number} starty    - Start screen y-position
+   * @param {String} textureID - ID of the loaded texture
+   */
+  drawText(text="none", sx=0, sy=0, textureID="spritesheet") {
+    text = text.toLowerCase();
+
+    text.split("").forEach(c => {
+      const cCode = c.charCodeAt(0);
+
+      // a - z
+      if (cCode >= 97 && cCode <= 122) {
+        this.image(
+          textureID,
+          (cCode - 97)<<3, 240, 8, 8,
+          sx, sy, 8, 8
+        );
+
+        sx += 8;
+      }
+      // 0 - 9
+      else if (cCode >= 48 && cCode <= 57) {
+        this.image(
+          textureID,
+          (cCode - 48)<<3, 248, 8, 8,
+          sx, sy, 8, 8
+        );
+
+        sx += 8;
+      }
+      else if (c === ' ') sx += 8;
+      // Special characters
+      else {
+        switch(c) {
+          case '-':
+            this.image(
+              textureID,
+              80, 248, 8, 8,
+              sx, sy, 8, 8
+            );
+            sx += 8;
+            break;
+        }
+      }
+    });
   }
 
   setOffset(x, y) { this.#offset.set(x, y); }

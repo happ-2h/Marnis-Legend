@@ -1,11 +1,8 @@
-import Camera from "../camera/Camera";
-import Enemy_Mage from "../entity/mobile/enemy/mage/Enemy_Mage";
-import Knight from "../entity/mobile/player/knight/Knight";
 import Renderer from "../gfx/Renderer";
 import AssetHandler from "../utils/AssetHandler";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, DEBUG } from "./constants";
-import GameState from "./state/GameState";
 import StateHandler from "./state/StateHandler";
+import TitleState from "./state/TitleState";
 
 export default class Game {
   #cnv;  // HTML canvas reference
@@ -34,7 +31,7 @@ export default class Game {
   init() {
     Renderer.init(this.#cnv.getContext("2d", { alpha: false }));
 
-    StateHandler.push(new GameState);
+    StateHandler.push(new TitleState);
 
     this.#last = performance.now();
     this.update(this.#last);
