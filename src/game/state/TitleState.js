@@ -1,4 +1,5 @@
 import Renderer from "../../gfx/Renderer";
+import GamepadHandler from "../../input/gamepad/GamepadHandler";
 import KeyHandler from "../../input/KeyHandler";
 import { DEBUG } from "../constants";
 import GameState from "./GameState";
@@ -16,7 +17,7 @@ export default class TitleState extends State {
   init() {}
 
   update(dt) {
-    if (KeyHandler.isDown(81)) {
+    if (KeyHandler.isDown(81) || GamepadHandler.getGamepad(0)?.start) {
       StateHandler.pop();
       StateHandler.push(new GameState);
     }

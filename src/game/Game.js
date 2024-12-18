@@ -1,4 +1,5 @@
 import Renderer from "../gfx/Renderer";
+import GamepadHandler from "../input/gamepad/GamepadHandler";
 import AssetHandler from "../utils/AssetHandler";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, DEBUG } from "./constants";
 import StateHandler from "./state/StateHandler";
@@ -42,6 +43,8 @@ export default class Game {
     this.#last = ts;
 
     requestAnimationFrame(this.update.bind(this));
+
+    GamepadHandler.update();
 
     StateHandler.update(dt);
 
