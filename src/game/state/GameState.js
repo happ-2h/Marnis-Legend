@@ -5,6 +5,7 @@ import Enemy_Mage from "../../entity/mobile/enemy/mage/Enemy_Mage";
 import Enemy_Mushroom from "../../entity/mobile/enemy/mushroom/Enemy_Mushroom";
 import Enemy_Slime from "../../entity/mobile/enemy/slime/Enemy_Slime";
 import Archer from "../../entity/mobile/player/archer/Archer";
+import Knight from "../../entity/mobile/player/knight/Knight";
 import Mage from "../../entity/mobile/player/mage/Mage";
 import Player from "../../entity/mobile/player/Player";
 import Thief from "../../entity/mobile/player/thief/Thief";
@@ -15,8 +16,12 @@ import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../constants
 import State from "./State";
 
 export default class GameState extends State {
-  constructor() {
+  #selectedChar; // From character select screen
+
+  constructor(selectedChar=0) {
     super();
+
+    this.#selectedChar = selectedChar;
   }
 
   onEnter() { this.init(); }
@@ -65,10 +70,36 @@ export default class GameState extends State {
       });
     });
 
-    this.gameObjects.push(new Thief(
-      3<<4,
-      (mapRef.height-2)<<4
-    ));
+    switch(this.#selectedChar) {
+      default: // Or case 0
+        this.gameObjects.push(new Knight(
+          3<<4,
+          (mapRef.height-2)<<4,
+          this.map
+        ));
+        break;
+      case 1:
+        this.gameObjects.push(new Archer(
+          3<<4,
+          (mapRef.height-2)<<4,
+          this.map
+        ));
+        break;
+      case 2:
+        this.gameObjects.push(new Mage(
+          3<<4,
+          (mapRef.height-2)<<4,
+          this.map
+        ));
+        break;
+      case 3:
+        this.gameObjects.push(new Thief(
+          3<<4,
+          (mapRef.height-2)<<4,
+          this.map
+        ));
+        break;
+    }
     this.camera = new Camera(
       0,
       (mapRef.height-SCREEN_HEIGHT_TILES)<<4

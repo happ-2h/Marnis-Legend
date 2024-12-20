@@ -21,6 +21,10 @@ export default class Game {
     // Poll assets
     // - Images
     AssetHandler.poll("spritesheet", "spritesheet.png");
+    AssetHandler.poll("char_knight", "charselect/knight.png");
+    AssetHandler.poll("char_archer", "charselect/archer.png");
+    AssetHandler.poll("char_witch",  "charselect/witch.png");
+    AssetHandler.poll("char_thief",  "charselect/thief.png");
     // - Maps
     AssetHandler.poll("test_map", "test_map.json");
 
