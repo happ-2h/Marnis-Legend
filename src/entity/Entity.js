@@ -8,6 +8,8 @@ export default class Entity {
 
   #map;    // Map entity belongs to
 
+  #zindex; // Which layer to draw entity on
+
   // Physics
   #dir;    // Directional vector
   #accel;  // Acceleration vector
@@ -16,6 +18,7 @@ export default class Entity {
   // Collision
   #isDead; // Flag entity as unusable
   #hitbox;
+  #block;  // Block movement if colliding
 
   // Animations
   #animation;
@@ -36,6 +39,7 @@ export default class Entity {
     this.#src = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
     this.#map = map;
+    this.#zindex = 0;
 
     this.#dir   = Vec2D.zero();
     this.#accel = Vec2D.zero();
@@ -43,6 +47,7 @@ export default class Entity {
 
     this.#isDead = false;
     this.#hitbox = new Rectangle(x, y, TILE_SIZE, TILE_SIZE);
+    this.#block  = false;
 
     this.#animation = null;
   }
@@ -76,6 +81,8 @@ export default class Entity {
 
   get isDead() { return this.#isDead; }
   get hitbox() { return this.#hitbox; }
+  get zindex() { return this.#zindex; }
+  get block()  { return this.#block; }
 
   get animation() { return this.#animation; }
 
@@ -83,7 +90,9 @@ export default class Entity {
   set dst(dst) { this.#dst = dst; }
   set src(src) { this.#src = src; }
 
-  set map(map) { this.#map = map; }
+  set map(map)  { this.#map = map; }
+  set zindex(z) { this.#zindex = z; }
+  set block(b)  { this.#block = b; }
 
   set animation(animation) { this.#animation = animation; }
 };

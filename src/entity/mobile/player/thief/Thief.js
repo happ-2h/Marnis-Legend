@@ -37,16 +37,16 @@ export default class Thief extends Player {
     }
 
     if (this.status & Player.SECONDARY_FLAG) {
-      if (this.controller.isRequestingRight()) {
+      if (!this.block && this.controller.isRequestingRight()) {
         this.dst.x += 16;
       }
-      else if (this.controller.isRequestingLeft()) {
+      else if (!this.block && this.controller.isRequestingLeft()) {
         this.dst.x -= 16;
       }
-      else if (this.controller.isRequestingUp()) {
+      else if (!this.block && this.controller.isRequestingUp()) {
         this.dst.y -= 16;
       }
-      else if (this.controller.isRequestingDown()) {
+      else if (!this.block && this.controller.isRequestingDown()) {
         this.dst.y += 16;
       }
 

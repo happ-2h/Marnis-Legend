@@ -37,6 +37,11 @@ export default class Map {
               case 38: // Crow
                 this.#tiles[y][x] = new Tile(x, y, tileID, false, this.#id);
                 break;
+              // Terrain
+              case 17: // Water
+              case 21: // Stone
+                this.#tiles[y][x] = new Tile(x, y, tileID, true, this.#id);
+                break;
             }
           }
         }
@@ -100,6 +105,13 @@ export default class Map {
         }
       }
     }
+  }
+
+  getTile(x=0, y=0) {
+    x |= 0;
+    y |= 0;
+
+    return this.#tiles[y][x];
   }
 
   getTileNum(x=0, y=0, layer=0) {

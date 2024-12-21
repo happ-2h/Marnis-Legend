@@ -1,4 +1,5 @@
 import PlayerController from "../../../controller/PlayerController";
+import CollisionChecker from "../../../math/CollisionChecker";
 import Entity_Mob from "../Entity_Mob";
 
 export default class Player extends Entity_Mob {
@@ -40,13 +41,14 @@ export default class Player extends Entity_Mob {
   }
 
   inputMovement() {
+    this.dir.reset();
     if (this.controller.isRequestingLeft()) this.dir.x = -1;
     else if (this.controller.isRequestingRight()) this.dir.x = 1;
-    else this.dir.x = 0;
+    //else this.dir.x = 0; // Free roam NOTE breaks collision
 
-    if (this.controller.isRequestingUp()) this.dir.y = -1;
+    else if (this.controller.isRequestingUp()) this.dir.y = -1;
     else if (this.controller.isRequestingDown()) this.dir.y = 1;
-    else this.dir.y = 0;
+    // else this.dir.reset(); // Free roam NOTE breaks collision
 
     this.dir.normalize();
   }
@@ -54,6 +56,16 @@ export default class Player extends Entity_Mob {
   handleMovement(dt) {
     let nextx = this.dst.x + this.vel.x * this.dir.x * dt;
     let nexty = this.dst.y + this.vel.y * this.dir.y * dt;
+
+    // Handle collision
+    this.block = false;
+    CollisionChecker.checkTile(this, dt, this.map);
+
+    // If collision occured
+    if (this.block) {
+      if (this.dir.y < 0 || this.dir.y > 0)      nexty = this.dst.y;
+      else if (this.dir.x < 0 || this.dir.x > 0) nextx = this.dst.x;
+    }
 
     this.dst.x = nextx;
     this.dst.y = nexty;

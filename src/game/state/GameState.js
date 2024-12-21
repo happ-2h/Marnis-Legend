@@ -9,6 +9,8 @@ import Knight from "../../entity/mobile/player/knight/Knight";
 import Mage from "../../entity/mobile/player/mage/Mage";
 import Player from "../../entity/mobile/player/Player";
 import Thief from "../../entity/mobile/player/thief/Thief";
+import Tile_Stone from "../../entity/tile/terrain/Tile_Stone";
+import Tile_Water from "../../entity/tile/terrain/Tile_Water";
 import Renderer from "../../gfx/Renderer";
 import MapHandler from "../../map/MapHandler";
 import Rectangle from "../../utils/Rectangle";
@@ -36,6 +38,23 @@ export default class GameState extends State {
       row.forEach(tile => {
         if (tile) {
           switch(tile.type) {
+            // Terrain
+            case 17:
+              this.gameObjects.push(new Tile_Water(
+                tile.dst.pos.x * TILE_SIZE,
+                tile.dst.pos.y * TILE_SIZE,
+                this.map
+              ));
+              break;
+            case 21:
+              this.gameObjects.push(new Tile_Stone(
+                tile.dst.pos.x * TILE_SIZE,
+                tile.dst.pos.y * TILE_SIZE,
+                this.map
+              ));
+              break;
+
+            // Enemies
             case 32:
               this.gameObjects.push(new Enemy_Mage(
                 tile.dst.pos.x * TILE_SIZE,
@@ -64,6 +83,7 @@ export default class GameState extends State {
                 this.map
               ));
               break;
+
             default: break;
           }
         }
@@ -156,7 +176,7 @@ export default class GameState extends State {
     );
 
     this.gameObjects
-      .sort((a, b) => a.dst.pos.y - b.dst.pos.y)
+      .sort((a, b) => a.zindex - b.zindex)
       .forEach(go => go.draw());
   }
 };

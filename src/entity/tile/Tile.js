@@ -1,6 +1,5 @@
 import Entity   from "../Entity";
 import Renderer from "../../gfx/Renderer";
-
 import { DEBUG } from "../../game/constants";
 
 export default class Tile extends Entity {

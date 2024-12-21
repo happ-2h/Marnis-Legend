@@ -1,6 +1,5 @@
 import Renderer from "../../gfx/Renderer";
 import Entity from "../Entity";
-
 import { DEBUG } from "../../game/constants";
 import Vec2D from "../../math/Vec2D";
 
@@ -11,6 +10,8 @@ export default class Entity_Mob extends Entity {
     super(x, y, map);
 
     this.#controller = controller;
+
+    this.zindex = 1;
   }
 
   init() {}

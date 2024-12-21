@@ -2,6 +2,7 @@ import Renderer from "../gfx/Renderer";
 import GamepadHandler from "../input/gamepad/GamepadHandler";
 import AssetHandler from "../utils/AssetHandler";
 import { CANVAS_HEIGHT, CANVAS_WIDTH, DEBUG } from "./constants";
+import GameState from "./state/GameState";
 import StateHandler from "./state/StateHandler";
 import TitleState from "./state/TitleState";
 
