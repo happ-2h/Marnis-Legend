@@ -1,3 +1,4 @@
+import AudioHandler from "../audio/AudioHandler";
 import MapHandler from "../map/MapHandler";
 import TextureHandler from "../gfx/TextureHandler";
 
@@ -6,6 +7,7 @@ let instance = null;
 class _AssetHandler {
   #imgs;   // Image pool
   #maps;   // Map pool
+  #snds;   // Sound pool
 
   #loaded; // Number of assets to load
   #toLoad; // Number of assets loaded
@@ -15,6 +17,7 @@ class _AssetHandler {
 
     this.#imgs = new Map();
     this.#maps = new Map();
+    this.#snds = new Map();
 
     this.#loaded = 0;
     this.#toLoad = 0;
@@ -40,6 +43,8 @@ class _AssetHandler {
       this.#imgs.set(assetID, filename);
     else if (ext === "json")
       this.#maps.set(assetID, filename);
+    else if (ext === "wav" || ext === "ogg")
+      this.#snds.set(assetID, filename);
     else --this.#toLoad;
   }
 
@@ -53,6 +58,12 @@ class _AssetHandler {
 
       this.#maps.forEach((val, key) => {
         MapHandler.load(key, val)
+          .then(val  => this.#loadHandler(res))
+          .catch(err => rej(err));
+      });
+
+      this.#snds.forEach((val, key) => {
+        AudioHandler.load(key, val)
           .then(val  => this.#loadHandler(res))
           .catch(err => rej(err));
       });

@@ -1,3 +1,4 @@
+import AudioHandler from "../../audio/AudioHandler";
 import Renderer from "../../gfx/Renderer";
 import GamepadHandler from "../../input/gamepad/GamepadHandler";
 import KeyHandler from "../../input/KeyHandler";
@@ -12,9 +13,15 @@ export default class TitleState extends State {
   }
 
   onEnter() { this.init(); }
-  onExit()  {}
+  onExit()  {
+    AudioHandler.stop("startscreen");
+  }
 
-  init() {}
+  init() {
+    AudioHandler.setPlaybackRate("startscreen", 0.7);
+    AudioHandler.setVolume("startscreen", 0.8);
+    AudioHandler.playMusic("startscreen");
+  }
 
   update(dt) {
     if (KeyHandler.isDown(81) || GamepadHandler.getGamepad(0)?.start) {
