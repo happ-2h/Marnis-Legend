@@ -8,8 +8,8 @@ export default class Mage extends Player {
 
   #nSecOrbs; // Number of secondary orbs
 
-  constructor(x, y, map) {
-    super(x, y, map);
+  constructor(x=0, y=0, num=1, map=null) {
+    super(x, y, num, map);
 
     this.src.x = 112;
 

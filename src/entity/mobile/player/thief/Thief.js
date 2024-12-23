@@ -5,8 +5,8 @@ import Player from "../Player";
 export default class Thief extends Player {
   #knives;
 
-  constructor(x, y, map) {
-    super(x, y, map);
+  constructor(x=0, y=0, num=1, map=null) {
+    super(x, y, num, map);
 
     this.src.x = 160;
 

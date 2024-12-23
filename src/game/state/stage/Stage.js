@@ -19,6 +19,7 @@ import Enemy_Crow from "../../../entity/mobile/enemy/crow/Enemy_Crow";
 import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../../constants";
 import Tile_Basic from "../../../entity/tile/terrain/Tile_Basic";
 import Tile_BasicAnimated from "../../../entity/tile/terrain/Tile_BasicAnimated";
+import Boss_Eye from "../../../entity/mobile/enemy/boss/Boss_Eye";
 
 export default class Stage extends State {
   #players; // Container of selected characters
@@ -131,6 +132,7 @@ export default class Stage extends State {
         this.gameObjects.push(new Knight(
           3<<4,
           (mapRef.height-2)<<4,
+          1,
           this.map
         ));
         break;
@@ -138,6 +140,7 @@ export default class Stage extends State {
         this.gameObjects.push(new Archer(
           3<<4,
           (mapRef.height-2)<<4,
+          1,
           this.map
         ));
         break;
@@ -145,6 +148,7 @@ export default class Stage extends State {
         this.gameObjects.push(new Mage(
           3<<4,
           (mapRef.height-2)<<4,
+          1,
           this.map
         ));
         break;
@@ -152,6 +156,7 @@ export default class Stage extends State {
         this.gameObjects.push(new Thief(
           3<<4,
           (mapRef.height-2)<<4,
+          1,
           this.map
         ));
         break;
@@ -161,6 +166,13 @@ export default class Stage extends State {
       0,
       (mapRef.height-SCREEN_HEIGHT_TILES)<<4
     );
+
+    // Bosses
+    switch(Stage.stageNumber) {
+      case 1:
+        this.gameObjects.push(new Boss_Eye(0, TILE_SIZE<<1, this.map));
+        break;
+    }
 
     this.#status = "playing"
   }
@@ -205,7 +217,7 @@ export default class Stage extends State {
 
     // TODO boss
     if (this.camera.y === 0)
-      this.#status = "complete";
+      this.#status = "boss";
   }
 
   render() {
