@@ -40,7 +40,12 @@ export default class Map {
               // Terrain
               case 17: // Water
               case 21: // Stone
+              case 30: // Stone square
+              case 27: // Dancing mushroom
                 this.#tiles[y][x] = new Tile(x, y, tileID, true, this.#id);
+                break;
+              case 29: // Triple mushroom
+                this.#tiles[y][x] = new Tile(x, y, tileID, false, this.#id);
                 break;
             }
           }

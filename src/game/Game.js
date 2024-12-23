@@ -27,6 +27,7 @@ export default class Game {
     AssetHandler.poll("char_thief",  "charselect/thief.png");
     // - Maps
     AssetHandler.poll("test_map", "test_map.json");
+    AssetHandler.poll("test_map2", "test_map2.json");
     // - Sounds
     AssetHandler.poll("startscreen", "music/startscreen.ogg");
 
