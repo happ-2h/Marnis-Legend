@@ -70,7 +70,16 @@ export default class Knight extends Player {
     super.draw();
 
     // Draw attack
-    if (this.status & Player.PRIMARY_FLAG)
+    if (this.status & Player.PRIMARY_FLAG) {
+      Renderer.image(
+        "spritesheet",
+        48, 48, TILE_SIZE, TILE_SIZE,
+        this.#swordHitbox.x,
+        this.#swordHitbox.y,
+        TILE_SIZE, TILE_SIZE
+      );
       Renderer.vrect(this.#swordHitbox.pos, this.#swordHitbox.dim);
+
+    }
   }
 };
