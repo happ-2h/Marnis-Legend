@@ -30,6 +30,7 @@ export default class Bullet_MagicSpear extends Bullet {
     gos.forEach(go => {
       if (go instanceof Player) {
         if (this.dst.intersects(go.hitboxAdj())) {
+          go.hurt(this.damage);
           this.kill();
         }
         // If bullet is player y pos + one screen, clean up

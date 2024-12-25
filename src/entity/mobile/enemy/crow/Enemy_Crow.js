@@ -19,6 +19,10 @@ export default class Enemy_Crow extends Enemy {
     this.src.x = 96;
     this.src.y = 32;
 
+    this.hp = 3;
+    this.hitbox.pos.set(5, 8);
+    this.hitbox.dim.set(6, 6);
+
     this.vel.set(60, 60);
     this.dir.set(12,45);
     this.dir.normalize();
@@ -72,8 +76,8 @@ export default class Enemy_Crow extends Enemy {
       this.dir.x = -this.dir.x;
     }
 
-    this.dst.x = nextx;
-    this.dst.y = nexty;
+    /*this.dst.x = nextx;
+    this.dst.y = nexty;*/
 
     for (let i = 0; i < this.#bullets.length; ++i) {
       this.#bullets[i].update(gos, dt);

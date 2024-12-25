@@ -21,6 +21,10 @@ export default class Enemy_Mushroom extends Enemy {
     this.#nBullets = 5;
     this.#bullets = [];
 
+    this.hp = 2;
+    this.hitbox.pos.set(4, 8);
+    this.hitbox.dim.set(8, 8);
+
     this.src.x = 64;
     this.src.y = 32;
 

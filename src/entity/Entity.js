@@ -61,8 +61,13 @@ export default class Entity {
   hurt(dmg=1) {
     this.#hp -= dmg;
 
-    if (this.#hp <= 0) this.kill();
+    if (this.#hp <= 0) {
+      this.#hp = 0;
+      this.kill();
+    }
   }
+
+  hpPercent() { return this.#hp / this.#maxHp; }
 
   kill() { this.#isDead = true; }
 
@@ -111,5 +116,8 @@ export default class Entity {
 
   set animation(animation) { this.#animation = animation; }
 
-  set hp(hp) { this.#hp = hp; }
+  set hp(hp) {
+    this.#hp = hp;
+    this.#maxHp = this.#hp;
+  }
 };

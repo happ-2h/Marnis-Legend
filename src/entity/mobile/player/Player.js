@@ -1,4 +1,6 @@
 import PlayerController from "../../../controller/PlayerController";
+import { TILE_SIZE } from "../../../game/constants";
+import Renderer from "../../../gfx/Renderer";
 import CollisionChecker from "../../../math/CollisionChecker";
 import Entity_Mob from "../Entity_Mob";
 
@@ -42,6 +44,11 @@ export default class Player extends Entity_Mob {
     this.handleMovement(dt);
   }
 
+  draw() {
+    super.draw();
+    this.drawHpBar();
+  }
+
   inputMovement() {
     this.dir.reset();
     if (this.controller.isRequestingLeft()) this.dir.x = -1;
@@ -80,6 +87,9 @@ export default class Player extends Entity_Mob {
 
   primaryAction(dt)   { return null; }
   secondaryAction(dt) { return null; }
+
+  // TEMP
+  kill() {}
 
   // Accessors
   get primaryRate()        { return this.#primaryRate; }

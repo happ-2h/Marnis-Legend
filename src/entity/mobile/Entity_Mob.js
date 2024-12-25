@@ -1,6 +1,6 @@
 import Renderer from "../../gfx/Renderer";
 import Entity from "../Entity";
-import { DEBUG } from "../../game/constants";
+import { DEBUG, TILE_SIZE } from "../../game/constants";
 import Vec2D from "../../math/Vec2D";
 
 export default class Entity_Mob extends Entity {
@@ -29,6 +29,30 @@ export default class Entity_Mob extends Entity {
         "white"
       );
     }
+  }
+
+  /**
+   * @brief Draws a HP bar
+   *
+   * @param {Boolean} onTop - Draw above entity (on y-axis)
+   */
+  drawHpBar(onTop=false) {
+    const width = TILE_SIZE * this.hpPercent();
+    const _y = this.dst.y + (onTop ? -6 : 18);
+
+    // Red
+    Renderer.image(
+      "spritesheet",
+      80, 52, 16, 4,
+      this.dst.x, _y, 16, 4
+    );
+
+    // Green
+    Renderer.image(
+      "spritesheet",
+      80, 48, width, 4,
+      this.dst.x, _y, width, 4
+    );
   }
 
   // Accessors

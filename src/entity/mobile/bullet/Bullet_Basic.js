@@ -45,7 +45,8 @@ export default class Bullet_Basic extends Bullet {
         }
 
         if (this.dst.intersects(go.hitboxAdj())) {
-          go.kill();
+          go.hurt(this.damage);
+          this.kill();
         }
       }
     });

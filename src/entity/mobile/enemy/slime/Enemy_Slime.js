@@ -14,6 +14,9 @@ export default class Enemy_Slime extends Enemy {
     this.dir.set(0, 1);
     this.dir.normalize();
 
+    this.hitbox.pos.set(2, 8);
+    this.hitbox.dim.set(12, 8);
+
     this.animation = new Animation([34, 35], 10);
   }
 

@@ -40,6 +40,7 @@ export default class Bullet_Orb extends Bullet {
       else if (go instanceof Enemy) {
         if (this.dst.intersects(go.hitboxAdj())) {
           go.hurt(this.damage);
+          this.kill();
         }
       }
     });

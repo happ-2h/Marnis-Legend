@@ -23,6 +23,8 @@ export default class Knight extends Player {
     this.#swordHitbox = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
     this.animation = new Animation([1,2,1,3], 10);
+
+    this.hp = 10;
   }
 
   update(gos, dt) {
@@ -36,8 +38,9 @@ export default class Knight extends Player {
       // Check if sword is hitting an enemy
       gos.forEach(go => {
         if (go instanceof Enemy) {
-          if (this.#swordHitbox.intersects(go.hitboxAdj())) {
+          if (!go.gotHit && this.#swordHitbox.intersects(go.hitboxAdj())) {
             go.hurt();
+            go.gotHit = true;
           }
         }
       });
@@ -46,6 +49,9 @@ export default class Knight extends Player {
       if (this.#attack >= this.#attackRate) {
         this.#attack = 0;
         this.status ^= Player.PRIMARY_FLAG;
+
+        // Reset hit status
+        gos.forEach(go => go.gotHit = false);
       }
     }
     else {
