@@ -9,7 +9,7 @@ export default class Bullet_Knife extends Bullet {
   #maxDist;  // Maximum distance
 
   constructor(x=0, y=0, map=null) {
-    super(x, y, map);
+    super(x, y, 1, map);
 
     this.#startPos = new Vec2D(x, y);
     this.#maxDist = new Vec2D(0, 64);
@@ -48,7 +48,7 @@ export default class Bullet_Knife extends Bullet {
       }
       else if (go instanceof Enemy) {
         if (this.dst.intersects(go.hitboxAdj())) {
-          go.clean();
+          go.hurt(this.damage);
         }
       }
     });

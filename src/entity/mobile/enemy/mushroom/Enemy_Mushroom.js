@@ -99,9 +99,8 @@ export default class Enemy_Mushroom extends Enemy {
     this.#bullets.forEach(b => b.draw());
   }
 
-  clean() {
+  kill() {
+    super.kill();
     this.#bullets.splice(0, this.#bullets.length);
-
-    this.kill();
   }
 };

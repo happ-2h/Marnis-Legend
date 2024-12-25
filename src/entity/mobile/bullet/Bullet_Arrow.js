@@ -9,7 +9,7 @@ export default class Bullet_Arrow extends Bullet {
   #frameDelay;
 
   constructor(x=0, y=0, map=null) {
-    super(x, y, map);
+    super(x, y, 1, map);
 
     this.src.x = 16;
     this.src.y = 48;
@@ -37,7 +37,7 @@ export default class Bullet_Arrow extends Bullet {
       }
       else if (go instanceof Enemy) {
         if (this.dst.intersects(go.hitboxAdj())) {
-          go.clean();
+          go.hurt(this.damage);
         }
       }
     });

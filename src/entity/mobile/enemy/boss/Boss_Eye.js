@@ -9,9 +9,6 @@ import Renderer from "../../../../gfx/Renderer";
 export default class Boss_Eye extends Enemy {
   #action;     // What the boss is doing
 
-  #hp;         // Health points
-  #maxHp;      // Maximum health points
-
   #timer;      // Action timer
   #timerDelay; // Action timer delay
 
@@ -38,9 +35,6 @@ export default class Boss_Eye extends Enemy {
 
     this.hitbox.pos.set(16, 27);
     this.hitbox.dim.set(16, 16);
-
-    this.#hp = 10;
-    this.#maxHp = this.#hp;
 
     this.#action = 0;
 
@@ -203,10 +197,4 @@ export default class Boss_Eye extends Enemy {
 
     this.#bullets.forEach(b => b.draw());
   }
-
-  // Accessors
-  get hp() { return this.#hp; }
-
-  // Mutators
-  set hp(hp) { this.#hp = hp; }
 };

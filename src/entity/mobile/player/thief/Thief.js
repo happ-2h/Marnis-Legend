@@ -29,7 +29,7 @@ export default class Thief extends Player {
     if (this.status & Player.PRIMARY_FLAG) {
       this.#knives.push(new Bullet_Knife(
         this.dst.x + 4,
-        this.dst.y -  4,
+        this.dst.y - 4,
         this.map
       ));
 

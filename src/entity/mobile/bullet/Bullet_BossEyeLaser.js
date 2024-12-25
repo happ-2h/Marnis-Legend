@@ -7,7 +7,7 @@ export default class Bullet_BossEyeLaser extends Bullet {
   #frameDelay; // Delay for next animation frame
 
   constructor(x=0, y=0, map=null) {
-    super(x, y, map);
+    super(x, y, 1, map);
 
     this.#currFrame = 0;
     this.#frameTimer = 0;

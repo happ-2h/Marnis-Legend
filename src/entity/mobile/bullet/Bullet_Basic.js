@@ -8,7 +8,7 @@ export default class Bullet_Basic extends Bullet {
   #frameDelay; // Delay for next animation frame
 
   constructor(x=0, y=0, dx=0, dy=0, map=null) {
-    super(x, y, map);
+    super(x, y, 1, map);
 
     this.#currFrame = 48;
     this.#frameTimer = 0;

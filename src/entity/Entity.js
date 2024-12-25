@@ -7,7 +7,6 @@ export default class Entity {
   #src;    // Blit image source rectangle
 
   #map;    // Map entity belongs to
-
   #zindex; // Which layer to draw entity on
 
   // Physics
@@ -22,6 +21,10 @@ export default class Entity {
 
   // Animations
   #animation;
+
+  // Status points
+  #hp;     // Health points
+  #maxHp;  // Starting health points
 
   constructor(x=0, y=0, map=null) {
     if (this.constructor === Entity)
@@ -50,6 +53,15 @@ export default class Entity {
     this.#block  = false;
 
     this.#animation = null;
+
+    this.#hp = 1;
+    this.#maxHp = this.#hp;
+  }
+
+  hurt(dmg=1) {
+    this.#hp -= dmg;
+
+    if (this.#hp <= 0) this.kill();
   }
 
   kill() { this.#isDead = true; }
@@ -86,6 +98,9 @@ export default class Entity {
 
   get animation() { return this.#animation; }
 
+  get hp()     { return this.#hp; }
+  get maxHp()  { return this.#maxHp; }
+
   // Mutators
   set dst(dst) { this.#dst = dst; }
   set src(src) { this.#src = src; }
@@ -95,4 +110,6 @@ export default class Entity {
   set block(b)  { this.#block = b; }
 
   set animation(animation) { this.#animation = animation; }
+
+  set hp(hp) { this.#hp = hp; }
 };
