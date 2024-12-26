@@ -36,7 +36,7 @@ export default class Boss_Eye extends Enemy {
     this.hitbox.pos.set(16, 27);
     this.hitbox.dim.set(16, 16);
 
-    this.#action = 0;
+    this.#action = 2;
 
     this.#timer = 0;
     this.#timerDelay = 0.5;
@@ -94,8 +94,8 @@ export default class Boss_Eye extends Enemy {
       0.1
     );
 
+    // Floating animation
     this.#upDn = !(this.#frame%30) ? !this.#upDn : this.#upDn;
-
     this.dst.y = lerp(
       this.dst.y,
       this.dst. y + (this.#upDn ? 4 : -4),

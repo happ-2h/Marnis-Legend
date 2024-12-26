@@ -29,11 +29,7 @@ export default class Enemy_Slime extends Enemy {
       if (go instanceof Player) {
         // Hurt player
         if (this.dst.intersects(go.hitboxAdj())) {
-          // TODO hurt player
-          this.kill();
-        }
-        // Remove if beyond player + one screen
-        if (this.dst.y > go.dst.y + (SCREEN_HEIGHT_TILES<<4)) {
+          go.hurt(1);
           this.kill();
         }
       }

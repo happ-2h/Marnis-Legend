@@ -32,6 +32,7 @@ export default class Mage extends Player {
         this.dst.x + 4,
         this.dst.y - 4,
         0, -1,
+        1,
         this.map
       ));
       this.#bullets.push(new Bullet_Orb(
@@ -39,6 +40,7 @@ export default class Mage extends Player {
         this.dst.y - 4,
         Math.cos((4*Math.PI)/3),
         Math.sin((4*Math.PI)/3),
+        1,
         this.map
       ));
       this.#bullets.push(new Bullet_Orb(
@@ -46,6 +48,7 @@ export default class Mage extends Player {
         this.dst.y - 4,
         -Math.cos((4*Math.PI)/3),
         Math.sin((4*Math.PI)/3),
+        1,
         this.map
       ));
 
@@ -61,6 +64,7 @@ export default class Mage extends Player {
           this.dst.y + 4,
           Math.cos(ang),
           Math.sin(ang),
+          2,
           this.map
         ));
       }
@@ -81,20 +85,6 @@ export default class Mage extends Player {
       (this.animation.currentFrame&0xF)<<4,
       (this.animation.currentFrame>>4)<<4
     );
-  }
-
-  primaryAction(dt) {
-    if (this.primaryRateTimer >= this.primaryRate) {
-      this.primaryRateTimer = 0;
-      this.status |= Player.PRIMARY_FLAG;
-    }
-  }
-
-  secondaryAction(dt) {
-    if (this.secondaryRateTimer >= this.secondaryRate) {
-      this.secondaryRateTimer = 0;
-      this.status |= Player.SECONDARY_FLAG;
-    }
   }
 
   draw() {

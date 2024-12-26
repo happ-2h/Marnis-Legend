@@ -41,10 +41,10 @@ export default class Enemy_Crow extends Enemy {
     if (!(this.#frames%this.#moveFrames)) {
       this.dir.set(
         Math.random() * [1, -1][(Math.random() >= 0.5)&1],
-        Math.random() * [1, -1][(Math.random() >= 0.5)&1]
+        Math.random()
       );
       this.dir.normalize();
-      this.dir.scale(randInt(1, 4));
+      this.dir.scale(randInt(1, 3));
 
       // Shoot player's direction
       gos.forEach(go => {
@@ -66,7 +66,7 @@ export default class Enemy_Crow extends Enemy {
     let nextx = this.dst.x + this.vel.x * this.dir.x * dt;
     let nexty = this.dst.y + this.vel.y * this.dir.y * dt;
 
-    // Keep in x-screen bounds
+    // Keep in screen bounds
     if (nextx <= 0) {
       nextx = 0;
       this.dir.x = -this.dir.x;
@@ -76,8 +76,18 @@ export default class Enemy_Crow extends Enemy {
       this.dir.x = -this.dir.x;
     }
 
-    /*this.dst.x = nextx;
-    this.dst.y = nexty;*/
+    this.dst.x = nextx;
+    this.dst.y = nexty;
+
+    // Check player collision
+    gos.forEach(go => {
+      if (go instanceof Player) {
+        if (this.dst.intersects(go.hitboxAdj())) {
+          go.hurt(1);
+          this.kill();
+        }
+      }
+    });
 
     for (let i = 0; i < this.#bullets.length; ++i) {
       this.#bullets[i].update(gos, dt);

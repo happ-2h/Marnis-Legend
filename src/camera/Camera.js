@@ -20,6 +20,7 @@ export default class Camera {
   }
 
   update(dt) {
+    // Move up if focused object is above 11 tiles in viewspace
     if (this.#focalPt.y <= this.#rect.y + (11<<4))
       --this.#rect.y;
 

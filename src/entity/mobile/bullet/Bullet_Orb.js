@@ -4,8 +4,8 @@ import Enemy from "../enemy/Enemy";
 import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH } from "../../../game/constants";
 
 export default class Bullet_Orb extends Bullet {
-  constructor(x=0, y=0, dx=0, dy=0, map=null) {
-    super(x, y, 1, map);
+  constructor(x=0, y=0, dx=0, dy=0, dmg=1, map=null) {
+    super(x, y, dmg, map);
 
     this.src.x = 32;
     this.src.y = 48;
@@ -29,7 +29,7 @@ export default class Bullet_Orb extends Bullet {
 
     gos.forEach(go => {
       if (go instanceof Player) {
-        // Check if arrow is out of screen-y
+        // Check if bullet is out of screen-y
         if (
           this.dst.y < go.dst.y - (SCREEN_HEIGHT_TILES<<4) ||
           this.dst.y > go.dst.y + (SCREEN_HEIGHT_TILES<<2)

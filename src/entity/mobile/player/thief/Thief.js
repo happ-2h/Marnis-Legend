@@ -68,20 +68,6 @@ export default class Thief extends Player {
     );
   }
 
-  primaryAction(dt) {
-    if (this.primaryRateTimer >= this.primaryRate) {
-      this.primaryRateTimer = 0;
-      this.status |= Player.PRIMARY_FLAG;
-    }
-  }
-
-  secondaryAction(dt) {
-    if (this.secondaryRateTimer >= this.secondaryRate) {
-      this.secondaryRateTimer = 0;
-      this.status |= Player.SECONDARY_FLAG;
-    }
-  }
-
   draw() {
     super.draw();
 

@@ -73,11 +73,8 @@ export default class Enemy_Mushroom extends Enemy {
         // Hurt player
         if (this.dst.intersects(go.hitboxAdj())) {
           // TODO hurt player
-          this.clean();
-        }
-        // Remove if beyond player + one screen
-        if (this.dst.y > go.dst.y + (SCREEN_HEIGHT_TILES<<4)) {
-          this.clean();
+          go.hurt(2);
+          this.kill();
         }
       }
     });

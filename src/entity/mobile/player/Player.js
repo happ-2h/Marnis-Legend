@@ -1,5 +1,5 @@
 import PlayerController from "../../../controller/PlayerController";
-import { TILE_SIZE } from "../../../game/constants";
+import { SCREEN_WIDTH, TILE_SIZE } from "../../../game/constants";
 import Renderer from "../../../gfx/Renderer";
 import CollisionChecker from "../../../math/CollisionChecker";
 import Entity_Mob from "../Entity_Mob";
@@ -76,6 +76,10 @@ export default class Player extends Entity_Mob {
       else if (this.dir.x < 0 || this.dir.x > 0) nextx = this.dst.x;
     }
 
+    // Keep inside play field
+    if (nextx + this.hitbox.x <= 0) nextx = -this.hitbox.x;
+    else if (nextx + this.hitbox.x + this.hitbox.w >= SCREEN_WIDTH) nextx = SCREEN_WIDTH - this.hitbox.x - this.hitbox.w;
+
     this.dst.x = nextx;
     this.dst.y = nexty;
   }
@@ -85,8 +89,19 @@ export default class Player extends Entity_Mob {
     if (this.controller.isRequestingB()) this.secondaryAction(dt);
   }
 
-  primaryAction(dt)   { return null; }
-  secondaryAction(dt) { return null; }
+  primaryAction(dt) {
+    if (this.primaryRateTimer >= this.primaryRate) {
+      this.primaryRateTimer = 0;
+      this.status |= Player.PRIMARY_FLAG;
+    }
+  }
+
+  secondaryAction(dt) {
+    if (this.secondaryRateTimer >= this.secondaryRate) {
+      this.secondaryRateTimer = 0;
+      this.status |= Player.SECONDARY_FLAG;
+    }
+  }
 
   // TEMP
   kill() {}

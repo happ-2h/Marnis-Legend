@@ -51,7 +51,7 @@ export default class Bullet_Basic extends Bullet {
       }
     });
 
-    if (this.dst.x <= -this.dst.w) this.kill();
+    if (this.dst.x <= -this.dst.w)  this.kill();
     if (this.dst.x >= SCREEN_WIDTH) this.kill();
 
     this.#frameTimer += dt;

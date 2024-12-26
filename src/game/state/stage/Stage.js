@@ -16,10 +16,11 @@ import Thief from "../../../entity/mobile/player/thief/Thief";
 import Enemy_Mushroom from "../../../entity/mobile/enemy/mushroom/Enemy_Mushroom";
 import Enemy_Crow from "../../../entity/mobile/enemy/crow/Enemy_Crow";
 
-import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../../constants";
+import { SCREEN_HEIGHT, SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../../constants";
 import Tile_Basic from "../../../entity/tile/terrain/Tile_Basic";
 import Tile_BasicAnimated from "../../../entity/tile/terrain/Tile_BasicAnimated";
 import Boss_Eye from "../../../entity/mobile/enemy/boss/Boss_Eye";
+import Tile from "../../../entity/tile/Tile";
 
 export default class Stage extends State {
   #players; // Container of selected characters
@@ -192,30 +193,24 @@ export default class Stage extends State {
       }
       else {
         // Update if on screen
-        if (go.dst.intersects(
-          new Rectangle(
-            this.camera.x, this.camera.y,
-            this.camera.width*TILE_SIZE,
-            this.camera.height*TILE_SIZE
-          )
-        )) {
+        if (go.dst.y + go.dst.h - this.camera.y >= 0) {
           go.update(this.gameObjects, dt);
         }
-        // Clean up if beyond screen y
-        else {
-          if (go instanceof Enemy) {
-            if (go.dst.y > this.camera.y + (this.camera.height)*TILE_SIZE) {
-              go.clean();
-            }
+
+        // Clean entities if beyond screen's height
+        if (go instanceof Enemy || go instanceof Tile) {
+          if (go.dst.y - this.camera.y > SCREEN_HEIGHT) {
+            go.kill();
           }
         }
       }
 
       // Clean up dead objects
-      if (go.isDead) this.gameObjects.splice(i, 1);
+      if (go.isDead) {
+        this.gameObjects.splice(i, 1);
+      }
     }
 
-    // TODO boss
     if (this.camera.y === 0)
       this.#status = "boss";
   }

@@ -65,13 +65,6 @@ export default class Knight extends Player {
     );
   }
 
-  primaryAction(dt) {
-    if (this.primaryRateTimer >= this.primaryRate) {
-      this.primaryRateTimer = 0;
-      this.status |= Player.PRIMARY_FLAG;
-    }
-  }
-
   draw() {
     super.draw();
 
