@@ -10,7 +10,7 @@ export default class GameState extends State {
 
     this.#selectedChar = selectedChar;
 
-    this.#currStage = new Stage([this.#selectedChar], "test_map");
+    this.#currStage = new Stage([this.#selectedChar], "stage01");
   }
 
   onEnter() { this.init(); }
@@ -27,7 +27,7 @@ export default class GameState extends State {
         case 1:
           this.#currStage.onExit();
           this.#currStage = null;
-          this.#currStage = new Stage([this.#selectedChar], "test_map2");
+          this.#currStage = new Stage([this.#selectedChar], "stage02");
           break;
         default:
           // TODO game win state

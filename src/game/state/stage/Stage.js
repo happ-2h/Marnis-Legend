@@ -82,6 +82,33 @@ export default class Stage extends State {
                 this.map
               ));
               break;
+            // Tree shrub
+            case 44:
+            case 45:
+            case 46:
+            case 47:
+            case 60:
+            case 63:
+            case 76:
+            case 77:
+            case 78:
+            case 79:
+              this.gameObjects.push(new Tile_Basic(
+                tile.dst.pos.x * TILE_SIZE,
+                tile.dst.pos.y * TILE_SIZE,
+                2, tile.type, false,
+                this.map
+              ));
+              break;
+            case 61:
+            case 62:
+              this.gameObjects.push(new Tile_Basic(
+                tile.dst.pos.x * TILE_SIZE,
+                tile.dst.pos.y * TILE_SIZE,
+                2, tile.type, true,
+                this.map
+              ));
+              break;
             case 27:
               this.gameObjects.push(new Tile_BasicAnimated(
                 tile.dst.pos.x * TILE_SIZE,

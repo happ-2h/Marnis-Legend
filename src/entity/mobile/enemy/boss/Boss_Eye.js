@@ -36,7 +36,7 @@ export default class Boss_Eye extends Enemy {
     this.hitbox.pos.set(16, 27);
     this.hitbox.dim.set(16, 16);
 
-    this.#action = 2;
+    this.#action = 0;
 
     this.#timer = 0;
     this.#timerDelay = 0.5;

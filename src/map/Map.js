@@ -42,9 +42,21 @@ export default class Map {
               case 21: // Stone
               case 30: // Stone square
               case 27: // Dancing mushroom
+              case 61: // Inner tree
+              case 62: // Inner tree
                 this.#tiles[y][x] = new Tile(x, y, tileID, true, this.#id);
                 break;
               case 29: // Triple mushroom
+              case 44: // Outer tree
+              case 45: // Outer tree
+              case 46: // Outer tree
+              case 47: // Outer tree
+              case 60:
+              case 63:
+              case 76: // Outer tree
+              case 77: // Outer tree
+              case 78: // Outer tree
+              case 79: // Outer tree
                 this.#tiles[y][x] = new Tile(x, y, tileID, false, this.#id);
                 break;
             }
