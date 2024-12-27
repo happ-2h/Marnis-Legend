@@ -26,6 +26,9 @@ export default class Stage extends State {
   #players; // Container of selected characters
   #status;  // Current status of the stage
 
+  #readyDelay; // How long to show stage number screen
+  #readyTimer; // Timer showing stage number screen
+
   static stageNumber = 0;
   static maxStages   = 1;
 
@@ -34,6 +37,9 @@ export default class Stage extends State {
 
     this.#players = [ ...players ];
     this.#status = "building";
+
+    this.#readyDelay = 2;
+    this.#readyTimer = 0;
 
     this.map = map;
 
@@ -202,7 +208,7 @@ export default class Stage extends State {
         break;
     }
 
-    this.#status = "playing"
+    this.#status = "readyup";
   }
 
   init() {
@@ -210,55 +216,67 @@ export default class Stage extends State {
   }
 
   update(dt) {
-    for (let i = 0; i < this.gameObjects.length; ++i) {
-      const go = this.gameObjects[i];
+    if (this.#status === "readyup") {
+      this.#readyTimer += dt;
 
-      if (go instanceof Player) {
-        go.update(this.gameObjects, dt);
-        this.camera.vfocus(go.dst);
-        this.camera.update(dt);
-      }
-      else {
-        // Update if on screen
-        if (go.dst.y + go.dst.h - this.camera.y >= 0) {
+      if (this.#readyTimer >= this.#readyDelay) this.#status = "playing";
+    }
+    else {
+      for (let i = 0; i < this.gameObjects.length; ++i) {
+        const go = this.gameObjects[i];
+
+        if (go instanceof Player) {
           go.update(this.gameObjects, dt);
+          this.camera.vfocus(go.dst);
+          this.camera.update(dt);
         }
+        else {
+          // Update if on screen
+          if (go.dst.y + go.dst.h - this.camera.y >= 0) {
+            go.update(this.gameObjects, dt);
+          }
 
-        // Clean entities if beyond screen's height
-        if (go instanceof Enemy || go instanceof Tile) {
-          if (go.dst.y - this.camera.y > SCREEN_HEIGHT) {
-            go.kill();
+          // Clean entities if beyond screen's height
+          if (go instanceof Enemy || go instanceof Tile) {
+            if (go.dst.y - this.camera.y > SCREEN_HEIGHT) {
+              go.kill();
+            }
           }
         }
+
+        // Clean up dead objects
+        if (go.isDead) {
+          this.gameObjects.splice(i, 1);
+        }
       }
 
-      // Clean up dead objects
-      if (go.isDead) {
-        this.gameObjects.splice(i, 1);
-      }
+      if (this.camera.y === 0)
+        this.#status = "boss";
     }
-
-    if (this.camera.y === 0)
-      this.#status = "boss";
   }
 
   render() {
-    Renderer.setOffset(this.camera.x, this.camera.y);
+    if (this.#status === "readyup") {
+      Renderer.drawText(`stage ${Stage.stageNumber}`, 6*16+4, (5<<4)+4);
+    }
+    else {
+      Renderer.setOffset(this.camera.x, this.camera.y);
 
-    MapHandler.drawMapLayer(
-      this.map,
-      new Rectangle(
-        this.camera.x,
-        this.camera.y,
-        SCREEN_WIDTH_TILES,
-        SCREEN_HEIGHT_TILES
-      ),
-      0
-    );
+      MapHandler.drawMapLayer(
+        this.map,
+        new Rectangle(
+          this.camera.x,
+          this.camera.y,
+          SCREEN_WIDTH_TILES,
+          SCREEN_HEIGHT_TILES
+        ),
+        0
+      );
 
-    this.gameObjects
-      .sort((a, b) => a.zindex - b.zindex)
-      .forEach(go => go.draw());
+      this.gameObjects
+        .sort((a, b) => a.zindex - b.zindex)
+        .forEach(go => go.draw());
+    }
   }
 
   // Accessors

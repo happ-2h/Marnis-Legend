@@ -97,7 +97,7 @@ class _Renderer {
    * @param {Number} starty    - Start screen y-position
    * @param {String} textureID - ID of the loaded texture
    */
-  drawText(text="none", sx=0, sy=0, textureID="spritesheet") {
+  drawText(text="none", startx=0, starty=0, textureID="spritesheet") {
     text = text.toLowerCase();
 
     text.split("").forEach(c => {
@@ -108,22 +108,22 @@ class _Renderer {
         this.image(
           textureID,
           (cCode - 97)<<3, 240, 8, 8,
-          sx, sy, 8, 8
+          startx, starty, 8, 8
         );
 
-        sx += 8;
+        startx += 8;
       }
       // 0 - 9
       else if (cCode >= 48 && cCode <= 57) {
         this.image(
           textureID,
           (cCode - 48)<<3, 248, 8, 8,
-          sx, sy, 8, 8
+          startx, starty, 8, 8
         );
 
-        sx += 8;
+        startx += 8;
       }
-      else if (c === ' ') sx += 8;
+      else if (c === ' ') startx += 8;
       // Special characters
       else {
         switch(c) {
@@ -131,9 +131,9 @@ class _Renderer {
             this.image(
               textureID,
               80, 248, 8, 8,
-              sx, sy, 8, 8
+              startx, starty, 8, 8
             );
-            sx += 8;
+            startx += 8;
             break;
         }
       }
