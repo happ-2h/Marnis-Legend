@@ -10,7 +10,7 @@ export default class GameState extends State {
 
     this.#selectedChar = selectedChar;
 
-    this.#currStage = new Stage([this.#selectedChar], "stage01");
+    this.#currStage = new Stage([this.#selectedChar], "stage02");
   }
 
   onEnter() { this.init(); }

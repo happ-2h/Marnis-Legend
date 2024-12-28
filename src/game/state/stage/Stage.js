@@ -21,6 +21,7 @@ import Tile_Basic from "../../../entity/tile/terrain/Tile_Basic";
 import Tile_BasicAnimated from "../../../entity/tile/terrain/Tile_BasicAnimated";
 import Boss_Eye from "../../../entity/mobile/enemy/boss/Boss_Eye";
 import Tile from "../../../entity/tile/Tile";
+import Boss_Drummer from "../../../entity/mobile/enemy/boss/Boss_Drummer";
 
 export default class Stage extends State {
   #players; // Container of selected characters
@@ -29,7 +30,7 @@ export default class Stage extends State {
   #readyDelay; // How long to show stage number screen
   #readyTimer; // Timer showing stage number screen
 
-  static stageNumber = 0;
+  static stageNumber = 1;
   static maxStages   = 1;
 
   constructor(players=null, map=null) {
@@ -206,9 +207,12 @@ export default class Stage extends State {
       case 1:
         this.gameObjects.push(new Boss_Eye(0, TILE_SIZE<<1, this.map));
         break;
+      case 2:
+        this.gameObjects.push(new Boss_Drummer(6*TILE_SIZE + 8, TILE_SIZE<<1, this.map));
+        break;
     }
 
-    this.#status = "readyup";
+    this.#status = "playing";
   }
 
   init() {

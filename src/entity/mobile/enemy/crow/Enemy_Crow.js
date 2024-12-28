@@ -57,6 +57,7 @@ export default class Enemy_Crow extends Enemy {
             this.dst.y + 4,
             bDir.x,
             bDir.y,
+            100, 100,
             this.map
           ));
         }

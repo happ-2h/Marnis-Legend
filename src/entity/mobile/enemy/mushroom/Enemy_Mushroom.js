@@ -63,6 +63,7 @@ export default class Enemy_Mushroom extends Enemy {
           this.dst.y + 4,
           Math.cos(ang),
           Math.sin(ang),
+          100, 100,
           this.map
         ));
       }
