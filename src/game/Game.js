@@ -33,6 +33,8 @@ export default class Game {
     AssetHandler.poll("startscreen", "music/startscreen.ogg");
     // -- SFX
     AssetHandler.poll("drumhit", "sfx/hit_drum.wav");
+    AssetHandler.poll("cryEye", "sfx/cry_bossEye.wav");
+    AssetHandler.poll("cryDrummer", "sfx/cry_drummer.wav");
 
     AssetHandler.load()
       .then(val => this.init())

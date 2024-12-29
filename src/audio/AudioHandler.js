@@ -200,6 +200,16 @@ class _AudioHandler {
     this.#trackSources.get(audioID).connect(panNode);
   }
 
+  /**
+   * @brief Specify what happens once the sound stopped playing
+   *
+   * @param {String} audioID - ID of audio to set property
+   * @param {*} cb           - Callback
+   */
+  setOnended(audioID=null, cb=null) {
+    this.#trackSources.get(audioID).onended = cb;
+  }
+
   // Accessors
   get nowPlaying() { return this.#nowPlaying; }
 };

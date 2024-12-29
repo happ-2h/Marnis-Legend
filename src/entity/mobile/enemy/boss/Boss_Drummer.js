@@ -22,6 +22,8 @@ export default class Boss_Drummer extends Enemy {
 
   #bullets;
 
+  #playedCry; // Ensure the cry only plays once
+
   constructor(x=0, y=0, map=null) {
     super(x, y, null, map);
 
@@ -36,7 +38,7 @@ export default class Boss_Drummer extends Enemy {
     this.hitbox.pos.set(14, 13);
     this.hitbox.dim.set(20, 20);
 
-    this.#action = 2;
+    this.#action = 4; // Start cry
     this.#drum = 0;
     this.#drumTimer = 0;
     this.#drumDelay = 0.1;
@@ -51,6 +53,8 @@ export default class Boss_Drummer extends Enemy {
 
     this.#bullets = [];
 
+    this.#playedCry = false;
+
     AudioHandler.setVolume("drumhit", 0);
     AudioHandler.play("drumhit");
     AudioHandler.stop("drumhit");
@@ -58,7 +62,15 @@ export default class Boss_Drummer extends Enemy {
   }
 
   update(gos, dt) {
-    this.#drumTimer += dt;
+    if (this.#action === 4) {
+      if (!this.#playedCry) {
+        this.#playedCry = true;
+        AudioHandler.setVolume("cryDrummer", 0.7);
+        AudioHandler.play("cryDrummer");
+        AudioHandler.setOnended("cryDrummer", () => this.#action = 0);
+      }
+    }
+    else this.#drumTimer += dt;
 
     if (this.#drumTimer >= this.#drumDelay) {
       this.#drumTimer = 0;
@@ -234,6 +246,17 @@ export default class Boss_Drummer extends Enemy {
       if (this.#bullets[i].isDead) {
         this.#bullets.splice(i, 1);
       }
+    }
+  }
+
+  hurt(dmg=1) {
+    if (this.#action === 4) return;
+
+    this.hp -= dmg;
+
+    if (this.hp <= 0) {
+      this.hp = 0;
+      this.kill();
     }
   }
 

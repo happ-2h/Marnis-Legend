@@ -206,7 +206,7 @@ export default class Stage extends State {
     // Bosses
     switch(Stage.stageNumber) {
       case 1:
-        this.gameObjects.push(new Boss_Eye(0, TILE_SIZE<<1, this.map));
+        this.gameObjects.push(new Boss_Eye(7*TILE_SIZE + 8, TILE_SIZE<<1, this.map));
         break;
       case 2:
         this.gameObjects.push(new Boss_Drummer(6*TILE_SIZE + 8, TILE_SIZE<<1, this.map));

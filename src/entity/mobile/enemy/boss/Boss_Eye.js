@@ -8,6 +8,7 @@ import Renderer from "../../../../gfx/Renderer";
 import ParticleHandler from "../../../particle/ParticleHandler";
 import Explosion from "../../../particle/Explosion";
 import { SCREEN_HEIGHT, TILE_SIZE } from "../../../../game/constants";
+import AudioHandler from "../../../../audio/AudioHandler";
 
 export default class Boss_Eye extends Enemy {
   #action;     // What the boss is doing
@@ -26,6 +27,8 @@ export default class Boss_Eye extends Enemy {
 
   #targetPos;   // Move coordinates
 
+  #playedCry;   // Ensure the cry only plays once
+
   constructor(x=0, y=0, map=null) {
     super(x, y, null, map);
 
@@ -39,7 +42,7 @@ export default class Boss_Eye extends Enemy {
     this.hitbox.pos.set(16, 27);
     this.hitbox.dim.set(16, 16);
 
-    this.#action = 0;
+    this.#action = 4; // Start cry
 
     this.#timer = 0;
     this.#timerDelay = 0.5;
@@ -63,11 +66,24 @@ export default class Boss_Eye extends Enemy {
     this.#upDn = false;
 
     this.#targetPos = new Vec2D(x, y);
+
+    this.#playedCry = false;
   }
 
   update(gos, dt) {
-    this.#timer += dt;
-    this.#bulletTimer += dt;
+    if (this.#action === 4) {
+      if (!this.#playedCry) {
+        this.#playedCry = true;
+        AudioHandler.setVolume("cryEye", 0.7);
+        AudioHandler.play("cryEye");
+        AudioHandler.setOnended("cryEye", () => this.#action = 0);
+      }
+    }
+    else {
+      this.#timer += dt;
+      this.#bulletTimer += dt;
+    }
+
     ++this.#frame;
 
     if (this.#timer >= this.#timerDelay) {
@@ -171,6 +187,17 @@ export default class Boss_Eye extends Enemy {
       if (this.#bullets[i].isDead) {
         this.#bullets.splice(i, 1);
       }
+    }
+  }
+
+  hurt(dmg=1) {
+    if (this.#action === 4) return;
+
+    this.hp -= dmg;
+
+    if (this.hp <= 0) {
+      this.hp = 0;
+      this.kill();
     }
   }
 
