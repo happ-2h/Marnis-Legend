@@ -1,5 +1,7 @@
 import { SCREEN_HEIGHT } from "../../../game/constants";
 import Vec2D from "../../../math/Vec2D";
+import Explosion from "../../particle/Explosion";
+import ParticleHandler from "../../particle/ParticleHandler";
 import Enemy from "../enemy/Enemy";
 import Bullet from "./Bullet";
 
@@ -34,6 +36,13 @@ export default class Bullet_Grenade extends Bullet {
         if (this.dst.intersects(go.hitboxAdj())) {
           go.hurt(this.damage);
           this.kill();
+
+          ParticleHandler.add(new Explosion(
+            this.dst.x-4,
+            this.dst.y-10,
+            7,
+            this.map
+          ));
         }
       }
       // Remove if off screen

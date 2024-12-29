@@ -22,6 +22,7 @@ import Tile_BasicAnimated from "../../../entity/tile/terrain/Tile_BasicAnimated"
 import Boss_Eye from "../../../entity/mobile/enemy/boss/Boss_Eye";
 import Tile from "../../../entity/tile/Tile";
 import Boss_Drummer from "../../../entity/mobile/enemy/boss/Boss_Drummer";
+import ParticleHandler from "../../../entity/particle/ParticleHandler";
 
 export default class Stage extends State {
   #players; // Container of selected characters
@@ -257,6 +258,8 @@ export default class Stage extends State {
       if (this.camera.y === 0)
         this.#status = "boss";
     }
+
+    ParticleHandler.update(dt);
   }
 
   render() {
@@ -281,6 +284,8 @@ export default class Stage extends State {
         .sort((a, b) => a.zindex - b.zindex)
         .forEach(go => go.draw());
     }
+
+    ParticleHandler.draw();
   }
 
   // Accessors

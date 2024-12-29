@@ -3,6 +3,7 @@ export default class Animation {
   #currentFrame;
   #speed;
   #speedTimer;
+  #iterations; // Iterations the animation has gone through
 
   /**
    * @param {Array} sequence - Sequence of images used for animation
@@ -13,6 +14,7 @@ export default class Animation {
     this.#currentFrame = 0;
     this.#speed = speed;
     this.#speedTimer = 0;
+    this.#iterations = 0;
   }
 
   init() {
@@ -31,6 +33,8 @@ export default class Animation {
         this.#currentFrame + 1 >= this.#currentSequence.length
           ? 0
           : this.#currentFrame + 1;
+
+        this.#iterations += this.#currentFrame === 0;
     }
   }
 
@@ -48,6 +52,7 @@ export default class Animation {
 
   // Accessors
   get currentFrame() { return this.#currentSequence[this.#currentFrame]; }
+  get iterations()   { return this.#iterations; }
 
   // Mutators
   set currentFrame(cf) { this.#currentFrame = cf; }
