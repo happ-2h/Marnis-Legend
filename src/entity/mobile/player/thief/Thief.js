@@ -1,4 +1,6 @@
 import Animation from "../../../../gfx/Animation";
+import Dash from "../../../particle/Dash";
+import ParticleHandler from "../../../particle/ParticleHandler";
 import Bullet_Knife from "../../bullet/Bullet_Knife";
 import Player from "../Player";
 
@@ -38,15 +40,19 @@ export default class Thief extends Player {
 
     if (this.status & Player.SECONDARY_FLAG) {
       if (!this.block && this.controller.isRequestingRight()) {
+        ParticleHandler.add(new Dash(this.dst.x, this.dst.y, 5, this.map));
         this.dst.x += 16;
       }
       else if (!this.block && this.controller.isRequestingLeft()) {
+        ParticleHandler.add(new Dash(this.dst.x, this.dst.y, 5, this.map));
         this.dst.x -= 16;
       }
       else if (!this.block && this.controller.isRequestingUp()) {
+        ParticleHandler.add(new Dash(this.dst.x, this.dst.y, 5, this.map));
         this.dst.y -= 16;
       }
       else if (!this.block && this.controller.isRequestingDown()) {
+        ParticleHandler.add(new Dash(this.dst.x, this.dst.y, 5, this.map));
         this.dst.y += 16;
       }
 
