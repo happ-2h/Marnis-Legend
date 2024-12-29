@@ -1,5 +1,6 @@
 import Animation from "../../../../gfx/Animation";
 import Bullet_Arrow from "../../bullet/Bullet_Arrow";
+import Bullet_Grenade from "../../bullet/Bullet_Grenade";
 import Player from "../Player";
 
 export default class Archer extends Player {
@@ -10,6 +11,7 @@ export default class Archer extends Player {
 
     this.src.x = 64;
     this.primaryRate = 0.6;
+    this.secondaryRate = 0.6;
 
     this.#bullets = [];
 
@@ -20,6 +22,8 @@ export default class Archer extends Player {
     super.update(dt);
 
     this.primaryRateTimer += dt;
+    this.secondaryRateTimer += dt;
+
     if (this.status & Player.PRIMARY_FLAG) {
       this.#bullets.push(new Bullet_Arrow(
         this.dst.x + 4,
@@ -28,6 +32,16 @@ export default class Archer extends Player {
       ));
 
       this.status ^= Player.PRIMARY_FLAG;
+    }
+
+    if (this.status & Player.SECONDARY_FLAG) {
+      this.#bullets.push(new Bullet_Grenade(
+        this.dst.x + 4,
+        this.dst.y - 4,
+        this.map
+      ));
+
+      this.status ^= Player.SECONDARY_FLAG;
     }
 
     for (let i = 0; i < this.#bullets.length; ++i) {
