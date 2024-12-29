@@ -43,10 +43,40 @@ export default class TitleState extends State {
       8
     );
 
+    // Painting
+    Renderer.image(
+      "spritesheet",
+      144, 96, 112, 48,
+      72, 72, 112, 48
+    );
+
+    // Japanese text
+    Renderer.image(
+      "spritesheet",
+      128, 96, 8, 32,
+      60, 72, 8, 32
+    );
+    Renderer.image(
+      "spritesheet",
+      136, 96, 8, 16,
+      60, 104, 8, 16
+    );
+
+    Renderer.image(
+      "spritesheet",
+      128, 96, 8, 32,
+      188, 72, 8, 32
+    );
+    Renderer.image(
+      "spritesheet",
+      136, 96, 8, 16,
+      188, 104, 8, 16
+    );
+
     Renderer.drawText("happ-2h", 104, 132);
 
     Renderer.drawText("press start", 84, 164);
 
-    if (DEBUG) Renderer.grid();
+    // if (DEBUG) Renderer.grid();
   }
 };
