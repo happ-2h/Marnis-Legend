@@ -30,7 +30,7 @@ export default class Stage extends State {
   #readyDelay; // How long to show stage number screen
   #readyTimer; // Timer showing stage number screen
 
-  static stageNumber = 1;
+  static stageNumber = 0;
   static maxStages   = 1;
 
   constructor(players=null, map=null) {

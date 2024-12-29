@@ -10,6 +10,9 @@ export default class Knight extends Player {
   #attack;
   #attackRate;
 
+  #invDur;   // Invincibility duration
+  #invTimer; // Invincibility timer
+
   #swordHitbox;
 
   constructor(x=0, y=0, num=1, map=null) {
@@ -20,6 +23,9 @@ export default class Knight extends Player {
     this.#attack = 0;
     this.#attackRate = 0.2;
 
+    this.#invDur = 4;
+    this.#invTimer = 0;
+
     this.#swordHitbox = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
     this.animation = new Animation([1,2,1,3], 10);
@@ -29,6 +35,8 @@ export default class Knight extends Player {
 
   update(gos, dt) {
     super.update(dt);
+
+    this.secondaryRateTimer += dt;
 
     if (this.status & Player.PRIMARY_FLAG) {
       this.#attack += dt;
@@ -58,6 +66,16 @@ export default class Knight extends Player {
       this.primaryRateTimer += dt;
     }
 
+    if (this.status & Player.SECONDARY_FLAG) {
+      this.#invTimer += dt;
+
+      if (this.#invTimer >= this.#invDur) {
+        this.#invTimer = 0;
+        this.secondaryRateTimer = 0;
+        this.status ^= Player.SECONDARY_FLAG;
+      }
+    }
+
     this.animation.update(dt);
     this.src.pos.set(
       (this.animation.currentFrame&0xF)<<4,
@@ -78,7 +96,20 @@ export default class Knight extends Player {
         TILE_SIZE, TILE_SIZE
       );
       Renderer.vrect(this.#swordHitbox.pos, this.#swordHitbox.dim);
-
     }
+    // Draw protective shield
+    if (this.status & Player.SECONDARY_FLAG) {
+      Renderer.image(
+        "spritesheet",
+        0, 80, TILE_SIZE, TILE_SIZE,
+        this.dst.x,
+        this.dst.y,
+        TILE_SIZE, TILE_SIZE
+      );
+    }
+  }
+
+  hurt(dmg=1) {
+    if (!(this.status & Player.SECONDARY_FLAG)) super.hurt(dmg);
   }
 };
