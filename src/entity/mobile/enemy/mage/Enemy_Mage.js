@@ -1,4 +1,6 @@
 import Animation from "../../../../gfx/Animation";
+import PickupHandler from "../../../pickup/PickupHandler";
+import PU_Health from "../../../pickup/PU_Health";
 import Bullet_MagicSpear from "../../bullet/Bullet_MagicSpear";
 import Enemy from "../Enemy";
 
@@ -64,5 +66,10 @@ export default class Enemy_Mage extends Enemy {
   kill() {
     super.kill();
     this.#bullets.splice(0, this.#bullets.length);
+    PickupHandler.add(new PU_Health(
+      this.dst.x,
+      this.dst.y,
+      this.map
+    ));
   }
 };

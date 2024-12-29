@@ -1,5 +1,6 @@
-import { SCREEN_HEIGHT_TILES } from "../../../../game/constants";
 import Animation from "../../../../gfx/Animation";
+import PickupHandler from "../../../pickup/PickupHandler";
+import PU_Health from "../../../pickup/PU_Health";
 import Player from "../../player/Player";
 import Enemy from "../Enemy";
 
@@ -40,5 +41,15 @@ export default class Enemy_Slime extends Enemy {
       (this.animation.currentFrame&0xF)<<4,
       (this.animation.currentFrame>>4)<<4
     );
+  }
+
+  kill() {
+    super.kill();
+
+    PickupHandler.add(new PU_Health(
+      this.dst.x,
+      this.dst.y,
+      this.map
+    ));
   }
 };

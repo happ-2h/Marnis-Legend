@@ -4,6 +4,7 @@ import Rectangle from "../../../../utils/Rectangle";
 import Enemy from "../../enemy/Enemy";
 import Player from "../Player";
 import Animation from "../../../../gfx/Animation";
+import PickupHandler from "../../../pickup/PickupHandler";
 
 export default class Knight extends Player {
   // Sword swinging
@@ -76,6 +77,16 @@ export default class Knight extends Player {
         this.status ^= Player.SECONDARY_FLAG;
       }
     }
+
+    // Pickups
+    const pu = PickupHandler.pickups;
+
+    pu.forEach(p => {
+      if (this.hitboxAdj().intersects(p.dst)) {
+        p.effect(this);
+        p.kill();
+      }
+    });
 
     this.animation.update(dt);
     this.src.pos.set(

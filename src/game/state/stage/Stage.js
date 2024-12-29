@@ -23,6 +23,7 @@ import Boss_Eye from "../../../entity/mobile/enemy/boss/Boss_Eye";
 import Tile from "../../../entity/tile/Tile";
 import Boss_Drummer from "../../../entity/mobile/enemy/boss/Boss_Drummer";
 import ParticleHandler from "../../../entity/particle/ParticleHandler";
+import PickupHandler from "../../../entity/pickup/PickupHandler";
 
 export default class Stage extends State {
   #players; // Container of selected characters
@@ -262,6 +263,7 @@ export default class Stage extends State {
     }
 
     ParticleHandler.update(dt);
+    PickupHandler.update(dt);
   }
 
   render() {
@@ -281,6 +283,8 @@ export default class Stage extends State {
         ),
         0
       );
+
+      PickupHandler.draw();
 
       this.gameObjects
         .sort((a, b) => a.zindex - b.zindex)
