@@ -29,7 +29,10 @@ export default class Game {
     AssetHandler.poll("stage01", "/stage/stage01.json");
     AssetHandler.poll("stage02", "/stage/stage02.json");
     // - Sounds
+    // -- Music
     AssetHandler.poll("startscreen", "music/startscreen.ogg");
+    // -- SFX
+    AssetHandler.poll("drumhit", "sfx/hit_drum.wav");
 
     AssetHandler.load()
       .then(val => this.init())

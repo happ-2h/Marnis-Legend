@@ -1,3 +1,4 @@
+import AudioHandler from "../../../../audio/AudioHandler";
 import { randInt, TAU } from "../../../../math/utils";
 import Bullet_Basic from "../../bullet/Bullet_Basic";
 import Enemy from "../Enemy";
@@ -38,7 +39,7 @@ export default class Boss_Drummer extends Enemy {
     this.#action = 2;
     this.#drum = 0;
     this.#drumTimer = 0;
-    this.#drumDelay = 0.2;
+    this.#drumDelay = 0.1;
 
     this.#drumSeq = [
       0,1,0,2,0,3,
@@ -49,6 +50,11 @@ export default class Boss_Drummer extends Enemy {
     this.#drumSeqi = 0;
 
     this.#bullets = [];
+
+    AudioHandler.setVolume("drumhit", 0);
+    AudioHandler.play("drumhit");
+    AudioHandler.stop("drumhit");
+    AudioHandler.setVolume("drumhit", 0.8);
   }
 
   update(gos, dt) {
@@ -205,6 +211,20 @@ export default class Boss_Drummer extends Enemy {
             ));
           }
         }
+      }
+
+      // Play drum sound
+      if (this.#drum === 1) {
+        AudioHandler.play("drumhit");
+        AudioHandler.pan("drumhit", -0.7);
+      }
+      else if (this.#drum === 2) {
+        AudioHandler.play("drumhit");
+        AudioHandler.pan("drumhit", 0.7);
+      }
+      else if (this.#drum === 3) {
+        AudioHandler.play("drumhit");
+        AudioHandler.pan("drumhit", 0);
       }
     }
 
