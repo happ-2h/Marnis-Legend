@@ -7,7 +7,7 @@ import Bullet_BossEyeLaser from "../../bullet/Bullet_BossEyeLaser";
 import Renderer from "../../../../gfx/Renderer";
 import ParticleHandler from "../../../particle/ParticleHandler";
 import Explosion from "../../../particle/Explosion";
-import { SCREEN_HEIGHT, TILE_SIZE } from "../../../../game/constants";
+import { SCREEN_HEIGHT, SCREEN_WIDTH, TILE_SIZE } from "../../../../game/constants";
 import AudioHandler from "../../../../audio/AudioHandler";
 
 export default class Boss_Eye extends Enemy {
@@ -39,6 +39,9 @@ export default class Boss_Eye extends Enemy {
     this.dst.w = 48;
     this.dst.h = 48;
 
+    this.hp = 10;
+    this.maxHp = this.hp;
+
     this.hitbox.pos.set(16, 27);
     this.hitbox.dim.set(16, 16);
 
@@ -49,7 +52,7 @@ export default class Boss_Eye extends Enemy {
 
     this.#bullets = [];
     this.#bulletTimer = 0;
-    this.#bulletDelay = 0.2;
+    this.#bulletDelay = 0.3;
     this.#shootAng = 0;
     this.#angles = [
       {x: Math.cos(Math.PI / 3) , y: Math.sin(Math.PI / 3) },
@@ -195,6 +198,18 @@ export default class Boss_Eye extends Enemy {
 
     this.hp -= dmg;
 
+    // Change action bsaed on HP
+    if (this.hpPercent() > 0.75) {
+      this.#action = 0;
+    }
+    else if (this.hpPercent() > 0.50) {
+      this.#action = 1;
+      this.#bulletDelay = 0.15;
+    }
+    else if (this.hpPercent() > 0.25) {
+      this.#action = 2;
+    }
+
     if (this.hp <= 0) {
       this.hp = 0;
       this.kill();
@@ -204,6 +219,13 @@ export default class Boss_Eye extends Enemy {
   kill() {
     this.#action = 3;
     this.#timerDelay = 0.1;
+  }
+
+  drawHpBar() {
+    if (this.#action === 4) return;
+
+    Renderer.rect( 6, 6, SCREEN_WIDTH - 12, 12, "#612721", true);
+    Renderer.rect( 8, 8, (SCREEN_WIDTH - 16) * (this.hp / this.maxHp), 8, "#8FD032", true);
   }
 
   draw() {

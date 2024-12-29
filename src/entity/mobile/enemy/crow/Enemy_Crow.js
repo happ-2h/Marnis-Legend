@@ -20,6 +20,7 @@ export default class Enemy_Crow extends Enemy {
     this.src.y = 32;
 
     this.hp = 3;
+    this.maxHp = this.hp;
     this.hitbox.pos.set(5, 8);
     this.hitbox.dim.set(6, 6);
 

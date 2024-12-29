@@ -2,6 +2,8 @@ import AudioHandler from "../../../../audio/AudioHandler";
 import { randInt, TAU } from "../../../../math/utils";
 import Bullet_Basic from "../../bullet/Bullet_Basic";
 import Enemy from "../Enemy";
+import Renderer from "../../../../gfx/Renderer";
+import { SCREEN_WIDTH } from "../../../../game/constants";
 
 export default class Boss_Drummer extends Enemy {
   #action; // What the boss is doing
@@ -34,6 +36,8 @@ export default class Boss_Drummer extends Enemy {
     this.dst.w = 48;
     this.dst.h = 32;
 
+    this.hp = 10;
+    this.maxHp = this.hp;
 
     this.hitbox.pos.set(14, 13);
     this.hitbox.dim.set(20, 20);
@@ -41,7 +45,7 @@ export default class Boss_Drummer extends Enemy {
     this.#action = 4; // Start cry
     this.#drum = 0;
     this.#drumTimer = 0;
-    this.#drumDelay = 0.1;
+    this.#drumDelay = 0.4;
 
     this.#drumSeq = [
       0,1,0,2,0,3,
@@ -65,7 +69,7 @@ export default class Boss_Drummer extends Enemy {
     if (this.#action === 4) {
       if (!this.#playedCry) {
         this.#playedCry = true;
-        AudioHandler.setVolume("cryDrummer", 0.7);
+        AudioHandler.setVolume("cryDrummer", 1.2);
         AudioHandler.play("cryDrummer");
         AudioHandler.setOnended("cryDrummer", () => this.#action = 0);
       }
@@ -249,10 +253,30 @@ export default class Boss_Drummer extends Enemy {
     }
   }
 
+  drawHpBar() {
+    if (this.#action === 4) return;
+
+    Renderer.rect( 6, 6, SCREEN_WIDTH - 12, 12, "#612721", true);
+    Renderer.rect( 8, 8, (SCREEN_WIDTH - 16) * (this.hp / this.maxHp), 8, "#8FD032", true);
+  }
+
   hurt(dmg=1) {
     if (this.#action === 4) return;
 
     this.hp -= dmg;
+
+    // Change action based on HP
+    if (this.hpPercent() > 0.75) {
+      this.#action = 0;
+    }
+    else if (this.hpPercent() > 0.50) {
+      this.#action = 1;
+      this.#drumDelay = 0.15;
+    }
+    else if (this.hpPercent() > 0.25) {
+      this.#action = 2;
+      this.#drumDelay = 0.1;
+    }
 
     if (this.hp <= 0) {
       this.hp = 0;

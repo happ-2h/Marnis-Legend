@@ -50,7 +50,7 @@ export default class Entity_Mob extends Entity {
     // Green
     Renderer.image(
       "spritesheet",
-      80, 48, width, 4,
+      80, 48, 16, 4,
       this.dst.x, _y, width, 4
     );
   }

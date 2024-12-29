@@ -31,6 +31,7 @@ export default class Knight extends Player {
     this.animation = new Animation([1,2,1,3], 10);
 
     this.hp = 10;
+    this.maxHp = this.hp;
   }
 
   update(gos, dt) {

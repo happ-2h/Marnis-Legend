@@ -16,9 +16,10 @@ export default class Enemy_Mage extends Enemy {
 
     this.#bullets = [];
 
+    this.hp = 4;
+    this.maxHp = this.hp;
     this.hitbox.pos.set(4, 7);
     this.hitbox.dim.set(8, 8);
-    this.hp = 4;
 
     this.src.y = 32;
 

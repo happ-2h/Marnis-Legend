@@ -117,8 +117,6 @@ export default class Entity {
 
   set animation(animation) { this.#animation = animation; }
 
-  set hp(hp) {
-    this.#hp = hp;
-    this.#maxHp = this.#hp;
-  }
+  set hp(hp)     { this.#hp = hp; }
+  set maxHp(mhp) { this.#maxHp = mhp; }
 };

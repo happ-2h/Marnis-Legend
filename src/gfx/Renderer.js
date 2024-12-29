@@ -52,6 +52,37 @@ class _Renderer {
     );
   }
 
+  /**
+   * @brief Draw a basic rectangle
+   *
+   * @param {Number} x       - X-position
+   * @param {Number} y       - Y-position
+   * @param {Number} width   - Rectangle width
+   * @param {Number} height  - Rectangle height
+   * @param {String} color   - Rectangle color
+   * @param {Boolean} filled - Filled (true) or stroked (false)
+   */
+  rect(x=0, y=0, width=0, height=0, color="red", filled=false) {
+    if (filled) {
+      this.#ctx.fillStyle = color;
+      this.#ctx.fillRect(
+        Math.floor((x - this.#offset.x + this.#epsilon) * SCALE),
+        Math.floor((y - this.#offset.y + this.#epsilon) * SCALE),
+        width  * SCALE,
+        height * SCALE
+      );
+    }
+    else {
+      this.#ctx.strokeStyle = color;
+      this.#ctx.strokeRect(
+        Math.floor((x - this.#offset.x + this.#epsilon) * SCALE),
+        Math.floor((y - this.#offset.y + this.#epsilon) * SCALE),
+        width  * SCALE,
+        height * SCALE
+      );
+    }
+  }
+
   // Vec2D functions
   vrect(pos=null, dim=null, color="red") {
     this.#ctx.strokeStyle = color;
