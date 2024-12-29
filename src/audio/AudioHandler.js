@@ -184,6 +184,22 @@ class _AudioHandler {
     return this.#sounds.get(audioID).playbackRate;
   }
 
+  /**
+   * @brief Pans a track [-1 leftmost to 1 rightmost]
+   *
+   * @note Audio must have been played at least once before using
+   *
+   * @param {String} audioID - ID of the audio to pan
+   * @param {Number} value   - Pan value in range [-1, 1]
+   */
+  pan(audioID=null, value=0) {
+    const panNode = this.#ctx.createStereoPanner();
+    panNode.pan.setValueAtTime(value, this.#ctx.currentTime);
+    panNode.connect(this.#ctx.destination);
+
+    this.#trackSources.get(audioID).connect(panNode);
+  }
+
   // Accessors
   get nowPlaying() { return this.#nowPlaying; }
 };
