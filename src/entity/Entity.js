@@ -113,6 +113,7 @@ export default class Entity {
   set map(map)  { this.#map = map; }
   set zindex(z) { this.#zindex = z; }
   set block(b)  { this.#block = b; }
+  set isDead(d) { this.#isDead = d; }
 
   set animation(animation) { this.#animation = animation; }
 

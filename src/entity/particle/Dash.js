@@ -6,6 +6,8 @@ export default class Dash extends Entity {
   constructor(x=0, y=0, animSpeed=0, map=null) {
     super(x, y, map);
 
+    this.zindex = 99;
+
     this.animation = new Animation([71,72,73,74,75], animSpeed);
   }
 

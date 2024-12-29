@@ -1,10 +1,13 @@
-import { lerp } from "../../../../math/utils";
+import { lerp, randInt } from "../../../../math/utils";
 import Vec2D from "../../../../math/Vec2D";
 import Enemy from "../Enemy";
 import Player from "../../player/Player";
 import Bullet_BossEyeBasic from "../../bullet/Bullet_BossEyeBasic";
 import Bullet_BossEyeLaser from "../../bullet/Bullet_BossEyeLaser";
 import Renderer from "../../../../gfx/Renderer";
+import ParticleHandler from "../../../particle/ParticleHandler";
+import Explosion from "../../../particle/Explosion";
+import { SCREEN_HEIGHT, TILE_SIZE } from "../../../../game/constants";
 
 export default class Boss_Eye extends Enemy {
   #action;     // What the boss is doing
@@ -86,6 +89,15 @@ export default class Boss_Eye extends Enemy {
           }
         });
       }
+      // Death animation
+      else if (this.#action === 3) {
+        ParticleHandler.add(new Explosion(
+          randInt(this.dst.x, this.dst.x + this.dst.w - 16),
+          randInt(this.dst.y + 16, this.dst.y + 32),
+          5,
+          this.map
+        ));
+      }
     }
 
     this.dst.x = lerp(
@@ -95,12 +107,25 @@ export default class Boss_Eye extends Enemy {
     );
 
     // Floating animation
-    this.#upDn = !(this.#frame%30) ? !this.#upDn : this.#upDn;
-    this.dst.y = lerp(
-      this.dst.y,
-      this.dst. y + (this.#upDn ? 4 : -4),
-      0.1
-    );
+    if (this.#action !== 3) {
+      this.#upDn = !(this.#frame%30) ? !this.#upDn : this.#upDn;
+      this.dst.y = lerp(
+        this.dst.y,
+        this.dst. y + (this.#upDn ? 4 : -4),
+        0.1
+      );
+    }
+    else {
+      this.dst.y = lerp(
+        this.dst.y,
+        this.dst.y + 48,
+        0.03
+      );
+
+      if (this.dst.y >= SCREEN_HEIGHT + TILE_SIZE) {
+        this.isDead = true;
+      }
+    }
 
     if (this.#bulletTimer >= this.#bulletDelay) {
       this.#bulletTimer = 0;
@@ -147,6 +172,11 @@ export default class Boss_Eye extends Enemy {
         this.#bullets.splice(i, 1);
       }
     }
+  }
+
+  kill() {
+    this.#action = 3;
+    this.#timerDelay = 0.1;
   }
 
   draw() {

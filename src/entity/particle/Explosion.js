@@ -6,6 +6,8 @@ export default class Explosion extends Entity {
   constructor(x=0, y=0, animSpeed=0, map=null) {
     super(x, y, map);
 
+    this.zindex = 99;
+
     this.animation = new Animation([64,65,66,67,68,69,70], animSpeed);
   }
 

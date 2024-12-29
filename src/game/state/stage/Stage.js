@@ -213,7 +213,7 @@ export default class Stage extends State {
         break;
     }
 
-    this.#status = "playing";
+    this.#status = "readyup";
   }
 
   init() {
@@ -251,12 +251,14 @@ export default class Stage extends State {
 
         // Clean up dead objects
         if (go.isDead) {
+          if (
+            go instanceof Boss_Eye ||
+            go instanceof Boss_Drummer
+          ) this.#status = "complete";
+
           this.gameObjects.splice(i, 1);
         }
       }
-
-      if (this.camera.y === 0)
-        this.#status = "boss";
     }
 
     ParticleHandler.update(dt);
