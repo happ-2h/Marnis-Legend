@@ -2,6 +2,7 @@ import Animation from "../../../../gfx/Animation";
 import Bullet_Orb from "../../bullet/Bullet_Orb";
 import Player from "../Player";
 import { TAU } from "../../../../math/utils";
+import PickupHandler from "../../../pickup/PickupHandler";
 
 export default class Mage extends Player {
   #bullets;
@@ -80,11 +81,27 @@ export default class Mage extends Player {
       }
     }
 
+    // Pickups
+    const pu = PickupHandler.pickups;
+
+    pu.forEach(p => {
+      if (this.hitboxAdj().intersects(p.dst)) {
+        p.effect(this);
+        p.kill();
+      }
+    });
+
     this.animation.update(dt);
     this.src.pos.set(
       (this.animation.currentFrame&0xF)<<4,
       (this.animation.currentFrame>>4)<<4
     );
+  }
+
+  powerup() {
+    this.primaryRate = this.primaryRate - 0.15 <= 0.3
+      ? 0.5
+      : this.primaryRate - 0.15;
   }
 
   draw() {

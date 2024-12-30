@@ -1,11 +1,13 @@
 import Animation from "../../../../gfx/Animation";
 import Dash from "../../../particle/Dash";
 import ParticleHandler from "../../../particle/ParticleHandler";
+import PickupHandler from "../../../pickup/PickupHandler";
 import Bullet_Knife from "../../bullet/Bullet_Knife";
 import Player from "../Player";
 
 export default class Thief extends Player {
-  #knives;
+  #knives;    // Container of knife objects
+  #throwDist; // Life of knife object
 
   constructor(x=0, y=0, num=1, map=null) {
     super(x, y, num, map);
@@ -16,6 +18,8 @@ export default class Thief extends Player {
     this.secondaryRate = 0.5;
 
     this.vel.set(150, 150);
+
+    this.#throwDist = 64;
 
     this.animation = new Animation([10,11,10,12], 8);
 
@@ -32,6 +36,7 @@ export default class Thief extends Player {
       this.#knives.push(new Bullet_Knife(
         this.dst.x + 4,
         this.dst.y - 4,
+        this.#throwDist,
         this.map
       ));
 
@@ -67,11 +72,27 @@ export default class Thief extends Player {
       }
     }
 
+    // Pickups
+    const pu = PickupHandler.pickups;
+
+    pu.forEach(p => {
+      if (this.hitboxAdj().intersects(p.dst)) {
+        p.effect(this);
+        p.kill();
+      }
+    });
+
     this.animation.update(dt);
     this.src.pos.set(
       (this.animation.currentFrame&0xF)<<4,
       (this.animation.currentFrame>>4)<<4
     );
+  }
+
+  powerup() {
+    this.#throwDist = this.#throwDist + 10 >= 150
+      ? 150
+      : this.#throwDist + 10;
   }
 
   draw() {

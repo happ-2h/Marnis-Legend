@@ -30,6 +30,7 @@ export default class Knight extends Player {
     this.#swordHitbox = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
 
     this.animation = new Animation([1,2,1,3], 10);
+    this.vel.set(50, 50);
 
     this.hp = 10;
     this.maxHp = this.hp;
@@ -123,5 +124,14 @@ export default class Knight extends Player {
 
   hurt(dmg=1) {
     if (!(this.status & Player.SECONDARY_FLAG)) super.hurt(dmg);
+  }
+
+  powerup() {
+    this.vel.x = this.vel.x + 10 >= 100
+      ? 100
+      : this.vel.x + 10;
+    this.vel.y = this.vel.y + 10 >= 100
+      ? 100
+      : this.vel.y + 10;
   }
 };

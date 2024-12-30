@@ -1,4 +1,5 @@
 import Animation from "../../../../gfx/Animation";
+import PickupHandler from "../../../pickup/PickupHandler";
 import Bullet_Arrow from "../../bullet/Bullet_Arrow";
 import Bullet_Grenade from "../../bullet/Bullet_Grenade";
 import Player from "../Player";
@@ -52,6 +53,16 @@ export default class Archer extends Player {
       }
     }
 
+    // Pickups
+    const pu = PickupHandler.pickups;
+
+    pu.forEach(p => {
+      if (this.hitboxAdj().intersects(p.dst)) {
+        p.effect(this);
+        p.kill();
+      }
+    });
+
     this.animation.update(dt);
     this.src.pos.set(
       (this.animation.currentFrame&0xF)<<4,
@@ -63,5 +74,11 @@ export default class Archer extends Player {
     super.draw();
 
     this.#bullets.forEach(b => b.draw());
+  }
+
+  powerup() {
+    this.primaryRate = this.primaryRate - 0.1 <= 0.2
+      ? 0.2
+      : this.primaryRate - 0.1;
   }
 }

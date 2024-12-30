@@ -8,11 +8,11 @@ export default class Bullet_Knife extends Bullet {
   #startPos; // Starting position
   #maxDist;  // Maximum distance
 
-  constructor(x=0, y=0, map=null) {
+  constructor(x=0, y=0, dist=0, map=null) {
     super(x, y, 1, map);
 
     this.#startPos = new Vec2D(x, y);
-    this.#maxDist  = new Vec2D(0, 64);
+    this.#maxDist  = new Vec2D(0, dist);
 
     this.src.x = 32;
     this.src.y = 56;
