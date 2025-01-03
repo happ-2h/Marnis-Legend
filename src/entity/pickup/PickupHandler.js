@@ -28,6 +28,10 @@ class _PickupHandler {
     this.#pickups.forEach(p => p.draw());
   }
 
+  clear() {
+    this.#pickups.splice(0, this.#pickups.length);
+  }
+
   // Accessors
   get pickups() { return this.#pickups; }
 };

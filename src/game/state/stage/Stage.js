@@ -51,7 +51,10 @@ export default class Stage extends State {
   }
 
   onEnter() { this.init(); }
-  onExit()  {}
+  onExit()  {
+    ParticleHandler.clear();
+    PickupHandler.clear();
+  }
 
   #build() {
     const mapRef = MapHandler.getMap(this.map);

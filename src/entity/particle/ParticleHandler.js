@@ -27,6 +27,10 @@ class _ParticleHandler {
   draw() {
     this.#particles.forEach(p => p.draw());
   }
+
+  clear() {
+    this.#particles.splice(0, this.#particles.length);
+  }
 };
 
 const ParticleHandler = new _ParticleHandler;
