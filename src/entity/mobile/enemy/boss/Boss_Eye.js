@@ -77,7 +77,7 @@ export default class Boss_Eye extends Enemy {
     if (this.#action === 4) {
       if (!this.#playedCry) {
         this.#playedCry = true;
-        AudioHandler.setVolume("cryEye", 0.7);
+        AudioHandler.setVolume("cryEye", 0.6);
         AudioHandler.play("cryEye");
         AudioHandler.setOnended("cryEye", () => this.#action = 0);
       }

@@ -24,6 +24,7 @@ import Tile from "../../../entity/tile/Tile";
 import Boss_Drummer from "../../../entity/mobile/enemy/boss/Boss_Drummer";
 import ParticleHandler from "../../../entity/particle/ParticleHandler";
 import PickupHandler from "../../../entity/pickup/PickupHandler";
+import AudioHandler from "../../../audio/AudioHandler";
 
 export default class Stage extends State {
   #players; // Container of selected characters
@@ -50,7 +51,22 @@ export default class Stage extends State {
     this.onEnter();
   }
 
-  onEnter() { this.init(); }
+  onEnter() {
+    this.init();
+
+    // Play music
+    AudioHandler.stopAll();
+    switch(this.map) {
+      case "stage01":
+        AudioHandler.setVolume("stage01", 0.5);
+        AudioHandler.playMusic("stage01");
+        break;
+        case "stage02":
+        AudioHandler.setVolume("stage02", 0.5);
+        AudioHandler.playMusic("stage02");
+        break;
+    }
+  }
   onExit()  {
     ParticleHandler.clear();
     PickupHandler.clear();

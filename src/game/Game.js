@@ -31,6 +31,8 @@ export default class Game {
     // - Sounds
     // -- Music
     AssetHandler.poll("startscreen", "music/startscreen.ogg");
+    AssetHandler.poll("stage01", "music/stage01.ogg");
+    AssetHandler.poll("stage02", "music/stage02.ogg");
     // -- SFX
     AssetHandler.poll("drumhit", "sfx/hit_drum.wav");
     AssetHandler.poll("cryEye", "sfx/cry_bossEye.wav");

@@ -62,11 +62,13 @@ export default class Boss_Drummer extends Enemy {
     AudioHandler.setVolume("drumhit", 0);
     AudioHandler.play("drumhit");
     AudioHandler.stop("drumhit");
-    AudioHandler.setVolume("drumhit", 0.8);
+    AudioHandler.setVolume("drumhit", 0.6);
   }
 
   update(gos, dt) {
     if (this.#action === 4) {
+      AudioHandler.stop("stage02");
+
       if (!this.#playedCry) {
         this.#playedCry = true;
         AudioHandler.setVolume("cryDrummer", 1.2);
