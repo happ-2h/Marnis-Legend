@@ -4,6 +4,8 @@ import Bullet_Basic from "../../bullet/Bullet_Basic";
 import Enemy from "../Enemy";
 import Renderer from "../../../../gfx/Renderer";
 import { SCREEN_WIDTH } from "../../../../game/constants";
+import ParticleHandler from "../../../particle/ParticleHandler";
+import Explosion from "../../../particle/Explosion";
 
 export default class Boss_Drummer extends Enemy {
   #action; // What the boss is doing
@@ -76,174 +78,190 @@ export default class Boss_Drummer extends Enemy {
         AudioHandler.setOnended("cryDrummer", () => this.#action = 0);
       }
     }
-    else this.#drumTimer += dt;
+    else if (this.#action !== 5) {
+      this.#drumTimer += dt;
 
-    if (this.#drumTimer >= this.#drumDelay) {
-      this.#drumTimer = 0;
+      if (this.#drumTimer >= this.#drumDelay) {
+        this.#drumTimer = 0;
 
-      // Simple left-right drumming
-      if (this.#action === 0) {
-        this.#drum = this.#drum === 1 ? 2 : 1;
+        // Simple left-right drumming
+        if (this.#action === 0) {
+          this.#drum = this.#drum === 1 ? 2 : 1;
 
-        if (this.#drum === 1) {
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 12,
-            this.dst.pos.y + 24,
-            0, 1,
-            100, 100,
-            this.map
-          ));
-        }
-        else {
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 27,
-            this.dst.pos.y + 24,
-            0, 1,
-            100, 100,
-            this.map
-          ));
-        }
-      }
-      else if (this.#action === 1) {
-        this.#drum = this.#drum === 0 ? 3 : 0;
-
-        if (this.#drum === 3) {
-          // Left
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 12,
-            this.dst.pos.y + 24,
-            0, 1,
-            130, 130,
-            this.map
-          ));
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 12,
-            this.dst.pos.y + 24,
-            -0.5,
-            0.8660254,
-            110, 110,
-            this.map
-          ));
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 12,
-            this.dst.pos.y + 24,
-            -0.7071067,
-            0.7071067,
-            100, 100,
-            this.map
-          ));
-
-          // Right
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 27,
-            this.dst.pos.y + 24,
-            0, 1,
-            130, 130,
-            this.map
-          ));
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 27,
-            this.dst.pos.y + 24,
-            0.5,
-            0.8660254,
-            110, 110,
-            this.map
-          ));
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 27,
-            this.dst.pos.y + 24,
-            0.7071067,
-            0.7071067,
-            100, 100,
-            this.map
-          ));
-        }
-      }
-      else if (this.#action === 2)  {
-        this.#drum = this.#drumSeq[this.#drumSeqi++%this.#drumSeq.length];
-
-        if (this.#drum === 1) {
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 12,
-            this.dst.pos.y + 24,
-            0, 1,
-            130, 130,
-            this.map
-          ));
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 12,
-            this.dst.pos.y + 24,
-            -0.5,
-            0.8660254,
-            110, 110,
-            this.map
-          ));
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 12,
-            this.dst.pos.y + 24,
-            -0.7071067,
-            0.7071067,
-            100, 100,
-            this.map
-          ));
-        }
-        else if (this.#drum === 2) {
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 27,
-            this.dst.pos.y + 24,
-            0, 1,
-            130, 130,
-            this.map
-          ));
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 27,
-            this.dst.pos.y + 24,
-            0.5,
-            0.8660254,
-            110, 110,
-            this.map
-          ));
-          this.#bullets.push(new Bullet_Basic(
-            this.dst.pos.x + 27,
-            this.dst.pos.y + 24,
-            0.7071067,
-            0.7071067,
-            100, 100,
-            this.map
-          ));
-        }
-        else if (this.#drum === 3) {
-          const nBullets = randInt(4, 10);
-
-          for (let i = 0; i < nBullets; ++i) {
-            const t = (i / nBullets) * TAU;
-
+          if (this.#drum === 1) {
             this.#bullets.push(new Bullet_Basic(
-              this.dst.x + 21,
-              this.dst.y + 25,
-              Math.cos(t),
-              Math.sin(t),
-              randInt(130, 170),
-              randInt(130, 170),
+              this.dst.pos.x + 12,
+              this.dst.pos.y + 24,
+              0, 1,
+              100, 100,
+              this.map
+            ));
+          }
+          else {
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 27,
+              this.dst.pos.y + 24,
+              0, 1,
+              100, 100,
               this.map
             ));
           }
         }
-      }
+        else if (this.#action === 1) {
+          this.#drum = this.#drum === 0 ? 3 : 0;
 
-      // Play drum sound
-      if (this.#drum === 1) {
-        AudioHandler.play("drumhit");
-        AudioHandler.pan("drumhit", -0.7);
+          if (this.#drum === 3) {
+            // Left
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 12,
+              this.dst.pos.y + 24,
+              0, 1,
+              130, 130,
+              this.map
+            ));
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 12,
+              this.dst.pos.y + 24,
+              -0.5,
+              0.8660254,
+              110, 110,
+              this.map
+            ));
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 12,
+              this.dst.pos.y + 24,
+              -0.7071067,
+              0.7071067,
+              100, 100,
+              this.map
+            ));
+
+            // Right
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 27,
+              this.dst.pos.y + 24,
+              0, 1,
+              130, 130,
+              this.map
+            ));
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 27,
+              this.dst.pos.y + 24,
+              0.5,
+              0.8660254,
+              110, 110,
+              this.map
+            ));
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 27,
+              this.dst.pos.y + 24,
+              0.7071067,
+              0.7071067,
+              100, 100,
+              this.map
+            ));
+          }
+        }
+        else if (this.#action === 2)  {
+          this.#drum = this.#drumSeq[this.#drumSeqi++%this.#drumSeq.length];
+
+          if (this.#drum === 1) {
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 12,
+              this.dst.pos.y + 24,
+              0, 1,
+              130, 130,
+              this.map
+            ));
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 12,
+              this.dst.pos.y + 24,
+              -0.5,
+              0.8660254,
+              110, 110,
+              this.map
+            ));
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 12,
+              this.dst.pos.y + 24,
+              -0.7071067,
+              0.7071067,
+              100, 100,
+              this.map
+            ));
+          }
+          else if (this.#drum === 2) {
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 27,
+              this.dst.pos.y + 24,
+              0, 1,
+              130, 130,
+              this.map
+            ));
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 27,
+              this.dst.pos.y + 24,
+              0.5,
+              0.8660254,
+              110, 110,
+              this.map
+            ));
+            this.#bullets.push(new Bullet_Basic(
+              this.dst.pos.x + 27,
+              this.dst.pos.y + 24,
+              0.7071067,
+              0.7071067,
+              100, 100,
+              this.map
+            ));
+          }
+          else if (this.#drum === 3) {
+            const nBullets = randInt(4, 10);
+
+            for (let i = 0; i < nBullets; ++i) {
+              const t = (i / nBullets) * TAU;
+
+              this.#bullets.push(new Bullet_Basic(
+                this.dst.x + 21,
+                this.dst.y + 25,
+                Math.cos(t),
+                Math.sin(t),
+                randInt(130, 170),
+                randInt(130, 170),
+                this.map
+              ));
+            }
+          }
+        }
+
+        // Play drum sound
+        if (this.#drum === 1) {
+          AudioHandler.play("drumhit");
+          AudioHandler.pan("drumhit", -0.7);
+        }
+        else if (this.#drum === 2) {
+          AudioHandler.play("drumhit");
+          AudioHandler.pan("drumhit", 0.7);
+        }
+        else if (this.#drum === 3) {
+          AudioHandler.play("drumhit");
+          AudioHandler.pan("drumhit", 0);
+        }
       }
-      else if (this.#drum === 2) {
-        AudioHandler.play("drumhit");
-        AudioHandler.pan("drumhit", 0.7);
-      }
-      else if (this.#drum === 3) {
-        AudioHandler.play("drumhit");
-        AudioHandler.pan("drumhit", 0);
-      }
+    }
+    else if (this.#action === 5) {
+      this.dst.x = (6*16 + 8) + 2 * Math.cos((++this.#drumTimer));
+
+      if (this.#drumTimer%5 === 0)
+        ParticleHandler.add(new Explosion(
+          randInt(this.dst.x - 16, this.dst.x + this.dst.w),
+          randInt(this.dst.y, this.dst.y + this.dst.h - 16),
+          7,
+          this.map
+        ));
+
+      // Kill after 3 seconds
+      if ((this.#drumDelay += dt) >= 3) this.kill();
     }
 
     for (let i = 0; i < this.#bullets.length; ++i) {
@@ -282,7 +300,10 @@ export default class Boss_Drummer extends Enemy {
 
     if (this.hp <= 0) {
       this.hp = 0;
-      this.kill();
+      this.#action = 5;    // Death animation
+      this.#drum = 0;      // Raise both hands
+      this.#drumTimer = 0; // Recycle for animation
+      this.#drumDelay = 0; // Recycle for timing
     }
   }
 
