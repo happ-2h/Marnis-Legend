@@ -1,5 +1,10 @@
+import AudioHandler from "../../audio/AudioHandler";
+import ParticleHandler from "../../entity/particle/ParticleHandler";
+import PickupHandler from "../../entity/pickup/PickupHandler";
+import EndState from "./EndState";
 import Stage from "./stage/Stage";
 import State from "./State";
+import StateHandler from "./StateHandler";
 
 export default class GameState extends State {
   #selectedChar; // From character select screen
@@ -14,7 +19,11 @@ export default class GameState extends State {
   }
 
   onEnter() { this.init(); }
-  onExit()  {}
+  onExit()  {
+    PickupHandler.clear();
+    ParticleHandler.clear();
+    AudioHandler.stopAll();
+  }
 
   init() {}
 
@@ -30,7 +39,10 @@ export default class GameState extends State {
           this.#currStage = new Stage([this.#selectedChar], "stage02");
           break;
         default:
-          // TODO game win state
+          this.#currStage?.onExit();
+          this.#currStage = null;
+          StateHandler.pop();
+          StateHandler.push(new EndState);
           break;
       }
     }
