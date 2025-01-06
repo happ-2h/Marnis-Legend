@@ -3,18 +3,40 @@
 <br />
 <div align="center">
   <a>
-    <img src="./logo.png" alt="Marnis Legend Logo">
+    <img
+      src="./images/logo.png"
+      width="70%"
+      style="image-rendering: pixelated"
+      alt="Marnis Legend Logo"
+    />
   </a>
 
   <h3>Marnis Legend</h3>
 
   <p align="center">
-    A vertical shooter with multiplayer support. The kingdom of Marnis has been taken over by beings from the alternate dimension! Can the heroes of Marnis protect the kingdom?
+    The kingdom of Marnis has been taken over by beings from the alternate dimension! Can the heroes of Marnis protect the kingdom?
   </p>
 </div>
 
-<div>
-  <!-- TODO: screen shots -->
+<div align="center">
+  <img
+    src="./images/gameplay_01.png"
+    width="60%"
+    style="image-rendering: pixelated"
+    alt="Gameplay 01"
+  />
+  <img
+    src="./images/gameplay_02.png"
+    width="60%"
+    style="image-rendering: pixelated"
+    alt="Gameplay 02"
+  />
+  <img
+    src="./images/gameplay_03.png"
+    width="60%"
+    style="image-rendering: pixelated"
+    alt="Gameplay 03"
+  />
 </div>
 
 ## Running Locally
