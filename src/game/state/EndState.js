@@ -5,6 +5,9 @@ import AudioHandler from "../../audio/AudioHandler";
 import Tile from "../../entity/tile/Tile";
 import ParticleHandler from "../../entity/particle/ParticleHandler";
 import Rain from "../../entity/particle/Rain";
+import StateHandler from "./StateHandler";
+import GamepadHandler from "../../input/gamepad/GamepadHandler";
+import TitleState from "./TitleState";
 
 export default class EndState extends State {
   #frames; // Number of frames the update method has been called
@@ -53,6 +56,11 @@ export default class EndState extends State {
   }
 
   update(dt) {
+    if (GamepadHandler.getGamepad(0).isDown(0)) {
+      StateHandler.pop();
+      StateHandler.push(new TitleState);
+    }
+
     for (let i = 0; i < this.gameObjects.length; ++i) {
       const go = this.gameObjects[i];
 
