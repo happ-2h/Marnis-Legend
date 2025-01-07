@@ -38,15 +38,15 @@ export default class CharacterSelectState extends State {
     this.#inputTimer += dt;
 
     if (this.#inputTimer >= this.#inputDelay) {
-      if (KeyHandler.isDown(37) || GamepadHandler.getGamepad(0).isDown(14)) {
+      if (KeyHandler.isDown(37) || GamepadHandler.getGamepad(0)?.isDown(14)) {
         this.#inputTimer = 0;
         this.#charCurrent = (this.#charCurrent-1)&0x3;
       }
-      else if (KeyHandler.isDown(39) || GamepadHandler.getGamepad(0).isDown(15)) {
+      else if (KeyHandler.isDown(39) || GamepadHandler.getGamepad(0)?.isDown(15)) {
         this.#inputTimer = 0;
         this.#charCurrent = (this.#charCurrent+1)&0x3;
       }
-      else if (KeyHandler.isDown(81) || GamepadHandler.getGamepad(0).isDown(0)) {
+      else if (KeyHandler.isDown(81) || GamepadHandler.getGamepad(0)?.isDown(0)) {
         StateHandler.pop();
         StateHandler.push(new GameState(this.#charCurrent));
       }

@@ -56,7 +56,7 @@ export default class EndState extends State {
   }
 
   update(dt) {
-    if (GamepadHandler.getGamepad(0).isDown(0)) {
+    if (GamepadHandler.getGamepad(0)?.isDown(0)) {
       StateHandler.pop();
       StateHandler.push(new TitleState);
     }
