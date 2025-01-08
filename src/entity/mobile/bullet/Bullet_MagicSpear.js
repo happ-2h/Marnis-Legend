@@ -8,7 +8,7 @@ export default class Bullet_MagicSpear extends Bullet {
   #frameDelay; // Delay for next animation frame
 
   constructor(x=0, y=0, map=null) {
-    super(x, y, 1, map);
+    super(x, y, 2, map);
 
     this.src.x = 0;
     this.src.y = 48;

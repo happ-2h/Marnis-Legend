@@ -18,6 +18,9 @@ export default class Enemy_Slime extends Enemy {
     this.hitbox.pos.set(2, 8);
     this.hitbox.dim.set(12, 8);
 
+    this.hp = 2;
+    this.maxHp = this.hp;
+
     this.animation = new Animation([34, 35], 10);
   }
 
@@ -30,7 +33,7 @@ export default class Enemy_Slime extends Enemy {
       if (go instanceof Player) {
         // Hurt player
         if (this.dst.intersects(go.hitboxAdj())) {
-          go.hurt(1);
+          go.hurt(this.maxHp<<1);
           this.kill();
         }
       }

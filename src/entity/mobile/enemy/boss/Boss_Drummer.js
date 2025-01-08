@@ -6,6 +6,7 @@ import Renderer from "../../../../gfx/Renderer";
 import { SCREEN_WIDTH } from "../../../../game/constants";
 import ParticleHandler from "../../../particle/ParticleHandler";
 import Explosion from "../../../particle/Explosion";
+import Player from "../../player/Player";
 
 export default class Boss_Drummer extends Enemy {
   #action; // What the boss is doing
@@ -38,7 +39,7 @@ export default class Boss_Drummer extends Enemy {
     this.dst.w = 48;
     this.dst.h = 32;
 
-    this.hp = 10;
+    this.hp = 32;
     this.maxHp = this.hp;
 
     this.hitbox.pos.set(14, 13);
@@ -263,6 +264,13 @@ export default class Boss_Drummer extends Enemy {
       // Kill after 3 seconds
       if ((this.#drumDelay += dt) >= 3) this.kill();
     }
+
+    // Check for player collision
+    gos.forEach(go => {
+      if (go instanceof Player && this.hitboxAdj().intersects(go.hitboxAdj())) {
+        go.hurt(this.maxHp<<1);
+      }
+    });
 
     for (let i = 0; i < this.#bullets.length; ++i) {
       this.#bullets[i].update(gos, dt);

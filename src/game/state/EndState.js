@@ -71,7 +71,6 @@ export default class EndState extends State {
   }
 
   render() {
-    // Renderer.drawText("thank you for playing", 44, 52, "spritesheet");
     this.gameObjects.forEach(go => go.draw());
     ParticleHandler.draw();
 

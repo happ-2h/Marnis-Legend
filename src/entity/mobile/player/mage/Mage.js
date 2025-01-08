@@ -14,10 +14,13 @@ export default class Mage extends Player {
 
     this.src.x = 112;
 
-    this.primaryRate = 1.5;
+    this.primaryRate = 1;
 
     this.#bullets = [];
     this.#nSecOrbs = 12;
+
+    this.hp = 24;
+    this.maxHp = 24;
 
     this.animation = new Animation([7,8,7,9], 10);
   }

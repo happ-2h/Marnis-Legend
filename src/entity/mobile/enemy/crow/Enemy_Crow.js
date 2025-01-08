@@ -6,6 +6,8 @@ import Vec2D from "../../../../math/Vec2D";
 import Bullet_Basic from "../../bullet/Bullet_Basic";
 import Player from "../../player/Player";
 import Enemy from "../Enemy";
+import PickupHandler from "../../../pickup/PickupHandler";
+import PU_Health from "../../../pickup/PU_Health";
 
 export default class Enemy_Crow extends Enemy {
   #frames;     // Number of update frames
@@ -85,7 +87,7 @@ export default class Enemy_Crow extends Enemy {
     gos.forEach(go => {
       if (go instanceof Player) {
         if (this.dst.intersects(go.hitboxAdj())) {
-          go.hurt(1);
+          go.hurt(this.maxHp<<1);
           this.kill();
         }
       }
@@ -124,5 +126,11 @@ export default class Enemy_Crow extends Enemy {
   kill() {
     super.kill();
     this.#bullets.splice(0, this.#bullets.length);
+
+    PickupHandler.add(new PU_Health(
+      this.dst.x,
+      this.dst.y,
+      this.map
+    ));
   }
 };

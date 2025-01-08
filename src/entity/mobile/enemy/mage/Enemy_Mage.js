@@ -66,6 +66,7 @@ export default class Enemy_Mage extends Enemy {
   kill() {
     super.kill();
     this.#bullets.splice(0, this.#bullets.length);
+
     PickupHandler.add(new PU_Powerup(
       this.dst.x,
       this.dst.y,

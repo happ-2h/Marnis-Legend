@@ -1,4 +1,5 @@
 import { SCREEN_HEIGHT } from "../../../game/constants";
+import Player from "../player/Player";
 import Bullet from "./Bullet";
 
 export default class Bullet_BossEyeBasic extends Bullet {
@@ -32,6 +33,15 @@ export default class Bullet_BossEyeBasic extends Bullet {
 
     this.dst.x = nextx;
     this.dst.y = nexty;
+
+    gos.forEach(go => {
+      if (go instanceof Player) {
+        if (this.dst.intersects(go.hitboxAdj())) {
+          go.hurt(this.damage);
+          this.kill();
+        }
+      }
+    });
 
     if (this.dst.y >= SCREEN_HEIGHT) {
       this.kill();

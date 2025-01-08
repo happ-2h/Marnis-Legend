@@ -39,7 +39,7 @@ export default class Boss_Eye extends Enemy {
     this.dst.w = 48;
     this.dst.h = 48;
 
-    this.hp = 10;
+    this.hp = 24;
     this.maxHp = this.hp;
 
     this.hitbox.pos.set(16, 27);
@@ -183,6 +183,13 @@ export default class Boss_Eye extends Enemy {
 
       this.#shootAng = this.#shootAng + 1 >= this.#angles.length ? 0 : this.#shootAng + 1;
     }
+
+    // Check for player collision
+    gos.forEach(go => {
+      if (this.#action !== 3 && go instanceof Player && this.hitboxAdj().intersects(go.hitboxAdj())) {
+        go.hurt(this.maxHp<<1);
+      }
+    });
 
     for (let i = 0; i < this.#bullets.length; ++i) {
       this.#bullets[i].update(gos, dt);

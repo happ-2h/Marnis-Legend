@@ -7,8 +7,8 @@ export default class PU_Health extends Pickup {
 
   effect(entity=null) {
     entity.hp =
-      entity.hp + 2 >= entity.maxHp
+      entity.hp + 4 >= entity.maxHp
         ? entity.maxHp
-        : entity.hp + 2;
+        : entity.hp + 4;
   }
 };

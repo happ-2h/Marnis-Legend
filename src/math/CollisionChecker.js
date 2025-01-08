@@ -30,6 +30,9 @@ class _CollisionChecker {
     let gridTop    = top    / TILE_SIZE;
     let gridBottom = bottom / TILE_SIZE;
 
+    // Prevent OOB checks
+    if ((gridBottom + 0.5) >= MapHandler.getMap(map).height) return;
+
     // Tile references
     let t1 = false;
     let t2 = false;

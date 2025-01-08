@@ -1,6 +1,6 @@
 import PlayerController from "../../../controller/PlayerController";
 import { SCREEN_WIDTH, TILE_SIZE } from "../../../game/constants";
-import Renderer from "../../../gfx/Renderer";
+import MapHandler from "../../../map/MapHandler";
 import CollisionChecker from "../../../math/CollisionChecker";
 import Entity_Mob from "../Entity_Mob";
 
@@ -31,6 +31,9 @@ export default class Player extends Entity_Mob {
     this.#secondaryRateTimer = 0;
 
     this.#status = 0;
+
+    this.hp = 20;
+    this.maxHp = this.hp;
 
     this.hitbox.pos.set(4, 7);
     this.hitbox.dim.set(8, 8);
@@ -79,6 +82,10 @@ export default class Player extends Entity_Mob {
     // Keep inside play field
     if (nextx + this.hitbox.x <= 0) nextx = -this.hitbox.x;
     else if (nextx + this.hitbox.x + this.hitbox.w >= SCREEN_WIDTH) nextx = SCREEN_WIDTH - this.hitbox.x - this.hitbox.w;
+
+    if (nexty + this.hitbox.y <= 0) nexty = -this.hitbox.y;
+    else if (nexty + this.hitbox.y + this.hitbox.h >= (MapHandler.getMap(this.map).height)<<4)
+      nexty = ((MapHandler.getMap(this.map).height)<<4) - this.hitbox.y - this.hitbox.h;
 
     this.dst.x = nextx;
     this.dst.y = nexty;

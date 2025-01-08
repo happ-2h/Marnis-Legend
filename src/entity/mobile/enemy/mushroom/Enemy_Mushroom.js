@@ -4,6 +4,8 @@ import Animation from "../../../../gfx/Animation";
 import Bullet_Basic from "../../bullet/Bullet_Basic";
 import Player from "../../player/Player";
 import Enemy from "../Enemy";
+import PickupHandler from "../../../pickup/PickupHandler";
+import PU_Health from "../../../pickup/PU_Health";
 
 export default class Enemy_Mushroom extends Enemy {
   #fireDelay; // Delay to fire weapon
@@ -21,7 +23,7 @@ export default class Enemy_Mushroom extends Enemy {
     this.#nBullets = 5;
     this.#bullets = [];
 
-    this.hp = 2;
+    this.hp = 3;
     this.maxHp = this.hp;
     this.hitbox.pos.set(4, 8);
     this.hitbox.dim.set(8, 8);
@@ -74,8 +76,7 @@ export default class Enemy_Mushroom extends Enemy {
       if (go instanceof Player) {
         // Hurt player
         if (this.dst.intersects(go.hitboxAdj())) {
-          // TODO hurt player
-          go.hurt(2);
+          go.hurt(this.maxHp<<1);
           this.kill();
         }
       }
@@ -105,5 +106,12 @@ export default class Enemy_Mushroom extends Enemy {
   kill() {
     super.kill();
     this.#bullets.splice(0, this.#bullets.length);
+
+    if (Math.random() >= 0.7)
+      PickupHandler.add(new PU_Health(
+        this.dst.x,
+        this.dst.y,
+        this.map
+      ));
   }
 };
