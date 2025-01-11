@@ -1,8 +1,13 @@
 import PlayerController from "../../../controller/PlayerController";
-import { SCREEN_WIDTH, TILE_SIZE } from "../../../game/constants";
+import { SCREEN_WIDTH } from "../../../game/constants";
 import MapHandler from "../../../map/MapHandler";
 import CollisionChecker from "../../../math/CollisionChecker";
+import ParticleHandler from "../../particle/ParticleHandler";
 import Entity_Mob from "../Entity_Mob";
+import Star from "../../particle/Star";
+import { rand } from "../../../math/utils";
+import StateHandler from "../../../game/state/StateHandler";
+import GameOverState from "../../../game/state/GameOverState";
 
 export default class Player extends Entity_Mob {
   // Firing rates and timers
@@ -16,8 +21,12 @@ export default class Player extends Entity_Mob {
   #gamepadIndex; // Gamepad assigned to this player
   #playerNum;    // Player 1 or 2
 
-  static PRIMARY_FLAG   = 0b01;
-  static SECONDARY_FLAG = 0b10;
+  #deathTimer;   // Time taken to show gameover screen
+
+  // Status flags
+  static PRIMARY_FLAG   = 0b001;
+  static SECONDARY_FLAG = 0b010;
+  static DEAD           = 0b100;
 
   constructor(x=0, y=0, num=1, map=null) {
     super(x, y, new PlayerController, map);
@@ -29,6 +38,8 @@ export default class Player extends Entity_Mob {
     this.#primaryRateTimer = 0;
     this.#secondaryRate = 2;
     this.#secondaryRateTimer = 0;
+
+    this.#deathTimer = 0.5;
 
     this.#status = 0;
 
@@ -42,14 +53,27 @@ export default class Player extends Entity_Mob {
   }
 
   update(dt) {
-    this.inputMovement();
-    this.inputActions(dt);
-    this.handleMovement(dt);
+    if (!(this.#status & Player.DEAD)) {
+      this.inputMovement();
+      this.inputActions(dt);
+      this.handleMovement(dt);
+    }
+    else {
+      this.#deathTimer -= dt;
+
+      if (this.#deathTimer <= 0) {
+        StateHandler.pop();
+        StateHandler.push(new GameOverState);
+        console.log(StateHandler)
+      }
+    }
   }
 
   draw() {
-    super.draw();
-    this.drawHpBar();
+    if (!(this.#status & Player.DEAD)) {
+      super.draw();
+      this.drawHpBar();
+    }
   }
 
   inputMovement() {
@@ -110,8 +134,21 @@ export default class Player extends Entity_Mob {
     }
   }
 
-  // TEMP
-  kill() {}
+  kill() {
+    if (this.#status & Player.DEAD) return;
+
+    this.#status |= Player.DEAD;
+
+    for (let i = 0; i < 40; ++i) {
+      ParticleHandler.add(new Star(
+        this.dst.x + (this.dst.w>>1),
+        this.dst.y + (this.dst.h>>1),
+        Math.cos(rand(0.1, 10)),
+        Math.sin(rand(0.1, 10)),
+        this.map
+      ));
+    }
+  }
 
   // Accessors
   get primaryRate()        { return this.#primaryRate; }

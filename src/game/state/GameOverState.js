@@ -103,6 +103,8 @@ export default class GameOverState extends State {
 
       _x += 8;
     });
+
+    Renderer.resetOffset();
   }
 
   update(dt) {
