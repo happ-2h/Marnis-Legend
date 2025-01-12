@@ -31,6 +31,7 @@ export default class GameOverState extends State {
   onExit() {
     Stage.stageNumber = 0;
     ParticleHandler.clear();
+    AudioHandler.stop("gameoverscreen");
   }
 
   init() {
@@ -132,7 +133,7 @@ export default class GameOverState extends State {
     if (
       (this.#inputDelay -= dt) <= 0 &&
       (GamepadHandler.getGamepad(0)?.actionSouth ||
-      KeyHandler.isDown(81))
+      KeyHandler.isDown(87))
     ) {
       StateHandler.pop();
       StateHandler.push(new TitleState);

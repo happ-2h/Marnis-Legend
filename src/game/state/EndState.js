@@ -29,6 +29,7 @@ export default class EndState extends State {
   onExit()  {
     ParticleHandler.clear();
     Stage.stageNumber = 0;
+    AudioHandler.stop("stage02");
   }
 
   init() {
