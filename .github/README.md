@@ -39,6 +39,10 @@
   />
 </div>
 
+<a href="https://happ-2h.itch.io/marnis-legend">
+  <img alt="itchio" title="Play now" src="https://custom-icon-badges.demolab.com/badge/itch-io?color=fa5c5c&labelColor=d54d54&style=for-the-badge&logo=controller&label=Play&logoColor=white"/>
+</a>
+
 ## Running Locally
 1. Make sure you are in the root directory of this project.
     - You should be able to see the index.html file.
