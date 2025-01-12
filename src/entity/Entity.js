@@ -1,6 +1,6 @@
+import Vec2D         from "../math/Vec2D";
+import Rectangle     from "../utils/Rectangle";
 import { TILE_SIZE } from "../game/constants";
-import Vec2D from "../math/Vec2D";
-import Rectangle from "../utils/Rectangle";
 
 export default class Entity {
   #dst;    // Destination rectangle
@@ -26,6 +26,11 @@ export default class Entity {
   #hp;     // Health points
   #maxHp;  // Starting health points
 
+  /**
+   * @param {Number} x   - x-position to place entity
+   * @param {Number} y   - y-position to place entity
+   * @param {String} map - Map the entity belongs to
+   */
   constructor(x=0, y=0, map=null) {
     if (this.constructor === Entity)
       throw new Error("Can't instantiate abstract class Entity");
@@ -58,6 +63,11 @@ export default class Entity {
     this.#maxHp = this.#hp;
   }
 
+  /**
+   * @brief Calculates the total health points after taking damage
+   *
+   * @param {Number} dmg - Damage taken
+   */
   hurt(dmg=1) {
     this.#hp -= dmg;
 
@@ -67,8 +77,16 @@ export default class Entity {
     }
   }
 
+  /**
+   * @brief Calculate health point ratio
+   *
+   * @returns Current health points as a percentage
+   */
   hpPercent() { return this.#hp / this.#maxHp; }
 
+  /**
+   * @brief Set entity as dead
+   */
   kill() { this.#isDead = true; }
 
   /**
@@ -87,14 +105,14 @@ export default class Entity {
   }
 
   // Accessors
-  get dst()   { return this.#dst; }
-  get src()   { return this.#src; }
+  get dst()    { return this.#dst; }
+  get src()    { return this.#src; }
 
-  get map()   { return this.#map; }
+  get map()    { return this.#map; }
 
-  get dir()   { return this.#dir; }
-  get accel() { return this.#accel; }
-  get vel()   { return this.#vel; }
+  get dir()    { return this.#dir; }
+  get accel()  { return this.#accel; }
+  get vel()    { return this.#vel; }
 
   get isDead() { return this.#isDead; }
   get hitbox() { return this.#hitbox; }
@@ -107,8 +125,8 @@ export default class Entity {
   get maxHp()  { return this.#maxHp; }
 
   // Mutators
-  set dst(dst) { this.#dst = dst; }
-  set src(src) { this.#src = src; }
+  set dst(dst)  { this.#dst = dst; }
+  set src(src)  { this.#src = src; }
 
   set map(map)  { this.#map = map; }
   set zindex(z) { this.#zindex = z; }

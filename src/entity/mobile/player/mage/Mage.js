@@ -1,14 +1,19 @@
-import Animation from "../../../../gfx/Animation";
-import Bullet_Orb from "../../bullet/Bullet_Orb";
-import Player from "../Player";
-import { TAU } from "../../../../math/utils";
+import Player        from "../Player";
 import PickupHandler from "../../../pickup/PickupHandler";
+import Animation     from "../../../../gfx/Animation";
+import Bullet_Orb    from "../../bullet/Bullet_Orb";
+import { TAU }       from "../../../../math/utils";
 
 export default class Mage extends Player {
   #bullets;
-
   #nSecOrbs; // Number of secondary orbs
 
+  /**
+   * @param {Number} x   - x-position of the player
+   * @param {Number} y   - y-position of the player
+   * @param {Number} num - Player number (1 or 2)
+   * @param {String} map - Map player belongs to
+   */
   constructor(x=0, y=0, num=1, map=null) {
     super(x, y, num, map);
 
@@ -20,7 +25,7 @@ export default class Mage extends Player {
     this.#nSecOrbs = 12;
 
     this.hp = 24;
-    this.maxHp = 24;
+    this.maxHp = this.hp;
 
     this.animation = new Animation([7,8,7,9], 10);
   }
@@ -76,18 +81,15 @@ export default class Mage extends Player {
       this.status ^= Player.SECONDARY_FLAG;
     }
 
+    // Weapon handler
     for (let i = 0; i < this.#bullets.length; i++) {
       this.#bullets[i].update(gos, dt);
 
-      if (this.#bullets[i].isDead) {
-        this.#bullets.splice(i, 1);
-      }
+      if (this.#bullets[i].isDead) this.#bullets.splice(i, 1);
     }
 
     // Pickups
-    const pu = PickupHandler.pickups;
-
-    pu.forEach(p => {
+    PickupHandler.pickups.forEach(p => {
       if (this.hitboxAdj().intersects(p.dst)) {
         p.effect(this);
         p.kill();

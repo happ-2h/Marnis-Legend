@@ -1,3 +1,5 @@
+import Entity from "../Entity";
+
 let instance = null;
 
 class _ParticleHandler {
@@ -11,6 +13,11 @@ class _ParticleHandler {
     instance = this;
   }
 
+  /**
+   * @brief Add a particle
+   *
+   * @param {Entity} particle - Particle to add
+   */
   add(particle=null) {
     particle.init();
     this.#particles.push(particle);
@@ -24,13 +31,12 @@ class _ParticleHandler {
     }
   }
 
-  draw() {
-    this.#particles.forEach(p => p.draw());
-  }
+  draw() { this.#particles.forEach(p => p.draw()); }
 
-  clear() {
-    this.#particles.splice(0, this.#particles.length);
-  }
+  /**
+   * @brief Clears all particles
+   */
+  clear() { this.#particles.splice(0, this.#particles.length); }
 };
 
 const ParticleHandler = new _ParticleHandler;

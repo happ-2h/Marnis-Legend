@@ -1,5 +1,5 @@
-import AudioHandler from "../audio/AudioHandler";
-import MapHandler from "../map/MapHandler";
+import AudioHandler   from "../audio/AudioHandler";
+import MapHandler     from "../map/MapHandler";
 import TextureHandler from "../gfx/TextureHandler";
 
 let instance = null;
@@ -34,7 +34,7 @@ class _AssetHandler {
    *                            Maps: json\
    *                            Audio: wav, ogg
    */
-  poll(assetID, filename) {
+  poll(assetID="", filename="") {
     ++this.#toLoad;
 
     const ext = filename.split(".").pop();
@@ -48,6 +48,12 @@ class _AssetHandler {
     else --this.#toLoad;
   }
 
+  /**
+   * @brief Load all pending assets
+   *
+   * @returns Promise resolved when all assets successfully loaded\
+   *          rejected otherwise
+   */
   load() {
     return new Promise((res, rej) => {
       this.#imgs.forEach((val, key) => {

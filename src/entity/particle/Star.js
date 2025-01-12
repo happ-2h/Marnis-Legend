@@ -1,10 +1,18 @@
+import Entity   from "../Entity";
 import Renderer from "../../gfx/Renderer";
+
 import { rand, randInt } from "../../math/utils";
-import Entity from "../Entity";
 
 export default class Star extends Entity {
-  #life;      // Stay alive for N seconds
+  #life; // Stay alive for N seconds
 
+  /**
+   * @param {Number} x   - x-position  of the particle
+   * @param {Number} y   - y-position  of the particle
+   * @param {Number} dx  - x-direction of the particle
+   * @param {Number} dy  - y-direction of the particle
+   * @param {String} map - Map particle belongs to
+   */
   constructor(x=0, y=0, dx=0, dy=0, map=null) {
     super(x, y, map);
 
@@ -41,7 +49,5 @@ export default class Star extends Entity {
     this.dst.y = nexty;
   }
 
-  draw() {
-    Renderer.vimage("spritesheet", this.src, this.dst);
-  }
+  draw() { Renderer.vimage("spritesheet", this.src, this.dst); }
 };

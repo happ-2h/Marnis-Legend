@@ -1,19 +1,24 @@
-import Animation from "../../../../gfx/Animation";
-import PickupHandler from "../../../pickup/PickupHandler";
-import PU_Powerup from "../../../pickup/PU_Powerup";
+import Enemy             from "../Enemy";
+import PickupHandler     from "../../../pickup/PickupHandler";
+import Animation         from "../../../../gfx/Animation";
+import PU_Powerup        from "../../../pickup/PU_Powerup";
 import Bullet_MagicSpear from "../../bullet/Bullet_MagicSpear";
-import Enemy from "../Enemy";
 
 export default class Enemy_Mage extends Enemy {
+  #bullets;
+
   #fireDelay; // Delay to fire weapon
   #fireTimer; // Timer to activate weapon
 
-  #bullets;
-
+  /**
+   * @param {Number} x   - x-position of the enemy
+   * @param {Number} y   - y-position of the enemy
+   * @param {String} map - Map enemy belongs to
+   */
   constructor(x=0, y=0, map=null) {
     super(x, y, null, map);
 
-    this.#fireDelay = 0.8; // TODO randomize
+    this.#fireDelay = 0.8;
     this.#fireTimer = 0;
 
     this.#bullets = [];
@@ -44,10 +49,7 @@ export default class Enemy_Mage extends Enemy {
     for (let i = 0; i < this.#bullets.length; ++i) {
       this.#bullets[i].update(gos, dt);
 
-      if (this.#bullets[i].isDead) {
-        // TODO particles
-        this.#bullets.splice(i, 1);
-      }
+      if (this.#bullets[i].isDead) this.#bullets.splice(i, 1);
     }
 
     this.animation.update(dt);

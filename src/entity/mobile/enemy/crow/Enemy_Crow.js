@@ -1,20 +1,26 @@
-import { SCREEN_WIDTH, TILE_SIZE } from "../../../../game/constants";
-import Animation from "../../../../gfx/Animation";
-import Renderer from "../../../../gfx/Renderer";
-import { randInt } from "../../../../math/utils";
-import Vec2D from "../../../../math/Vec2D";
-import Bullet_Basic from "../../bullet/Bullet_Basic";
-import Player from "../../player/Player";
-import Enemy from "../Enemy";
+import Enemy         from "../Enemy";
+import Player        from "../../player/Player";
 import PickupHandler from "../../../pickup/PickupHandler";
-import PU_Health from "../../../pickup/PU_Health";
+import Animation     from "../../../../gfx/Animation";
+import Renderer      from "../../../../gfx/Renderer";
+import Vec2D         from "../../../../math/Vec2D";
+import Bullet_Basic  from "../../bullet/Bullet_Basic";
+import PU_Health     from "../../../pickup/PU_Health";
+
+import { randInt } from "../../../../math/utils";
+import { SCREEN_WIDTH, TILE_SIZE } from "../../../../game/constants";
 
 export default class Enemy_Crow extends Enemy {
+  #bullets;
+
   #frames;     // Number of update frames
   #moveFrames; // Number of frames for next movement
 
-  #bullets;
-
+  /**
+   * @param {Number} x   - x-position of the enemy
+   * @param {Number} y   - y-position of the enemy
+   * @param {String} map - Map enemy belongs to
+   */
   constructor(x=0, y=0, map=null) {
     super(x, y, null, map);
 
@@ -96,9 +102,7 @@ export default class Enemy_Crow extends Enemy {
     for (let i = 0; i < this.#bullets.length; ++i) {
       this.#bullets[i].update(gos, dt);
 
-      if (this.#bullets[i].isDead) {
-        this.#bullets.splice(i, 1);
-      }
+      if (this.#bullets[i].isDead) this.#bullets.splice(i, 1);
     }
 
     this.animation.update(dt);

@@ -18,7 +18,7 @@ class _StateHandler {
    *
    * @param {State} state - State to currently process
    */
-  push(state) {
+  push(state=null) {
     if (state instanceof State) {
       state.onEnter();
       this.#states.push(state);

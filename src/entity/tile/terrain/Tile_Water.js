@@ -1,7 +1,12 @@
+import Tile      from "../Tile";
 import Animation from "../../../gfx/Animation";
-import Tile from "../Tile";
 
 export default class Tile_Water extends Tile {
+  /**
+   * @param {Number} x   - x-position of the tile
+   * @param {Number} y   - y-position of the tile
+   * @param {String} map - Map entity belongs to
+   */
   constructor(x=0, y=0, map=null) {
     super(x, y, 17, true, map);
 

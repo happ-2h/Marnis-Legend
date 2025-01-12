@@ -17,7 +17,7 @@ class _TextureHandler {
    * @param {String} textureID - ID to assign to the texture
    * @param {String} filename  - Name of the texture file
    */
-  load(textureID, filename) {
+  load(textureID="", filename="") {
     return new Promise((res, rej) => {
       // Reassign the textureID if it already exists
       if (this.#textures[textureID]) this.#textures[textureID] = null;
@@ -36,7 +36,7 @@ class _TextureHandler {
    *
    * @returns Texture mapped to the given texture ID
    */
-  getTexture(textureID) {
+  getTexture(textureID="") {
     return this.#textures[textureID];
   }
 };

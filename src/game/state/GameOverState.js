@@ -1,25 +1,41 @@
-import AudioHandler from "../../audio/AudioHandler";
+import Renderer        from "../../gfx/Renderer";
+import AudioHandler    from "../../audio/AudioHandler";
+import GamepadHandler  from "../../input/gamepad/GamepadHandler";
 import ParticleHandler from "../../entity/particle/ParticleHandler";
-import Star from "../../entity/particle/Star";
-import Tile from "../../entity/tile/Tile";
-import Renderer from "../../gfx/Renderer";
+import StateHandler    from "./StateHandler";
+import Stage           from "./stage/Stage";
+import Star            from "../../entity/particle/Star";
+import State           from "./State";
+import TitleState      from "./TitleState";
+import Tile            from "../../entity/tile/Tile";
+
 import { rand } from "../../math/utils";
-import { DEBUG, SCREEN_HEIGHT, SCREEN_WIDTH, TILE_SIZE } from "../constants";
-import State from "./State";
+import {
+  DEBUG,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  TILE_SIZE
+} from "../constants";
+import KeyHandler from "../../input/KeyHandler";
 
 export default class GameOverState extends State {
-  constructor() {
-    super();
-  }
+  #inputDelay; // Delay before continuing
+
+  constructor() { super(); }
 
   onEnter() {
     this.init();
     AudioHandler.setVolume("gameoverscreen", 0.4);
     AudioHandler.playMusic("gameoverscreen");
   }
-  onExit() {}
+  onExit() {
+    Stage.stageNumber = 0;
+    ParticleHandler.clear();
+  }
 
   init() {
+    this.#inputDelay = 1;
+
     let _x = SCREEN_WIDTH;
     let _y = 52;
 
@@ -28,15 +44,15 @@ export default class GameOverState extends State {
 
       t.src.x = (c.charCodeAt(0) - 'a'.charCodeAt(0))<<3;
       t.src.y = 240;
-      t.src.w = 8;
-      t.src.h = 8;
-      t.dst.w = 8;
-      t.dst.h = 8;
+      t.src.w =   8;
+      t.src.h =   8;
+      t.dst.w =   8;
+      t.dst.h =   8;
 
       t.vel.set(100, 100);
       t.dir.set(-1, 0);
 
-      t.firstHit = false;
+      t.firstHit = false; // Allows for initial left scrolling
 
       t.update = (dt) => {
         t.dir.normalize();
@@ -44,7 +60,7 @@ export default class GameOverState extends State {
         let nextx = t.dst.x + t.vel.x * t.dir.x * dt;
         let nexty = t.dst.y + t.vel.y * t.dir.y * dt;
 
-        let hit = 0;
+        let hit = 0; // Where was the collision
 
         if (nextx <= TILE_SIZE) {
           if (!t.firstHit) t.dir.y = 1;
@@ -74,6 +90,7 @@ export default class GameOverState extends State {
         t.dst.x = nextx;
         t.dst.y = nexty;
 
+        // Expel particles
         if (hit) {
           for (let i = 0; i < 5; ++i) {
             let x = t.dst.x;
@@ -82,7 +99,9 @@ export default class GameOverState extends State {
             let dy = Math.sin(rand(0.1, 10));
 
             switch(hit) {
-              case 2: x += 6; break;
+              case 2:
+                x += 6;
+                break;
               case 3:
                 x += 2;
                 y += 4;
@@ -95,7 +114,6 @@ export default class GameOverState extends State {
 
             ParticleHandler.add(new Star(x, y, dx, dy));
           }
-
         }
       };
 
@@ -109,6 +127,16 @@ export default class GameOverState extends State {
 
   update(dt) {
     this.gameObjects.forEach(go => go.update(dt));
+
+    // Play again
+    if (
+      (this.#inputDelay -= dt) <= 0 &&
+      (GamepadHandler.getGamepad(0)?.actionSouth ||
+      KeyHandler.isDown(81))
+    ) {
+      StateHandler.pop();
+      StateHandler.push(new TitleState);
+    }
 
     ParticleHandler.update(dt);
   }

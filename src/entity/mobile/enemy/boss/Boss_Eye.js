@@ -1,20 +1,25 @@
-import { lerp, randInt } from "../../../../math/utils";
-import Vec2D from "../../../../math/Vec2D";
-import Enemy from "../Enemy";
-import Player from "../../player/Player";
+import Enemy               from "../Enemy";
+import Player              from "../../player/Player";
+import AudioHandler        from "../../../../audio/AudioHandler";
+import Renderer            from "../../../../gfx/Renderer";
+import Vec2D               from "../../../../math/Vec2D";
 import Bullet_BossEyeBasic from "../../bullet/Bullet_BossEyeBasic";
 import Bullet_BossEyeLaser from "../../bullet/Bullet_BossEyeLaser";
-import Renderer from "../../../../gfx/Renderer";
-import ParticleHandler from "../../../particle/ParticleHandler";
-import Explosion from "../../../particle/Explosion";
-import { SCREEN_HEIGHT, SCREEN_WIDTH, TILE_SIZE } from "../../../../game/constants";
-import AudioHandler from "../../../../audio/AudioHandler";
+import ParticleHandler     from "../../../particle/ParticleHandler";
+import Explosion           from "../../../particle/Explosion";
+
+import { lerp, randInt } from "../../../../math/utils";
+import {
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  TILE_SIZE
+} from "../../../../game/constants";
 
 export default class Boss_Eye extends Enemy {
-  #action;     // What the boss is doing
+  #action;      // What the boss is doing
 
-  #timer;      // Action timer
-  #timerDelay; // Action timer delay
+  #timer;       // Action timer
+  #timerDelay;  // Action timer delay
 
   #bullets;     // Bullet container
   #bulletTimer; // Timer to shoot bullet
@@ -29,10 +34,15 @@ export default class Boss_Eye extends Enemy {
 
   #playedCry;   // Ensure the cry only plays once
 
+  /**
+   * @param {Number} x   - x-position of the enemy
+   * @param {Number} y   - y-position of the enemy
+   * @param {String} map - Map enemy belongs to
+   */
   constructor(x=0, y=0, map=null) {
     super(x, y, null, map);
 
-    this.src.x = 0;
+    this.src.x =  0;
     this.src.y = 96;
     this.src.w = 48;
     this.src.h = 48;
@@ -93,30 +103,24 @@ export default class Boss_Eye extends Enemy {
       this.#timer = 0;
 
       // Follow player 1
-      if (this.#action === 0 || this.#action === 1) {
+      if (this.#action === 0 || this.#action === 1)
         gos.forEach(go => {
-          if (go instanceof Player && go.playerNum === 1) {
+          if (go instanceof Player && go.playerNum === 1)
             this.#targetPos.copy(go.dst.pos);
-          }
         });
-      }
       // Follow both
-      else if (this.#action === 2) {
+      else if (this.#action === 2)
         gos.forEach(go => {
-          if (go instanceof Player) {
-            this.#targetPos.copy(go.dst.pos);
-          }
+          if (go instanceof Player) this.#targetPos.copy(go.dst.pos);
         });
-      }
       // Death animation
-      else if (this.#action === 3) {
+      else if (this.#action === 3)
         ParticleHandler.add(new Explosion(
           randInt(this.dst.x, this.dst.x + this.dst.w - 16),
           randInt(this.dst.y + 16, this.dst.y + 32),
           5,
           this.map
         ));
-      }
     }
 
     this.dst.x = lerp(
@@ -141,22 +145,19 @@ export default class Boss_Eye extends Enemy {
         0.03
       );
 
-      if (this.dst.y >= SCREEN_HEIGHT + TILE_SIZE) {
-        this.isDead = true;
-      }
+      if (this.dst.y >= SCREEN_HEIGHT + TILE_SIZE) this.isDead = true;
     }
 
     if (this.#bulletTimer >= this.#bulletDelay) {
       this.#bulletTimer = 0;
 
-      if (this.#action === 0) {
+      if (this.#action === 0)
         this.#bullets.push(new Bullet_BossEyeBasic(
           this.dst.x + 19,
           this.dst.y + 38,
           0, 1, this.map
         ));
-      }
-      else if (this.#action === 1) {
+      else if (this.#action === 1)
         this.#bullets.push(new Bullet_BossEyeBasic(
           this.dst.x + 20,
           this.dst.y + 38,
@@ -164,7 +165,6 @@ export default class Boss_Eye extends Enemy {
           this.#angles[this.#shootAng].y,
           this.map
         ));
-      }
       else if (this.#action === 2) {
         this.#bullets.push(new Bullet_BossEyeBasic(
           this.dst.x + 20,
@@ -181,22 +181,25 @@ export default class Boss_Eye extends Enemy {
         ));
       }
 
-      this.#shootAng = this.#shootAng + 1 >= this.#angles.length ? 0 : this.#shootAng + 1;
+      this.#shootAng =
+        this.#shootAng + 1 >= this.#angles.length
+          ? 0
+          : this.#shootAng + 1;
     }
 
     // Check for player collision
     gos.forEach(go => {
-      if (this.#action !== 3 && go instanceof Player && this.hitboxAdj().intersects(go.hitboxAdj())) {
-        go.hurt(this.maxHp<<1);
-      }
+      if (
+        this.#action !== 3   &&
+        go instanceof Player &&
+        this.hitboxAdj().intersects(go.hitboxAdj())
+      ) go.hurt(this.maxHp<<1);
     });
 
     for (let i = 0; i < this.#bullets.length; ++i) {
       this.#bullets[i].update(gos, dt);
 
-      if (this.#bullets[i].isDead) {
-        this.#bullets.splice(i, 1);
-      }
+      if (this.#bullets[i].isDead) this.#bullets.splice(i, 1);
     }
   }
 
@@ -205,17 +208,15 @@ export default class Boss_Eye extends Enemy {
 
     this.hp -= dmg;
 
-    // Change action bsaed on HP
-    if (this.hpPercent() > 0.75) {
+    // Change action based on HP
+    if (this.hpPercent() > 0.75)
       this.#action = 0;
-    }
     else if (this.hpPercent() > 0.50) {
       this.#action = 1;
       this.#bulletDelay = 0.15;
     }
-    else if (this.hpPercent() > 0.25) {
+    else if (this.hpPercent() > 0.25)
       this.#action = 2;
-    }
 
     if (this.hp <= 0) {
       this.hp = 0;
@@ -231,8 +232,12 @@ export default class Boss_Eye extends Enemy {
   drawHpBar() {
     if (this.#action === 4) return;
 
-    Renderer.rect( 6, 6, SCREEN_WIDTH - 12, 12, "#612721", true);
-    Renderer.rect( 8, 8, (SCREEN_WIDTH - 16) * (this.hp / this.maxHp), 8, "#8FD032", true);
+    Renderer.rect(6, 6, SCREEN_WIDTH - 12, 12, "#612721", true);
+    Renderer.rect(
+      8, 8,
+      (SCREEN_WIDTH - 16) * this.hpPercent(),
+      8, "#8FD032", true
+    );
   }
 
   draw() {

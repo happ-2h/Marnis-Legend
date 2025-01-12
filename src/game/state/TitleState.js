@@ -1,16 +1,13 @@
-import AudioHandler from "../../audio/AudioHandler";
-import Renderer from "../../gfx/Renderer";
-import GamepadHandler from "../../input/gamepad/GamepadHandler";
-import KeyHandler from "../../input/KeyHandler";
-import { DEBUG } from "../constants";
+import Renderer             from "../../gfx/Renderer";
+import AudioHandler         from "../../audio/AudioHandler";
+import GamepadHandler       from "../../input/gamepad/GamepadHandler";
+import KeyHandler           from "../../input/KeyHandler";
+import State                from "./State";
+import StateHandler         from "./StateHandler";
 import CharacterSelectState from "./CharacterSelectState";
-import State from "./State";
-import StateHandler from "./StateHandler";
 
 export default class TitleState extends State {
-  constructor() {
-    super();
-  }
+  constructor() { super(); }
 
   onEnter() { this.init(); }
   onExit()  {
@@ -74,9 +71,6 @@ export default class TitleState extends State {
     );
 
     Renderer.drawText("happ-2h", 104, 132);
-
     Renderer.drawText("press start", 84, 164);
-
-    // if (DEBUG) Renderer.grid();
   }
 };

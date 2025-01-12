@@ -1,8 +1,14 @@
+import Entity    from "../Entity";
 import Animation from "../../gfx/Animation";
-import Renderer from "../../gfx/Renderer";
-import Entity from "../Entity";
+import Renderer  from "../../gfx/Renderer";
 
 export default class Rain extends Entity {
+  /**
+   * @param {Number} x         - x-position of the particle
+   * @param {Number} y         - y-position of the particle
+   * @param {Number} animSpeed - Animation speed in frames
+   * @param {String} map       - Map particle belongs to
+   */
   constructor(x=0, y=0, animSpeed=0, map=null) {
     super(x, y, map);
 
@@ -29,7 +35,5 @@ export default class Rain extends Entity {
     );
   }
 
-  draw() {
-    Renderer.vimage("spritesheet", this.src, this.dst);
-  }
+  draw() { Renderer.vimage("spritesheet", this.src, this.dst); }
 };

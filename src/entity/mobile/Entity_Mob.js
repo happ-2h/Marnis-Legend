@@ -1,11 +1,18 @@
-import Renderer from "../../gfx/Renderer";
-import Entity from "../Entity";
+import Entity     from "../Entity";
+import Renderer   from "../../gfx/Renderer";
+import Vec2D      from "../../math/Vec2D";
+import Controller from "../../controller/Controller";
 import { DEBUG, TILE_SIZE } from "../../game/constants";
-import Vec2D from "../../math/Vec2D";
 
 export default class Entity_Mob extends Entity {
   #controller; // Movement handler
 
+  /**
+   * @param {Number}     x          - x-position of the entity
+   * @param {Number}     y          - y-position of the entity
+   * @param {Controller} controller - Control handler of the entity
+   * @param {String}     map        - Map entity belongs to
+   */
   constructor(x=0, y=0, controller=null, map=null) {
     super(x, y, map);
 

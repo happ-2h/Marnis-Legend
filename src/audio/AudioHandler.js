@@ -3,11 +3,10 @@ import Sound from "./Sound.js";
 let instance = null;
 
 class _AudioHandler {
-  #ctx;
+  #ctx; // Audio context
 
   #sounds;
   #trackSources; // Used for stopping audio
-
   #nowPlaying;   // Holds currently playing song ID
 
   constructor() {
@@ -29,7 +28,7 @@ class _AudioHandler {
    * @param {String} audioID  - ID to assign to the sound
    * @param {String} filename - Name of the sound file
    */
-  load(audioID, filename) {
+  load(audioID="", filename="") {
     return new Promise((res, rej) => {
       this.#loadFile(filename).then(track => {
         this.#sounds.set(audioID, new Sound(track));
@@ -45,7 +44,7 @@ class _AudioHandler {
    *
    * @returns Converted audio buffer
    */
-  async #getBuffer(filename) {
+  async #getBuffer(filename="") {
     const res         = await fetch(`res/snd/${filename}`);
     const arrayBuffer = await res.arrayBuffer();
     const audioBuffer = await this.#ctx.decodeAudioData(arrayBuffer);
@@ -60,7 +59,7 @@ class _AudioHandler {
    *
    * @returns Decoded buffered sound
    */
-  async #loadFile(filename) {
+  async #loadFile(filename="") {
     const track = await this.#getBuffer(filename);
     return track;
   }
@@ -72,7 +71,7 @@ class _AudioHandler {
    * @param {Boolean} loop   - true: loop audio\
    *                           false: don't loop audio
    */
-  play(audioID, loop=false) {
+  play(audioID=null, loop=false) {
     if (!this.#sounds.get(audioID)) return;
 
     if (this.#ctx.state === "suspended") this.#ctx.resume();
@@ -100,7 +99,7 @@ class _AudioHandler {
    *
    * @param {String} audioID - ID of the audio file to play
    */
-  playMusic(audioID) {
+  playMusic(audioID=null) {
     if (!this.#sounds.get(audioID)) return;
 
     if (this.#ctx.state === "suspended") this.#ctx.resume();
@@ -113,7 +112,7 @@ class _AudioHandler {
    *
    * @param {String} audioID - ID of the audio file to stop
    */
-  stop(audioID) {
+  stop(audioID=null) {
     this.#trackSources.get(audioID)?.stop();
   }
 
@@ -132,7 +131,7 @@ class _AudioHandler {
    *
    * @returns null if the audioID is invalid
    */
-  setVolume(audioID, value) {
+  setVolume(audioID=null, value=1) {
     if (!this.#sounds.get(audioID)) return null;
     this.#sounds.get(audioID).volume = value;
   }
@@ -142,7 +141,7 @@ class _AudioHandler {
    *
    * @param {Number} value - Positive value to set as the volume
    */
-  setAllVolume(value) {
+  setAllVolume(value=1) {
     this.#sounds.forEach((sound) => sound.volume = value);
   }
 
@@ -153,7 +152,7 @@ class _AudioHandler {
    *
    * @returns null if the audioID is invalid
    */
-  getVolume(audioID) {
+  getVolume(audioID=null) {
     if (!this.#sounds.get(audioID)) return null;
     return this.#sounds.get(audioID).volume;
   }
@@ -166,7 +165,7 @@ class _AudioHandler {
    *
    * @returns null if the audioID is invalid
    */
-  setPlaybackRate(audioID, rate) {
+  setPlaybackRate(audioID=null, rate=1) {
     if (!this.#sounds.get(audioID)) return null;
     this.#sounds.get(audioID).playbackRate = rate;
   }
@@ -179,7 +178,7 @@ class _AudioHandler {
    *
    * @returns null if the audioID is invalid
    */
-  getPlaybackRate(audioID) {
+  getPlaybackRate(audioID=null) {
     if (!this.#sounds.get(audioID)) return null;
     return this.#sounds.get(audioID).playbackRate;
   }

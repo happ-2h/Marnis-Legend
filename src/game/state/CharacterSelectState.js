@@ -1,10 +1,11 @@
-import Renderer from "../../gfx/Renderer";
+import Renderer       from "../../gfx/Renderer";
 import GamepadHandler from "../../input/gamepad/GamepadHandler";
-import KeyHandler from "../../input/KeyHandler";
+import KeyHandler     from "../../input/KeyHandler";
+import StateHandler   from "./StateHandler";
+import State          from "./State";
+import GameState      from "./GameState";
+
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants";
-import GameState from "./GameState";
-import State from "./State";
-import StateHandler from "./StateHandler";
 
 export default class CharacterSelectState extends State {
   #charCurrent; // Currently displayed character
@@ -38,15 +39,15 @@ export default class CharacterSelectState extends State {
     this.#inputTimer += dt;
 
     if (this.#inputTimer >= this.#inputDelay) {
-      if (KeyHandler.isDown(37) || GamepadHandler.getGamepad(0)?.isDown(14)) {
+      if (KeyHandler.isDown(37) || GamepadHandler.getGamepad(0)?.isDpad_Left) {
         this.#inputTimer = 0;
         this.#charCurrent = (this.#charCurrent-1)&0x3;
       }
-      else if (KeyHandler.isDown(39) || GamepadHandler.getGamepad(0)?.isDown(15)) {
+      else if (KeyHandler.isDown(39) || GamepadHandler.getGamepad(0)?.isDpad_Right) {
         this.#inputTimer = 0;
         this.#charCurrent = (this.#charCurrent+1)&0x3;
       }
-      else if (KeyHandler.isDown(81) || GamepadHandler.getGamepad(0)?.isDown(0)) {
+      else if (KeyHandler.isDown(81) || GamepadHandler.getGamepad(0)?.actionSouth) {
         StateHandler.pop();
         StateHandler.push(new GameState(this.#charCurrent));
       }

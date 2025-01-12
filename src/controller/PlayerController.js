@@ -1,6 +1,6 @@
+import Controller     from "./Controller";
 import GamepadHandler from "../input/gamepad/GamepadHandler";
 import KeyHandler     from "../input/KeyHandler";
-import Controller     from "./Controller";
 
 export default class PlayerController extends Controller {
   constructor() { super(); }

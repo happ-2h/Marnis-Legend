@@ -1,3 +1,5 @@
+import Pickup from "./Pickup";
+
 let instance = null;
 
 class _PickupHandler {
@@ -11,6 +13,11 @@ class _PickupHandler {
     instance = this;
   }
 
+  /**
+   * @brief Add a pickup
+   *
+   * @param {Pickup} pickup - Pickup to add
+   */
   add(pickup=null) {
     pickup.init();
     this.#pickups.push(pickup);
@@ -24,13 +31,12 @@ class _PickupHandler {
     }
   }
 
-  draw() {
-    this.#pickups.forEach(p => p.draw());
-  }
+  draw() { this.#pickups.forEach(p => p.draw()); }
 
-  clear() {
-    this.#pickups.splice(0, this.#pickups.length);
-  }
+  /**
+   * @brief Clears all pickups
+   */
+  clear() { this.#pickups.splice(0, this.#pickups.length); }
 
   // Accessors
   get pickups() { return this.#pickups; }

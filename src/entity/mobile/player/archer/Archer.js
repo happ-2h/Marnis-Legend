@@ -1,17 +1,23 @@
-import Animation from "../../../../gfx/Animation";
-import PickupHandler from "../../../pickup/PickupHandler";
-import Bullet_Arrow from "../../bullet/Bullet_Arrow";
+import Player         from "../Player";
+import PickupHandler  from "../../../pickup/PickupHandler";
+import Animation      from "../../../../gfx/Animation";
+import Bullet_Arrow   from "../../bullet/Bullet_Arrow";
 import Bullet_Grenade from "../../bullet/Bullet_Grenade";
-import Player from "../Player";
 
 export default class Archer extends Player {
   #bullets;
 
+  /**
+   * @param {Number} x   - x-position of the player
+   * @param {Number} y   - y-position of the player
+   * @param {Number} num - Player number (1 or 2)
+   * @param {String} map - Map player belongs to
+   */
   constructor(x=0, y=0, num=1, map=null) {
     super(x, y, num, map);
 
     this.src.x = 64;
-    this.primaryRate = 0.6;
+    this.primaryRate   = 0.6;
     this.secondaryRate = 0.6;
 
     this.#bullets = [];
@@ -22,7 +28,7 @@ export default class Archer extends Player {
   update(gos, dt) {
     super.update(dt);
 
-    this.primaryRateTimer += dt;
+    this.primaryRateTimer   += dt;
     this.secondaryRateTimer += dt;
 
     if (this.status & Player.PRIMARY_FLAG) {
@@ -48,15 +54,11 @@ export default class Archer extends Player {
     for (let i = 0; i < this.#bullets.length; ++i) {
       this.#bullets[i].update(gos, dt);
 
-      if (this.#bullets[i].isDead) {
-        this.#bullets.splice(i, 1);
-      }
+      if (this.#bullets[i].isDead) this.#bullets.splice(i, 1);
     }
 
     // Pickups
-    const pu = PickupHandler.pickups;
-
-    pu.forEach(p => {
+    PickupHandler.pickups.forEach(p => {
       if (this.hitboxAdj().intersects(p.dst)) {
         p.effect(this);
         p.kill();

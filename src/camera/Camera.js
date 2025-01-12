@@ -1,7 +1,12 @@
-import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../game/constants";
-import { lerp } from "../math/utils";
-import Vec2D from "../math/Vec2D";
 import Rectangle from "../utils/Rectangle";
+import Vec2D     from "../math/Vec2D";
+
+import { lerp }  from "../math/utils";
+import {
+  SCREEN_HEIGHT_TILES,
+  SCREEN_WIDTH_TILES,
+  TILE_SIZE
+} from "../game/constants";
 
 export default class Camera {
   #rect;    // Camera's x, y, width, height
@@ -10,6 +15,11 @@ export default class Camera {
   #lerpSpeed;
   #triggerDistY; // Location when the camera starts moving
 
+  /**
+   * @param {Number} x   - Focal x-position
+   * @param {Number} y   - Focal y-position
+   * @param {String} map - Map camera belongs to
+   */
   constructor(x=0, y=0, map=null) {
     this.#rect    = new Rectangle(x, y, SCREEN_WIDTH_TILES, SCREEN_HEIGHT_TILES);
     this.#focalPt = new Vec2D(x, y);
@@ -18,6 +28,12 @@ export default class Camera {
     this.#triggerDistY = 11 * TILE_SIZE;
   }
 
+  /**
+   * @brief Focus camera on (x, y)
+   *
+   * @param {Number} x - x-position to focus on
+   * @param {Number} y - y-position to focus on
+   */
   focus(x, y) {
     this.#focalPt.set(
       Math.floor(x),
@@ -25,9 +41,12 @@ export default class Camera {
     );
   }
 
-  vfocus(vec) {
-    this.focus(vec.x, vec.y);
-  }
+  /**
+   * @brief Focus camera on vector object
+   *
+   * @param {Vec2D} vec - Vector to focus on
+   */
+  vfocus(vec) { this.focus(vec.x, vec.y); }
 
   update(dt) {
     // Move up if focused object is on or above trigger distance
@@ -52,8 +71,8 @@ export default class Camera {
   get triggerDistY() { return this.#triggerDistY}
 
   // Mutators
-  set x(x)          { this.#rect.x = x; }
-  set y(y)          { this.#rect.y = y; }
+  set x(x) { this.#rect.x = x; }
+  set y(y) { this.#rect.y = y; }
 
   set lerpSpeed(ls)   { this.#lerpSpeed = ls; }
   set triggerDistY(y) { this.#triggerDistY = y; }

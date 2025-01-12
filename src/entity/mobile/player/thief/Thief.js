@@ -1,20 +1,26 @@
-import Animation from "../../../../gfx/Animation";
-import Dash from "../../../particle/Dash";
+import Player          from "../Player";
 import ParticleHandler from "../../../particle/ParticleHandler";
-import PickupHandler from "../../../pickup/PickupHandler";
-import Bullet_Knife from "../../bullet/Bullet_Knife";
-import Player from "../Player";
+import PickupHandler   from "../../../pickup/PickupHandler";
+import Animation       from "../../../../gfx/Animation";
+import Bullet_Knife    from "../../bullet/Bullet_Knife";
+import Dash            from "../../../particle/Dash";
 
 export default class Thief extends Player {
   #knives;    // Container of knife objects
   #throwDist; // Life of knife object
 
+  /**
+   * @param {Number} x   - x-position of the player
+   * @param {Number} y   - y-position of the player
+   * @param {Number} num - Player number (1 or 2)
+   * @param {String} map - Map player belongs to
+   */
   constructor(x=0, y=0, num=1, map=null) {
     super(x, y, num, map);
 
     this.src.x = 160;
 
-    this.primaryRate = 0.25;
+    this.primaryRate   = 0.25;
     this.secondaryRate = 0.5;
 
     this.vel.set(150, 150);
@@ -29,7 +35,7 @@ export default class Thief extends Player {
   update(gos, dt) {
     super.update(dt);
 
-    this.primaryRateTimer += dt;
+    this.primaryRateTimer   += dt;
     this.secondaryRateTimer += dt;
 
     if (this.status & Player.PRIMARY_FLAG) {
@@ -64,18 +70,15 @@ export default class Thief extends Player {
       this.status ^= Player.SECONDARY_FLAG;
     }
 
+    // Weapon handler
     for (let i = 0; i < this.#knives.length; ++i) {
       this.#knives[i].update(gos, dt);
 
-      if (this.#knives[i].isDead) {
-        this.#knives.splice(i, 1);
-      }
+      if (this.#knives[i].isDead) this.#knives.splice(i, 1);
     }
 
     // Pickups
-    const pu = PickupHandler.pickups;
-
-    pu.forEach(p => {
+    PickupHandler.pickups.forEach(p => {
       if (this.hitboxAdj().intersects(p.dst)) {
         p.effect(this);
         p.kill();

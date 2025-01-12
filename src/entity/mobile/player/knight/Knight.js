@@ -1,10 +1,10 @@
-import { TILE_SIZE } from "../../../../game/constants";
-import Renderer from "../../../../gfx/Renderer";
-import Rectangle from "../../../../utils/Rectangle";
-import Enemy from "../../enemy/Enemy";
-import Player from "../Player";
-import Animation from "../../../../gfx/Animation";
+import Player        from "../Player";
 import PickupHandler from "../../../pickup/PickupHandler";
+import Animation     from "../../../../gfx/Animation";
+import Renderer      from "../../../../gfx/Renderer";
+import Rectangle     from "../../../../utils/Rectangle";
+import Enemy         from "../../enemy/Enemy";
+import { TILE_SIZE } from "../../../../game/constants";
 
 export default class Knight extends Player {
   // Sword swinging
@@ -16,6 +16,12 @@ export default class Knight extends Player {
 
   #swordHitbox;
 
+  /**
+   * @param {Number} x   - x-position of the player
+   * @param {Number} y   - y-position of the player
+   * @param {Number} num - Player number (1 or 2)
+   * @param {String} map - Map player belongs to
+   */
   constructor(x=0, y=0, num=1, map=null) {
     super(x, y, num, map);
 
@@ -24,7 +30,7 @@ export default class Knight extends Player {
     this.#attack = 0;
     this.#attackRate = 0.2;
 
-    this.#invDur = 3;
+    this.#invDur   = 3;
     this.#invTimer = 0;
 
     this.#swordHitbox = new Rectangle(0, 0, TILE_SIZE, TILE_SIZE);
@@ -44,7 +50,10 @@ export default class Knight extends Player {
     if (this.status & Player.PRIMARY_FLAG) {
       this.#attack += dt;
 
-      this.#swordHitbox.pos.set(this.dst.pos.x, this.dst.pos.y - this.#swordHitbox.h);
+      this.#swordHitbox.pos.set(
+        this.dst.pos.x,
+        this.dst.pos.y - this.#swordHitbox.h
+      );
 
       // Check if sword is hitting an enemy
       gos.forEach(go => {
@@ -65,9 +74,7 @@ export default class Knight extends Player {
         gos.forEach(go => go.gotHit = false);
       }
     }
-    else {
-      this.primaryRateTimer += dt;
-    }
+    else this.primaryRateTimer += dt;
 
     if (this.status & Player.SECONDARY_FLAG) {
       this.#invTimer += dt;
@@ -80,9 +87,7 @@ export default class Knight extends Player {
     }
 
     // Pickups
-    const pu = PickupHandler.pickups;
-
-    pu.forEach(p => {
+    PickupHandler.pickups.forEach(p => {
       if (this.hitboxAdj().intersects(p.dst)) {
         p.effect(this);
         p.kill();

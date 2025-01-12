@@ -20,7 +20,7 @@ class _MapHandler {
    * @param {String} mapID    - ID to assign to the map
    * @param {String} filename - Name of the map file
    */
-  load(mapID, filename) {
+  load(mapID="", filename="") {
     return new Promise((res, rej) => {
       fetch(`res/map/${filename}`)
         .then(val => val.json())
@@ -39,7 +39,7 @@ class _MapHandler {
    *
    * @returns The map object assigned to the mapID
    */
-  getMap(mapID) {
+  getMap(mapID="") {
     return this.#maps[mapID];
   }
 
@@ -49,7 +49,7 @@ class _MapHandler {
    * @param {String} mapID   - ID of the map to draw
    * @param {Rectangle} crop - Rectangle for cropping
    */
-  drawMap(mapID, crop) {
+  drawMap(mapID="", crop=null) {
     this.#maps[mapID].draw(crop);
   }
 
@@ -60,7 +60,7 @@ class _MapHandler {
    * @param {Rectangle} crop - Rectangle for cropping
    * @param {Number} layer   - Layer of the map to draw
    */
-  drawMapLayer(mapID, crop, layer) {
+  drawMapLayer(mapID="", crop=null, layer=0) {
     this.#maps[mapID].drawLayer(crop, layer);
   }
 };

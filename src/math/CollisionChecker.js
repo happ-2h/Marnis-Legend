@@ -1,6 +1,6 @@
-import Entity from "../entity/Entity";
+import Entity        from "../entity/Entity";
+import MapHandler    from "../map/MapHandler";
 import { TILE_SIZE } from "../game/constants";
-import MapHandler from "../map/MapHandler";
 
 let instance = null;
 

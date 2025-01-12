@@ -1,11 +1,11 @@
-import { SCREEN_WIDTH, SCREEN_HEIGHT_TILES } from "../../../../game/constants";
-import { TAU } from "../../../../math/utils";
-import Animation from "../../../../gfx/Animation";
-import Bullet_Basic from "../../bullet/Bullet_Basic";
-import Player from "../../player/Player";
-import Enemy from "../Enemy";
-import PickupHandler from "../../../pickup/PickupHandler";
-import PU_Health from "../../../pickup/PU_Health";
+import Enemy            from "../Enemy";
+import PickupHandler    from "../../../pickup/PickupHandler";
+import Player           from "../../player/Player";
+import Animation        from "../../../../gfx/Animation";
+import Bullet_Basic     from "../../bullet/Bullet_Basic";
+import PU_Health        from "../../../pickup/PU_Health";
+import { TAU }          from "../../../../math/utils";
+import { SCREEN_WIDTH } from "../../../../game/constants";
 
 export default class Enemy_Mushroom extends Enemy {
   #fireDelay; // Delay to fire weapon
@@ -14,6 +14,11 @@ export default class Enemy_Mushroom extends Enemy {
   #nBullets;
   #bullets;
 
+  /**
+   * @param {Number} x   - x-position of the enemy
+   * @param {Number} y   - y-position of the enemy
+   * @param {String} map - Map enemy belongs to
+   */
   constructor(x=0, y=0, map=null) {
     super(x, y, null, map);
 
@@ -43,11 +48,8 @@ export default class Enemy_Mushroom extends Enemy {
     let nextx = this.dst.x + this.vel.x * this.dir.x * dt;
     let nexty = this.dst.y + this.vel.y * this.dir.y * dt;
 
-    if (this.dir.x > 0) {
-      if (nextx > SCREEN_WIDTH) {
-        nextx = 0;
-      }
-    }
+    // Wrap around
+    if (this.dir.x > 0 && nextx > SCREEN_WIDTH) nextx = 0;
 
     this.dst.x = nextx;
     this.dst.y = nexty;
@@ -85,9 +87,7 @@ export default class Enemy_Mushroom extends Enemy {
     for (let i = 0; i < this.#bullets.length; i++) {
       this.#bullets[i].update(gos, dt);
 
-      if (this.#bullets[i].isDead) {
-        this.#bullets.splice(i, 1);
-      }
+      if (this.#bullets[i].isDead) this.#bullets.splice(i, 1);
     }
 
     this.animation.update(dt);

@@ -1,34 +1,40 @@
-import MapHandler from "../../../map/MapHandler";
-import State from "../State";
-import Enemy_Mage from "../../../entity/mobile/enemy/mage/Enemy_Mage";
-import Enemy_Slime from "../../../entity/mobile/enemy/slime/Enemy_Slime";
-import Tile_Stone from "../../../entity/tile/terrain/Tile_Stone";
-import Tile_Water from "../../../entity/tile/terrain/Tile_Water";
-import Knight from "../../../entity/mobile/player/knight/Knight";
-import Camera from "../../../camera/Camera";
-import Renderer from "../../../gfx/Renderer";
-import Player from "../../../entity/mobile/player/Player";
-import Rectangle from "../../../utils/Rectangle";
-import Enemy from "../../../entity/mobile/enemy/Enemy";
-import Archer from "../../../entity/mobile/player/archer/Archer";
-import Mage from "../../../entity/mobile/player/mage/Mage";
-import Thief from "../../../entity/mobile/player/thief/Thief";
-import Enemy_Mushroom from "../../../entity/mobile/enemy/mushroom/Enemy_Mushroom";
-import Enemy_Crow from "../../../entity/mobile/enemy/crow/Enemy_Crow";
-
-import { SCREEN_HEIGHT, SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../../constants";
-import Tile_Basic from "../../../entity/tile/terrain/Tile_Basic";
+import Renderer           from "../../../gfx/Renderer";
+import AudioHandler       from "../../../audio/AudioHandler";
+import MapHandler         from "../../../map/MapHandler";
+import ParticleHandler    from "../../../entity/particle/ParticleHandler";
+import PickupHandler      from "../../../entity/pickup/PickupHandler";
+import Camera             from "../../../camera/Camera";
+import Map                from "../../../map/Map";
+import Rectangle          from "../../../utils/Rectangle";
+import State              from "../State";
+import Player             from "../../../entity/mobile/player/Player";
+import Knight             from "../../../entity/mobile/player/knight/Knight";
+import Archer             from "../../../entity/mobile/player/archer/Archer";
+import Mage               from "../../../entity/mobile/player/mage/Mage";
+import Thief              from "../../../entity/mobile/player/thief/Thief";
+import Enemy              from "../../../entity/mobile/enemy/Enemy";
+import Enemy_Crow         from "../../../entity/mobile/enemy/crow/Enemy_Crow";
+import Enemy_Mage         from "../../../entity/mobile/enemy/mage/Enemy_Mage";
+import Enemy_Mushroom     from "../../../entity/mobile/enemy/mushroom/Enemy_Mushroom";
+import Enemy_Slime        from "../../../entity/mobile/enemy/slime/Enemy_Slime";
+import Boss_Drummer       from "../../../entity/mobile/enemy/boss/Boss_Drummer";
+import Boss_Eye           from "../../../entity/mobile/enemy/boss/Boss_Eye";
+import Tile               from "../../../entity/tile/Tile";
+import Tile_Basic         from "../../../entity/tile/terrain/Tile_Basic";
 import Tile_BasicAnimated from "../../../entity/tile/terrain/Tile_BasicAnimated";
-import Boss_Eye from "../../../entity/mobile/enemy/boss/Boss_Eye";
-import Tile from "../../../entity/tile/Tile";
-import Boss_Drummer from "../../../entity/mobile/enemy/boss/Boss_Drummer";
-import ParticleHandler from "../../../entity/particle/ParticleHandler";
-import PickupHandler from "../../../entity/pickup/PickupHandler";
-import AudioHandler from "../../../audio/AudioHandler";
+import Tile_Stone         from "../../../entity/tile/terrain/Tile_Stone";
+import Tile_Water         from "../../../entity/tile/terrain/Tile_Water";
+
+import {
+  SCREEN_HEIGHT,
+  SCREEN_HEIGHT_TILES,
+  SCREEN_WIDTH_TILES,
+  TILE_SIZE
+} from "../../constants";
 
 export default class Stage extends State {
-  #players; // Container of selected characters
-  #status;  // Current status of the stage
+  #players;    // Container of selected characters
+  #status;     // Current status of the stage
 
   #readyDelay; // How long to show stage number screen
   #readyTimer; // Timer showing stage number screen
@@ -36,6 +42,10 @@ export default class Stage extends State {
   static stageNumber = 0;
   static maxStages   = 1;
 
+  /**
+   * @param {Array} players - Array of character IDs from character select
+   * @param {Map}   map     - Map associated with the stage
+   */
   constructor(players=null, map=null) {
     super();
 
@@ -61,7 +71,7 @@ export default class Stage extends State {
         AudioHandler.setVolume("stage01", 0.5);
         AudioHandler.playMusic("stage01");
         break;
-        case "stage02":
+      case "stage02":
         AudioHandler.setVolume("stage02", 0.5);
         AudioHandler.playMusic("stage02");
         break;
@@ -110,6 +120,7 @@ export default class Stage extends State {
                 this.map
               ));
               break;
+
             // Tree shrub
             case 44:
             case 45:
@@ -236,9 +247,7 @@ export default class Stage extends State {
     this.#status = "readyup";
   }
 
-  init() {
-    this.#build();
-  }
+  init() { this.#build(); }
 
   update(dt) {
     if (this.#status === "readyup") {
@@ -257,15 +266,12 @@ export default class Stage extends State {
         }
         else {
           // Update if on screen
-          if (go.dst.y + go.dst.h - this.camera.y >= 0) {
+          if (go.dst.y + go.dst.h - this.camera.y >= 0)
             go.update(this.gameObjects, dt);
-          }
 
           // Clean entities if beyond screen's height
           if (go instanceof Enemy || go instanceof Tile) {
-            if (go.dst.y - this.camera.y > SCREEN_HEIGHT) {
-              go.kill();
-            }
+            if (go.dst.y - this.camera.y > SCREEN_HEIGHT) go.kill();
           }
         }
 
@@ -286,9 +292,8 @@ export default class Stage extends State {
   }
 
   render() {
-    if (this.#status === "readyup") {
+    if (this.#status === "readyup")
       Renderer.drawText(`stage ${Stage.stageNumber}`, 6*16+4, (5<<4)+4);
-    }
     else {
       Renderer.setOffset(this.camera.x, this.camera.y);
 

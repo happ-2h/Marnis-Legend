@@ -1,6 +1,13 @@
-import { SCALE, SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../game/constants";
-import Vec2D from "../math/Vec2D";
 import TextureHandler from "./TextureHandler";
+import Rectangle      from "../utils/Rectangle";
+import Vec2D          from "../math/Vec2D";
+
+import {
+  SCALE,
+  SCREEN_HEIGHT_TILES,
+  SCREEN_WIDTH_TILES,
+  TILE_SIZE
+} from "../game/constants";
 
 let instance = null;
 
@@ -22,7 +29,12 @@ class _Renderer {
     instance = this;
   }
 
-  init(context2d) {
+  /**
+   * @brief Initialize the renderer
+   *
+   * @param {CanvasRenderingContext2D} context2d - Drawing context
+   */
+  init(context2d=null) {
     if (context2d) {
       this.#ctx = context2d;
 
@@ -32,15 +44,42 @@ class _Renderer {
     }
   }
 
+  /**
+   * @brief Clear the canvas from (0, 0) to (width, height)
+   *
+   * @param {Number} width  - Width  of area to clear
+   * @param {Number} height - Height of area to clear
+   */
   clear(width=1, height=1) {
     this.#ctx.clearRect(0, 0, width, height);
   }
 
+  /**
+   * @brief Draws text from the canvas API
+   *
+   * @param {String} text  - Text to draw
+   * @param {Number} x     - x-coordinate
+   * @param {Number} y     - y-coordinate
+   * @param {String} color - Color to render text
+   */
   text(text="NO TEXT", x=0, y=0, color="black") {
     this.#ctx.fillStyle = color;
     this.#ctx.fillText(text, x, y);
   }
 
+  /**
+   * @brief Draws an image
+   *
+   * @param {String} textureID - ID of the texture
+   * @param {Number} sx - x-position to blit
+   * @param {Number} sy - y-position to blit
+   * @param {Number} sw - Width of the blit
+   * @param {Number} sh - Height of the blit
+   * @param {Number} dx - x-position to draw the image at
+   * @param {Number} dy - y-position to draw the image at
+   * @param {Number} dw - Width to the image
+   * @param {Number} dh - Height to draw the image
+   */
   image(textureID, sx=0, sy=0, sw=TILE_SIZE, sh=TILE_SIZE, dx=0, dy=0, dw=TILE_SIZE, dh=TILE_SIZE) {
     this.#ctx.drawImage(
       TextureHandler.getTexture(textureID),
@@ -55,11 +94,11 @@ class _Renderer {
   /**
    * @brief Draw a basic rectangle
    *
-   * @param {Number} x       - X-position
-   * @param {Number} y       - Y-position
-   * @param {Number} width   - Rectangle width
-   * @param {Number} height  - Rectangle height
-   * @param {String} color   - Rectangle color
+   * @param {Number}  x      - x-position
+   * @param {Number}  y      - y-position
+   * @param {Number}  width  - Rectangle width
+   * @param {Number}  height - Rectangle height
+   * @param {String}  color  - Rectangle color
    * @param {Boolean} filled - Filled (true) or stroked (false)
    */
   rect(x=0, y=0, width=0, height=0, color="red", filled=false) {
@@ -84,6 +123,13 @@ class _Renderer {
   }
 
   // Vec2D functions
+  /**
+   * @brief Draw a stroked rectangle
+   *
+   * @param {Vec2D}  pos   - Position to draw the rectangle at
+   * @param {Vec2D}  dim   - Dimension of the rectangle
+   * @param {String} color - Color to draw the stroke
+   */
   vrect(pos=null, dim=null, color="red") {
     this.#ctx.strokeStyle = color;
     this.#ctx.strokeRect(
@@ -94,7 +140,14 @@ class _Renderer {
     );
   }
 
-  vimage(textureID, src, dst) {
+  /**
+   * @brief Draws an image
+   *
+   * @param {String}    textureID - ID of the texture to draw
+   * @param {Rectangle} src       - Source of the image blit to draw
+   * @param {Rectangle} dst       - Destination of the image blit to draw
+   */
+  vimage(textureID="", src=null, dst=null) {
     this.#ctx.drawImage(
       TextureHandler.getTexture(textureID),
       src.pos.x, src.pos.y, src.dim.x, src.dim.y,
@@ -106,6 +159,11 @@ class _Renderer {
   }
 
   // Utils
+  /**
+   * @brief Draws a grid
+   *
+   * @param {String} color - Color of the grid
+   */
   grid(color="white") {
     for (let x = 0; x < SCREEN_WIDTH_TILES; ++x) {
       for (let y = 0; y < SCREEN_HEIGHT_TILES; ++y) {

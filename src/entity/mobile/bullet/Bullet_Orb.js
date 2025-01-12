@@ -1,18 +1,27 @@
 import Bullet from "./Bullet";
 import Player from "../player/Player";
-import Enemy from "../enemy/Enemy";
+import Enemy  from "../enemy/Enemy";
+
 import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH } from "../../../game/constants";
 
 export default class Bullet_Orb extends Bullet {
+  /**
+   * @param {Number} x   - x-position  of the bullet
+   * @param {Number} y   - y-position  of the bullet
+   * @param {Number} dx  - x-direction of the bullet
+   * @param {Number} dy  - y-direction of the bullet
+   * @param {Number} dmg - Damage dealt
+   * @param {String} map - Map bullet belongs to
+   */
   constructor(x=0, y=0, dx=0, dy=0, dmg=1, map=null) {
     super(x, y, dmg, map);
 
     this.src.x = 32;
     this.src.y = 48;
-    this.src.w = 8;
-    this.src.h = 8;
-    this.dst.w = 8;
-    this.dst.h = 8;
+    this.src.w =  8;
+    this.src.h =  8;
+    this.dst.w =  8;
+    this.dst.h =  8;
 
     this.vel.set(100, 100);
 
@@ -33,15 +42,14 @@ export default class Bullet_Orb extends Bullet {
         if (
           this.dst.y < go.dst.y - (SCREEN_HEIGHT_TILES<<4) ||
           this.dst.y > go.dst.y + (SCREEN_HEIGHT_TILES<<2)
-        ) {
-          this.kill();
-        }
+        ) this.kill();
       }
-      else if (go instanceof Enemy) {
-        if (this.dst.intersects(go.hitboxAdj())) {
-          go.hurt(this.damage);
-          this.kill();
-        }
+      else if (
+        go instanceof Enemy &&
+        this.dst.intersects(go.hitboxAdj())
+      ) {
+        go.hurt(this.damage);
+        this.kill();
       }
     });
 

@@ -1,10 +1,15 @@
-import Animation from "../../../../gfx/Animation";
+import Enemy         from "../Enemy";
 import PickupHandler from "../../../pickup/PickupHandler";
-import PU_Health from "../../../pickup/PU_Health";
-import Player from "../../player/Player";
-import Enemy from "../Enemy";
+import Player        from "../../player/Player";
+import Animation     from "../../../../gfx/Animation";
+import PU_Health     from "../../../pickup/PU_Health";
 
 export default class Enemy_Slime extends Enemy {
+  /**
+   * @param {Number} x   - x-position of the enemy
+   * @param {Number} y   - y-position of the enemy
+   * @param {String} map - Map enemy belongs to
+   */
   constructor(x=0, y=0, map=null) {
     super(x, y, null, map);
 

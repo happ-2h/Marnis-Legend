@@ -1,10 +1,10 @@
-import AudioHandler from "../../audio/AudioHandler";
+import AudioHandler    from "../../audio/AudioHandler";
 import ParticleHandler from "../../entity/particle/ParticleHandler";
-import PickupHandler from "../../entity/pickup/PickupHandler";
-import EndState from "./EndState";
-import Stage from "./stage/Stage";
-import State from "./State";
-import StateHandler from "./StateHandler";
+import PickupHandler   from "../../entity/pickup/PickupHandler";
+import Stage           from "./stage/Stage";
+import State           from "./State";
+import StateHandler    from "./StateHandler";
+import EndState        from "./EndState";
 
 export default class GameState extends State {
   #selectedChar; // From character select screen
@@ -34,7 +34,7 @@ export default class GameState extends State {
       // Increment stage
       switch(Stage.stageNumber) {
         case 1:
-          this.#currStage.onExit();
+          this.#currStage?.onExit();
           this.#currStage = null;
           this.#currStage = new Stage([this.#selectedChar], "stage02");
           break;
@@ -48,5 +48,5 @@ export default class GameState extends State {
     }
   }
 
-  render() { this.#currStage.render(); }
+  render() { this.#currStage?.render(); }
 };

@@ -9,7 +9,7 @@ export default class Animation {
    * @param {Array} sequence - Sequence of images used for animation
    * @param {Number} speed   - Speed, in frames, to display one image
    */
-  constructor(sequence, speed) {
+  constructor(sequence=[], speed=25) {
     this.#currentSequence = [ ...sequence ];
     this.#currentFrame = 0;
     this.#speed = speed;
@@ -41,10 +41,10 @@ export default class Animation {
   /**
    * @brief Sets a new animaion
    *
-   * @param {Array} sequence - Sequence of images used for animation
-   * @param {Number} speed   - Speed, in frames, to display one image
+   * @param {Array}  sequence - Sequence of images used for animation
+   * @param {Number} speed    - Speed, in frames, to display one image
    */
-  setAnimation(sequence, speed) {
+  setAnimation(sequence=[], speed=20) {
     this.init();
     this.#currentSequence = [ ...sequence ];
     this.#speed = speed;

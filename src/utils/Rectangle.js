@@ -45,7 +45,6 @@ export default class Rectangle {
   }
 
   /**
-   *
    * @returns {Object} x: Horizontal center of the rectangle\
    *                   y: Vertical center of the rectangle
    */

@@ -1,8 +1,13 @@
-import Tile from "../entity/tile/Tile";
-import { SCREEN_HEIGHT_TILES, SCREEN_WIDTH_TILES, TILE_SIZE } from "../game/constants";
-import Renderer from "../gfx/Renderer";
-import Vec2D from "../math/Vec2D";
+import Tile      from "../entity/tile/Tile";
+import Renderer  from "../gfx/Renderer";
+import Vec2D     from "../math/Vec2D";
 import Rectangle from "../utils/Rectangle";
+
+import {
+  SCREEN_HEIGHT_TILES,
+  SCREEN_WIDTH_TILES,
+  TILE_SIZE
+} from "../game/constants";
 
 export default class Map {
   #id;     // Given map ID
@@ -10,7 +15,11 @@ export default class Map {
   #layers; // Layers of map arrays
   #tiles;  // Tile object container
 
-  constructor(data, mapID) {
+  /**
+   * @param {Object} data  - Map data
+   * @param {String} mapID - ID to give the map
+   */
+  constructor(data=null, mapID="") {
     this.#id = mapID;
 
     this.#dim = new Vec2D(data.width, data.height);
@@ -22,6 +31,9 @@ export default class Map {
     this.#initTiles();
   }
 
+  /**
+   * @brief Convert JSON tile data to game objects
+   */
   #initTiles() {
     if (this.#layers[1]) {
       for (let x = 0; x < this.#dim.x; ++x) {
@@ -66,6 +78,11 @@ export default class Map {
     }
   }
 
+  /**
+   * @brief Draws the map
+   *
+   * @param {Rectangle} crop - Dimensions to crop the map
+   */
   draw(crop=new Rectangle(0, 0, SCREEN_WIDTH_TILES, SCREEN_HEIGHT_TILES)) {
     // Calculate crop
     let cx = (crop.x>>4);
@@ -95,7 +112,13 @@ export default class Map {
     }
   }
 
-  drawLayer(crop, layer=0) {
+  /**
+   * @brief Draws a single layer of the map
+   *
+   * @param {Rectangle} crop  - Dimensions to crop the map
+   * @param {Number}    layer - Layer number to draw
+   */
+  drawLayer(crop=null, layer=0) {
     if (!crop) crop = new Rectangle(0, 0, SCREEN_WIDTH_TILES, SCREEN_HEIGHT_TILES);
 
     // Crop calculations
@@ -124,6 +147,14 @@ export default class Map {
     }
   }
 
+  /**
+   * @brief Get a tile object at (x, y)
+   *
+   * @param {Number} x - x-coordinate of the tile to get
+   * @param {Number} y - y-coordinate of the tile to get
+   *
+   * @returns Tile object at (x, y) or null if no tile exists
+   */
   getTile(x=0, y=0) {
     x |= 0;
     y |= 0;
@@ -131,6 +162,15 @@ export default class Map {
     return this.#tiles[y][x];
   }
 
+  /**
+   * @brief Get a tile's ID/number at (x, y)
+   *
+   * @param {Number} x     - x-coordinate of the tile to get
+   * @param {Number} y     - y-coordinate of the tile to get
+   * @param {Number} layer - Layer to get the tile at
+   *
+   * @returns Tile number/ID at (x, y) or -1 if out-of-bounds
+   */
   getTileNum(x=0, y=0, layer=0) {
     // Floor the input
     x |= 0;
@@ -142,7 +182,14 @@ export default class Map {
     return -1;
   }
 
-  getLayer(layer) {
+  /**
+   * @brief Get the map's layer
+   *
+   * @param {Number} layer - Layer to get
+   *
+   * @returns Map data at the specified layer
+   */
+  getLayer(layer=0) {
     return this.#layers[layer];
   }
 

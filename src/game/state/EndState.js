@@ -1,13 +1,15 @@
-import Renderer from "../../gfx/Renderer";
-import State from "./State";
-import { DEBUG, SCREEN_WIDTH_TILES } from "../constants";
-import AudioHandler from "../../audio/AudioHandler";
-import Tile from "../../entity/tile/Tile";
+import Renderer        from "../../gfx/Renderer";
+import AudioHandler    from "../../audio/AudioHandler";
+import GamepadHandler  from "../../input/gamepad/GamepadHandler";
 import ParticleHandler from "../../entity/particle/ParticleHandler";
-import Rain from "../../entity/particle/Rain";
-import StateHandler from "./StateHandler";
-import GamepadHandler from "../../input/gamepad/GamepadHandler";
-import TitleState from "./TitleState";
+import StateHandler    from "./StateHandler";
+import State           from "./State";
+import Stage           from "./stage/Stage";
+import TitleState      from "./TitleState";
+import Tile            from "../../entity/tile/Tile";
+import Rain            from "../../entity/particle/Rain";
+
+import { DEBUG, SCREEN_WIDTH_TILES } from "../constants";
 
 export default class EndState extends State {
   #frames; // Number of frames the update method has been called
@@ -24,9 +26,13 @@ export default class EndState extends State {
     AudioHandler.setPlaybackRate("stage02", 0.6);
     AudioHandler.playMusic("stage02");
   }
-  onExit()  {}
+  onExit()  {
+    ParticleHandler.clear();
+    Stage.stageNumber = 0;
+  }
 
   init() {
+    // Text coordinates
     let _x = 44;
     let _y = 52;
     let i = 0;
@@ -61,11 +67,9 @@ export default class EndState extends State {
       StateHandler.push(new TitleState);
     }
 
-    for (let i = 0; i < this.gameObjects.length; ++i) {
-      const go = this.gameObjects[i];
-
-      go.dst.y = (52 + 4 * Math.sin(go.dir.y + ++this.#frames/200));
-    }
+    this.gameObjects.forEach(go =>
+      go.dst.y = (52 + 4 * Math.sin(go.dir.y + ++this.#frames/200))
+    );
 
     ParticleHandler.update(dt);
   }

@@ -8,7 +8,10 @@ export default class PadController {
 
   #deadzone;
 
-  constructor(index) {
+  /**
+   * @param {Number} index - Gamepad index this object references
+   */
+  constructor(index=0) {
     this.#index = index;
 
     this.#axes    = [];
@@ -17,18 +20,37 @@ export default class PadController {
     this.#deadzone = 0.5;
   }
 
+  /**
+   * @brief Updates the gamepad
+   *
+   * @param {Gamepad} param0 - Gamepad to get state
+   */
   update({ axes, buttons, connected }) {
     if (!connected) return;
 
-    this.#axes = [ ...axes ];
+    this.#axes    = [ ...axes ];
     this.#buttons = [ ...buttons ];
   }
 
-  axes(index) {
+  /**
+   * @brief Get the state of the axes
+   *
+   * @param {Number} index - Index of the gamepad
+   *
+   * @returns Axes data of the given index
+   */
+  axes(index=0) {
     return this.#axes[index];
   }
 
-  isDown(buttonID) {
+  /**
+   * @brief Check if a button is down
+   *
+   * @param {Number} buttonID - ID of the button to check
+   *
+   * @returns True if button is down; false otherwise
+   */
+  isDown(buttonID=0) {
     return this.#buttons[buttonID].pressed || this.#buttons[buttonID].value > 0;
   }
 
