@@ -43,6 +43,18 @@
   <img alt="itchio" title="Play now" src="https://custom-icon-badges.demolab.com/badge/itch-io?color=fa5c5c&labelColor=d54d54&style=for-the-badge&logo=controller&label=Play&logoColor=white"/>
 </a>
 
+## Controls
+### Keyboard
+- <kbd>arrow keys</kbd> move
+- <kbd>z</kbd> start game, select character, primary attack
+- <kbd>x</kbd> secondary attack
+
+### Gamepad
+- <kbd>D-pad or left analog</kbd> move
+- <kbd>Action south</kbd> select character, primary attack
+- <kbd>Action east</kbd> secondary attack
+- <kbd>Start</kbd> start game
+
 ## Running Locally
 1. Make sure you are in the root directory of this project.
     - You should be able to see the index.html file.
