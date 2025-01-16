@@ -4,7 +4,11 @@ import Animation     from "../../../../gfx/Animation";
 import Renderer      from "../../../../gfx/Renderer";
 import Rectangle     from "../../../../utils/Rectangle";
 import Enemy         from "../../enemy/Enemy";
-import { TILE_SIZE } from "../../../../game/constants";
+
+import {
+  DEBUG,
+  TILE_SIZE
+} from "../../../../game/constants";
 
 export default class Knight extends Player {
   // Sword swinging
@@ -113,7 +117,7 @@ export default class Knight extends Player {
         this.#swordHitbox.y,
         TILE_SIZE, TILE_SIZE
       );
-      Renderer.vrect(this.#swordHitbox.pos, this.#swordHitbox.dim);
+      if (DEBUG) Renderer.vrect(this.#swordHitbox.pos, this.#swordHitbox.dim);
     }
     // Draw protective shield
     if (this.status & Player.SECONDARY_FLAG) {
