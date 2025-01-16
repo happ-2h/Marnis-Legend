@@ -30,15 +30,15 @@ export default class PlayerController extends Controller {
            GamepadHandler.getGamepad(index)?.lstick_Right
   }
 
-  // Q
+  // z
   isRequestingA(index=0) {
-    return KeyHandler.isDown(81) ||
+    return KeyHandler.isDown(90) ||
            GamepadHandler.getGamepad(index)?.actionSouth;
   }
 
-  // W
+  // x
   isRequestingB(index=0) {
-    return KeyHandler.isDown(87) ||
+    return KeyHandler.isDown(88) ||
            GamepadHandler.getGamepad(index)?.actionEast;
   }
 };

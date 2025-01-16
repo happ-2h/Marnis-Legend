@@ -133,7 +133,7 @@ export default class GameOverState extends State {
     if (
       (this.#inputDelay -= dt) <= 0 &&
       (GamepadHandler.getGamepad(0)?.actionSouth ||
-      KeyHandler.isDown(87))
+      KeyHandler.isDown(88))
     ) {
       StateHandler.pop();
       StateHandler.push(new TitleState);

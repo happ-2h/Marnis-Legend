@@ -21,7 +21,7 @@ export default class TitleState extends State {
   }
 
   update(dt) {
-    if (KeyHandler.isDown(81) || GamepadHandler.getGamepad(0)?.start) {
+    if (KeyHandler.isDown(90) || GamepadHandler.getGamepad(0)?.start) {
       StateHandler.pop();
       StateHandler.push(new CharacterSelectState);
     }

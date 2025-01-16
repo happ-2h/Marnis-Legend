@@ -47,7 +47,7 @@ export default class CharacterSelectState extends State {
         this.#inputTimer = 0;
         this.#charCurrent = (this.#charCurrent+1)&0x3;
       }
-      else if (KeyHandler.isDown(81) || GamepadHandler.getGamepad(0)?.actionSouth) {
+      else if (KeyHandler.isDown(90) || GamepadHandler.getGamepad(0)?.actionSouth) {
         StateHandler.pop();
         StateHandler.push(new GameState(this.#charCurrent));
       }
